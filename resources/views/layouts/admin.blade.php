@@ -117,13 +117,20 @@
         </li>
 
         <!-- Nav Item - Users -->
+        <li class="nav-item {{ Nav::isRoute('passengers') }}">
+            <a class="nav-link" href="">
+                <i class="fas fa-fw fa-walking"></i>
+                <span>{{ __('Passengers') }}</span>
+            </a>
+        </li>
+
+        <!-- Nav Item - Employees -->
         <li class="nav-item {{ Nav::isRoute('employees') }}">
             <a class="nav-link" href="">
                 <i class="fas fa-fw fa-user-tie"></i>
                 <span>{{ __('Employees') }}</span>
             </a>
         </li>
-
 
 
         <!-- Nav Item - Profile -->
