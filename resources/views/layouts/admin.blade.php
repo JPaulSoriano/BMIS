@@ -56,7 +56,7 @@
         </div>
 
         <!-- Nav Item - Buses -->
-        <li class="nav-item {{ Nav::isRoute('buses.index') }}">
+        <li class="nav-item {{ Nav::isRoute('buses.*') }}">
             <a class="nav-link" href="{{ route('buses.index') }}">
                 <i class="fas fa-fw fa-bus"></i>
                 <span>{{ __('Buses') }}</span>
@@ -64,7 +64,7 @@
         </li>
 
           <!-- Nav Item - Terminals -->
-          <li class="nav-item {{ Nav::isRoute('terminals.index') }}">
+          <li class="nav-item {{ Nav::isRoute('terminals.*') }}">
             <a class="nav-link" href="{{ route('terminals.index') }}">
                 <i class="fas fa-fw fa-warehouse"></i>
                 <span>{{ __('Terminals') }}</span>
@@ -72,7 +72,7 @@
         </li>
 
         <!-- Nav Item - Routes -->
-        <li class="nav-item {{ Nav::isRoute('routes.index') }}">
+        <li class="nav-item {{ Nav::isRoute('routes.*') }}">
             <a class="nav-link" href="{{ route('routes.index') }}">
                 <i class="fas fa-fw fa-route"></i>
                 <span>{{ __('Routes') }}</span>
@@ -80,7 +80,7 @@
         </li>
 
 
-        
+
          <!-- Nav Item - Schedules -->
          <li class="nav-item {{ Nav::isRoute('schedules') }}">
             <a class="nav-link" href="">
@@ -88,7 +88,7 @@
                 <span>{{ __('Schedules') }}</span>
             </a>
         </li>
-        
+
 
         <!-- Nav Item - Bookings -->
         <li class="nav-item {{ Nav::isRoute('bookings') }}">
@@ -98,7 +98,7 @@
             </a>
         </li>
 
-        
+
         <!-- Nav Item - Sales -->
         <li class="nav-item {{ Nav::isRoute('sales') }}">
             <a class="nav-link" href="">
@@ -186,7 +186,7 @@
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 {{ __('Profile') }}
                             </a>
-   
+
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -205,7 +205,7 @@
 
                 @yield('main-content')
 
-    
+
             <!-- /.container-fluid -->
 
         </div>

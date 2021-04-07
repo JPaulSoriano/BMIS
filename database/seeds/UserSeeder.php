@@ -19,8 +19,6 @@ class UserSeeder extends Seeder
         //
         $superAdmin = User::create([
             'name' => 'superadmin',
-            'first_name' => 'superadmin',
-            'last_name' => 'superadmin',
             'email' => 'superadmin@bmis.com',
             'email_verified_at' => now(),
             'password' => 'superadmin12345',
@@ -28,8 +26,6 @@ class UserSeeder extends Seeder
 
         $admin = User::create([
             'name' => 'admin',
-            'first_name' => 'admin',
-            'last_name' => 'admin',
             'email' => 'admin@bmis.com',
             'email_verified_at' => now(),
             'password' => 'admin12345',
@@ -37,8 +33,6 @@ class UserSeeder extends Seeder
 
         $passenger = User::create([
             'name' => 'passenger',
-            'first_name' => 'passenger',
-            'last_name' => 'passenger',
             'email' => 'passenger@bmis.com',
             'email_verified_at' => now(),
             'password' => 'passenger12345',
@@ -46,8 +40,6 @@ class UserSeeder extends Seeder
 
         $conductor = User::create([
             'name' => 'conductor',
-            'first_name' => 'conductor',
-            'last_name' => 'conductor',
             'email' => 'conductor@bmis.com',
             'email_verified_at' => now(),
             'password' => 'conductor12345',
