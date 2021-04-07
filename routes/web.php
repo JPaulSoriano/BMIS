@@ -20,22 +20,25 @@ Route::get('/', function () {
 
 //all
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/profile', 'ProfileController@index')->name('profile');
-Route::put('/profile', 'ProfileController@update')->name('profile.update');
 
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
 //all
 
 
 //admin
+Route::middleware('auth')->group(function(){
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/profile', 'ProfileController@index')->name('profile');
+    Route::put('/profile', 'ProfileController@update')->name('profile.update');
+
+    Route::get('/about', function () {
+        return view('about');
+    })->name('about');
+
+    Route::resource('buses','BusController');
+    Route::resource('terminals','TerminalController');
+    Route::resource('routes','RouteController');
+    Route::resource('schedules','ScheduleController');
+});
 
 
-
-Route::resource('/buses','BusController');
-Route::resource('/terminals','TerminalController');
-Route::resource('/routes','RouteController');
-Route::resource('/schedules','ScheduleController');
 
