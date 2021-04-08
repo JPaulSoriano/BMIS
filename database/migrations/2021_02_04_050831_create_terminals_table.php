@@ -15,6 +15,7 @@ class CreateTerminalsTable extends Migration
     {
         Schema::create('terminals', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('terminal_name');
             $table->string('terminal_address');
             $table->timestamps();

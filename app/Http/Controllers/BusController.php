@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Bus;
+use App\Http\Requests\Bus\StoreBus;
+use App\Http\Requests\Bus\UpdateBus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BusController extends Controller
 {
@@ -15,11 +18,11 @@ class BusController extends Controller
     public function index()
     {
         //
-        $buses = Bus::latest()->paginate(5);
-  
+        $buses = Auth::user()->buses()->latest()->paginate(5);
+
         return view('admin/buses.index',compact('buses'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
- 
+
     }
 
     /**
@@ -39,17 +42,11 @@ class BusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBus $request)
     {
         //
-        $request->validate([
-            'bus_no' => 'required',
-            'bus_plate' => 'required',
-            'bus_seat' => 'required'
-        ]);
-  
-        Bus::create($request->all());
-   
+        Auth::user()->buses()->create($request->validated());
+
         return redirect()->route('buses.index')
                         ->with('success','Bus created successfully.');
     }
@@ -85,17 +82,11 @@ class BusController extends Controller
      * @param  \App\Bus  $bus
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Bus $bus)
+    public function update(UpdateBus $request, Bus $bus)
     {
-        //
-        $request->validate([
-            'bus_no' => 'required',
-            'bus_plate' => 'required',
-            'bus_seat' => 'required'
-        ]);
-  
-        $bus->update($request->all());
-  
+
+        $bus->update($request->validated());
+
         return redirect()->route('buses.index')
                         ->with('success','Bus updated successfully');
     }
@@ -110,7 +101,7 @@ class BusController extends Controller
     {
         //
         $bus->delete();
-  
+
         return redirect()->route('buses.index')
                         ->with('success','Bus deleted successfully');
     }

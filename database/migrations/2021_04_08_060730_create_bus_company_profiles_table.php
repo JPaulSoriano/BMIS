@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBusProfilesTable extends Migration
+class CreateBusCompanyProfilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class CreateBusProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('bus_profiles', function (Blueprint $table) {
+        Schema::create('bus_company_profiles', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('company_name');
             $table->string('company_address');
             $table->string('company_contact');
@@ -31,6 +32,6 @@ class CreateBusProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bus_profiles');
+        Schema::dropIfExists('bus_company_profiles');
     }
 }

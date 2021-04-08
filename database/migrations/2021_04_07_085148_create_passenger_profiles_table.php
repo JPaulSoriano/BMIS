@@ -15,10 +15,12 @@ class CreatePassengerProfilesTable extends Migration
     {
         Schema::create('passenger_profiles', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('passenger_id')->constrained('users')->onDelete('cascade');
             $table->string('first_name');
             $table->string('last_name');
             $table->string('middle_name')->nullable();
             $table->string('name_extension')->nullable();
+            $table->string('contact');
             $table->timestamps();
         });
     }

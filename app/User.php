@@ -63,4 +63,19 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($value);
     }
+
+    public function buses()
+    {
+        return $this->hasMany(Bus::class);
+    }
+
+    public function terminals()
+    {
+        return $this->hasMany(Terminal::class);
+    }
+
+    public function routes()
+    {
+        return $this->hasMany(Route::class);
+    }
 }

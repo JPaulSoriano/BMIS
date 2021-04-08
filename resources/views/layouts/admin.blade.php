@@ -109,8 +109,8 @@
 
 
         <!-- Nav Item - Users -->
-        <li class="nav-item {{ Nav::isRoute('users') }}">
-            <a class="nav-link" href="">
+        <li class="nav-item {{ Nav::isRoute('users.*') }}">
+            <a class="nav-link" href="{{ route('users.index') }}">
                 <i class="fas fa-fw fa-users"></i>
                 <span>{{ __('Users') }}</span>
             </a>
@@ -265,5 +265,8 @@
 <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+
+@yield('scripts')
+
 </body>
 </html>

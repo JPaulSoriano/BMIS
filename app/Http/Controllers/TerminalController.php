@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Terminal\StoreTerminal;
+use App\Http\Requests\Terminal\UpdateTerminal;
 use App\Terminal;
+use Auth;
 use Illuminate\Http\Request;
 
 class TerminalController extends Controller
@@ -15,8 +18,8 @@ class TerminalController extends Controller
     public function index()
     {
         //
-        $terminals = Terminal::latest()->paginate(5);
-  
+        $terminals = Auth::user()->terminals()->latest()->paginate(5);
+
         return view('admin/terminals.index',compact('terminals'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
@@ -38,17 +41,11 @@ class TerminalController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTerminal $request)
     {
         //
-        $request->validate([
-            'terminal_name' => 'required',
-            'terminal_address' => 'required',
+        Auth::user()->terminals()->create($request->validated());
 
-        ]);
-  
-        Terminal::create($request->all());
-   
         return redirect()->route('terminals.index')
                         ->with('success','Terminal created successfully.');
     }
@@ -84,17 +81,11 @@ class TerminalController extends Controller
      * @param  \App\Terminal  $terminal
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Terminal $terminal)
+    public function update(UpdateTerminal $request, Terminal $terminal)
     {
         //
-        $request->validate([
-            'terminal_name' => 'required',
-            'terminal_address' => 'required',
+        $terminal->update($request->validated());
 
-        ]);
-  
-        $terminal->update($request->all());
-  
         return redirect()->route('terminals.index')
                         ->with('success','Terminal updated successfully');
     }
@@ -109,7 +100,7 @@ class TerminalController extends Controller
     {
         //
         $terminal->delete();
-  
+
         return redirect()->route('terminals.index')
                         ->with('success','Terminal deleted successfully');
     }

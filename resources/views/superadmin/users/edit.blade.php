@@ -2,12 +2,10 @@
 
 @section('main-content')
 <div class="container">
-
     <div class="row justify-content-center">
         <div class="col-lg-12">
             @if($errors->any())
                 <div class="alert alert-danger">
-                    <strong>Whoops!</strong> There were some problems with your input.<br><br>
                     @foreach($errors->all() as $error)
                         {{ $error }}
                     @endforeach
@@ -18,28 +16,23 @@
             <div class="card shadow">
                 <div class="card-header bg-primary d-sm-flex align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-white">Create</h6>
-                    <a class="btn btn-light btn-sm" href="{{ route('buses.index') }}"><i class="fas fa-long-arrow-alt-left"></i></a>
+                    <a class="btn btn-light btn-sm" href="{{ route('users.index') }}"><i class="fas fa-long-arrow-alt-left"></i></a>
                 </div>
-                    <form method="POST" action="{{ route('buses.store') }}">
+                    <form method="POST" action="{{ route('users.update', $user) }}">
                     @csrf
+                    @method('put')
                     <div class="card-body">
                         <div class="form-group">
-                            <input type="number" class="form-control @error('bus_no') is-invalid @enderror" placeholder="Bus No" name="bus_no">
+                            <input type="text" class="form-control @error('name') is-invalid @enderror" placeholder="Username" name="name" value="{{ $user->name }}">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control @error('bus_plate') is-invalid @enderror" placeholder="Bus Plate" name="bus_plate">
+                            <input type="text" class="form-control @error('email') is-invalid @enderror" placeholder="Email" name="email" value="{{ $user->email }}">
                         </div>
                         <div class="form-group">
-                            <select class="form-control @error('bus_class') is-invalid @enderror" name="bus_class">
-                            <option disabled selected>Select Class</option>
-                            <option value="ordinary">Ordinary Bus</option>
-                            <option value="aircon">Regular Airconditioned</option>
-                            <option value="deluxe">Deluxe</option>
-                            <option value="super">Super Deluxe</option>
-                            </select>
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" name="password">
                         </div>
                         <div class="form-group">
-                            <input type="number" class="form-control @error('bus_seat') is-invalid @enderror" placeholder="Bus Seat" name="bus_seat">
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" placeholder="Confirm password" name="password_confirmation">
                         </div>
                     </div>
                     <div class="card-footer bg-primary d-flex justify-content-end">
@@ -51,4 +44,3 @@
     </div>
 </div>
 @endsection
-

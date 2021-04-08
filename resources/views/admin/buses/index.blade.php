@@ -25,6 +25,7 @@
                                     <th>No</th>
                                     <th>Bus No</th>
                                     <th>Bus Plate</th>
+                                    <th>Bus Class</th>
                                     <th>Bus Seat</th>
                                     <th style="width: 130px">Action</th>
                                 </tr>
@@ -35,17 +36,18 @@
                                     <td>{{ ++$i }}</td>
                                     <td>{{ $bus->bus_no }}</td>
                                     <td>{{ $bus->bus_plate }}</td>
+                                    <td>{{ $bus->bus_class }}</td>
                                     <td>{{ $bus->bus_seat }}</td>
                                     <td class="d-flex justify-content-around">
                                         <form action="{{ route('buses.destroy',$bus->id) }}" method="POST">
-                        
+
                                             <a class="btn btn-info btn-sm" href="{{ route('buses.show',$bus->id) }}"><i class="fas fa-eye"></i></a>
-                            
+
                                             <a class="btn btn-primary btn-sm" href="{{ route('buses.edit',$bus->id) }}"><i class="fas fa-edit"></i></a>
-                        
+
                                             @csrf
                                             @method('DELETE')
-                            
+
                                             <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                                         </form>
                                     </td>
@@ -59,7 +61,7 @@
             </div>
         </div>
     </div>
-    
+
 </div>
 
 @endsection

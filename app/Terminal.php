@@ -10,7 +10,7 @@ class Terminal extends Model
     use HasFactory;
 
     protected $fillable = [
-        'terminal_name', 'terminal_address'
+        'terminal_name', 'terminal_address', 'user_id'
     ];
 
     public function routes()
