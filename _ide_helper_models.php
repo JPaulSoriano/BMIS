@@ -146,6 +146,8 @@ namespace App{
  * @property string $route_name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Terminal[] $terminals
+ * @property-read int|null $terminals_count
  * @method static \Illuminate\Database\Eloquent\Builder|Route newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Route newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Route query()

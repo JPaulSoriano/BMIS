@@ -12,8 +12,8 @@ class Route extends Model
         'route_name'
     ];
 
-    public function locations()
+    public function terminals()
     {
-        return $this->belongsToMany('App\Location');
+        return $this->belongsToMany(Terminal::class, 'route_terminal')->withPivot(['order', 'minutes_from_departure'])->withTimestamps();
     }
 }
