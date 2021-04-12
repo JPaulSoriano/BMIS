@@ -15,8 +15,7 @@ class Terminal extends Model
 
     public function routes()
     {
-        return $this->belongsToMany('App\Route');
-
+        return $this->belongsToMany(Route::class, 'route_terminal', 'route_id', 'terminal_id')->withPivot(['order', 'minutes_from_departure'])->withTimestamps();
     }
 
 }

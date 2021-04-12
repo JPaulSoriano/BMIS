@@ -2,7 +2,7 @@
 
 @section('main-content')
 <div class="container">
-    
+
     <div class="row justify-content-center">
         <div class="col-lg-12">
             <div class="card shadow">
@@ -12,12 +12,34 @@
                 </div>
                     <form method="POST" action="{{route('routes.store')}}">
                     @csrf
-                    <div class="card-body text-center">
+                    <div class="card-body">
                         <div class="row my-5">
                             <div class="col-sm-12">
                                <p>VIA: {{ $route->route_name }}</p>
                             </div>
                         </div>
+                        <div class="row my-5">
+                            <div class="col-1">
+                                From
+                            </div>
+                            <div class="col-5">
+                                {{ $route->from_terminal->terminal_name }}
+                            </div>
+                            <div class="col-1">
+                                To
+                            </div>
+                            <div class="col-5">
+                                {{ $route->to_terminal->terminal_name }}
+                            </div>
+                        </div>
+                        <dl class="row">
+                            @foreach ($route->terminals as $terminal)
+                                <dt class="col-sm-3">{{ $terminal->terminal_name }}</dt>
+                                <dd class="col-sm-9">{{ $terminal->pivot->minutes_from_departure }} min</dd>
+                            @endforeach
+                            <dt class="col-sm-3">Total Time Travel</dt>
+                            <dd class="col-sm-9">{{ $route->terminals->map->pivot->sum('minutes_from_departure') }} min</dd>
+                        </dl>
                     </div>
                 </form>
             </div>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Route;
 use App\Terminal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Route\StoreRoute;
 
 class RouteController extends Controller
 {
@@ -17,7 +19,7 @@ class RouteController extends Controller
     {
         //
         $routes = Route::latest()->paginate(5);
-  
+
         return view('admin/routes.index',compact('routes'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
@@ -40,16 +42,17 @@ class RouteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRoute $request)
     {
         //
-        $request->validate([
-            'route_name' => 'required',
+        foreach($request->routes as $key => $route)
+        {
+            $routes[$route] = ['order' => $key, 'minutes_from_departure' => $request->travel_time[$key]];
+        }
 
-        ]);
-  
-        Route::create($request->all());
-   
+        $route = Auth::user()->routes()->create($request->only(['route_name', 'from', 'to']));
+        $route->terminals()->syncWithoutDetaching($routes);
+
         return redirect()->route('routes.index')
                         ->with('success','Route created successfully.');
     }
@@ -75,7 +78,8 @@ class RouteController extends Controller
     public function edit(Route $route)
     {
         //
-        return view('admin/routes.edit',compact('route'));
+        $terminals = Terminal::all();
+        return view('admin/routes.edit',compact('route', 'terminals'));
     }
 
     /**
@@ -92,9 +96,9 @@ class RouteController extends Controller
             'route_name' => 'required',
 
         ]);
-  
+
         $route->update($request->all());
-  
+
         return redirect()->route('routes.index')
                         ->with('success','Route updated successfully');
     }
@@ -109,7 +113,7 @@ class RouteController extends Controller
     {
         //
         $route->delete();
-  
+
         return redirect()->route('routes.index')
                         ->with('success','Route deleted successfully');
     }

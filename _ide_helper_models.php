@@ -144,16 +144,22 @@ namespace App{
  * @property int $id
  * @property int $user_id
  * @property string $route_name
+ * @property int $from
+ * @property int $to
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Terminal $from_terminal
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Terminal[] $terminals
  * @property-read int|null $terminals_count
+ * @property-read \App\Terminal $to_terminal
  * @method static \Illuminate\Database\Eloquent\Builder|Route newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Route newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Route query()
  * @method static \Illuminate\Database\Eloquent\Builder|Route whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Route whereFrom($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Route whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Route whereRouteName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Route whereTo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Route whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Route whereUserId($value)
  */
@@ -164,15 +170,9 @@ namespace App{
 /**
  * App\Schedule
  *
- * @property int $id
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|Schedule newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Schedule newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Schedule query()
- * @method static \Illuminate\Database\Eloquent\Builder|Schedule whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Schedule whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Schedule whereUpdatedAt($value)
  */
 	class Schedule extends \Eloquent {}
 }
@@ -206,23 +206,9 @@ namespace App{
 /**
  * App\TerminalRoute
  *
- * @property int $id
- * @property int $route_id
- * @property int $location_id
- * @property int $order
- * @property int $minutes_from_departure
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|TerminalRoute newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|TerminalRoute newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|TerminalRoute query()
- * @method static \Illuminate\Database\Eloquent\Builder|TerminalRoute whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|TerminalRoute whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|TerminalRoute whereLocationId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|TerminalRoute whereMinutesFromDeparture($value)
- * @method static \Illuminate\Database\Eloquent\Builder|TerminalRoute whereOrder($value)
- * @method static \Illuminate\Database\Eloquent\Builder|TerminalRoute whereRouteId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|TerminalRoute whereUpdatedAt($value)
  */
 	class TerminalRoute extends \Eloquent {}
 }
