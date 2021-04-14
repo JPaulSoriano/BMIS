@@ -21,7 +21,7 @@ class BusController extends Controller
         //
         $buses = Auth::user()->buses()->latest()->paginate(5);
 
-        return view('admin/buses.index',compact('buses'))
+        return view('admin.buses.index',compact('buses'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
 
     }
@@ -34,7 +34,7 @@ class BusController extends Controller
     public function create()
     {
         //
-        return view('admin/buses.create');
+        return view('admin.buses.create');
     }
 
     /**
@@ -48,7 +48,7 @@ class BusController extends Controller
         //
         Auth::user()->buses()->create($request->validated());
 
-        return redirect()->route('buses.index')
+        return redirect()->route('admin.buses.index')
                         ->with('success','Bus created successfully.');
     }
 
@@ -61,7 +61,7 @@ class BusController extends Controller
     public function show(Bus $bus)
     {
         //
-        return view('admin/buses.show',compact('bus'));
+        return view('admin.buses.show',compact('bus'));
     }
 
     /**
@@ -73,7 +73,7 @@ class BusController extends Controller
     public function edit(Bus $bus)
     {
         //
-        return view('admin/buses.edit',compact('bus'));
+        return view('admin.buses.edit',compact('bus'));
     }
 
     /**
@@ -88,7 +88,7 @@ class BusController extends Controller
 
         $bus->update($request->validated());
 
-        return redirect()->route('buses.index')
+        return redirect()->route('admin.buses.index')
                         ->with('success','Bus updated successfully');
     }
 
@@ -103,7 +103,7 @@ class BusController extends Controller
         //
         $bus->delete();
 
-        return redirect()->route('buses.index')
+        return redirect()->route('admin.buses.index')
                         ->with('success','Bus deleted successfully');
     }
 }

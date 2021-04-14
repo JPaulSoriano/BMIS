@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function(){
 Route::namespace('Admin')
     ->middleware('auth')
     ->prefix('admin')
+    ->name('admin.')
     ->group(function(){
 
         Route::get('/profile', 'ProfileController@index')->name('profile');
@@ -47,6 +48,7 @@ Route::namespace('Admin')
 Route::namespace('SuperAdmin')
     ->middleware('auth')
     ->prefix('super')
+    ->name('super.')
     ->group(function(){
         Route::resource('users', 'UserController');
         Route::get('/users/{user}/activate', 'UserController@activate')->name('users.activate');

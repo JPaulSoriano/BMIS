@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Ride\StoreRide;
+use App\Http\Requests\Ride\UpdateRide;
 
 class RideController extends Controller
 {
@@ -23,9 +24,9 @@ class RideController extends Controller
     public function index()
     {
         //
-        $schedules = Ride::latest()->paginate(5);
+        $rides = Auth::user()->rides()->latest()->paginate(5);
 
-        return view('admin.rides.index',compact('schedules'))
+        return view('admin.rides.index',compact('rides'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -52,9 +53,8 @@ class RideController extends Controller
     public function store(StoreRide $request)
     {
         //
-        return $request;
 
-        $ride = Ride::create($request->validated());
+        $ride = Auth::user()->rides()->create($request->validated());
 
         if ($request->ride_type == 'cyclic') {
             $requestData = collect($request->validated());
@@ -65,6 +65,8 @@ class RideController extends Controller
 
             $ride->schedule()->create($rideScheduleData);
         }
+
+        return redirect()->route('admin.rides.index')->withSuccess('Ride created successfully.');
     }
 
     /**
@@ -76,6 +78,7 @@ class RideController extends Controller
     public function show(Ride $ride)
     {
         //
+        return view('admin.rides.show', compact('ride'));
     }
 
     /**
@@ -87,6 +90,10 @@ class RideController extends Controller
     public function edit(Ride $ride)
     {
         //
+        $buses = Auth::user()->buses;
+        $routes = Auth::user()->routes;
+        $days = $this->dayNames;
+        return view('admin.rides.edit', compact('buses', 'routes', 'days', 'ride'));
     }
 
     /**
@@ -96,9 +103,30 @@ class RideController extends Controller
      * @param  \App\Ride  $ride
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ride $ride)
+    public function update(UpdateRide $request, Ride $ride)
     {
         //
+        if ($request->ride_type == 'cyclic') {
+            $rideData = array_merge($request->validated(), ['ride_date' => null]);
+            $requestData = collect($request->validated());
+            $days = collect($this->dayNames)
+                ->mapWithKeys(fn($item) => [$item => 0])
+                ->replace($requestData->get('days'));
+
+            $rideScheduleData = $requestData
+                ->only('start_date', 'end_date')
+                ->merge($days)
+                ->toArray();
+
+            $ride->update($rideData);
+            $ride->schedule()->updateOrCreate(['ride_id' => $ride->id], $rideScheduleData);
+        } else {
+            $ride->update($request->validated());
+            $ride->schedule()->delete();
+        }
+
+        return redirect()->route('admin.rides.index')
+            ->withSuccess('The ride has been successfully updated!');
     }
 
     /**
@@ -110,5 +138,10 @@ class RideController extends Controller
     public function destroy(Ride $ride)
     {
         //
+        $ride->schedule()->delete();
+
+        $ride->delete();
+
+        return redirect()->route('admin.rides.index')->withSuccess('Ride deleted successfully');
     }
 }

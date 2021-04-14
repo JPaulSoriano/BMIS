@@ -57,24 +57,24 @@
         </div>
 
         <!-- Nav Item - Buses -->
-        <li class="nav-item {{ Nav::isRoute('buses.*') }}">
-            <a class="nav-link" href="{{ route('buses.index') }}">
+        <li class="nav-item {{ Nav::isRoute('admin.buses.*') }}">
+            <a class="nav-link" href="{{ route('admin.buses.index') }}">
                 <i class="fas fa-fw fa-bus"></i>
                 <span>{{ __('Buses') }}</span>
             </a>
         </li>
 
           <!-- Nav Item - Terminals -->
-          <li class="nav-item {{ Nav::isRoute('terminals.*') }}">
-            <a class="nav-link" href="{{ route('terminals.index') }}">
+          <li class="nav-item {{ Nav::isRoute('admin.terminals.*') }}">
+            <a class="nav-link" href="{{ route('admin.terminals.index') }}">
                 <i class="fas fa-fw fa-warehouse"></i>
                 <span>{{ __('Terminals') }}</span>
             </a>
         </li>
 
         <!-- Nav Item - Routes -->
-        <li class="nav-item {{ Nav::isRoute('routes.*') }}">
-            <a class="nav-link" href="{{ route('routes.index') }}">
+        <li class="nav-item {{ Nav::isRoute('admin.routes.*') }}">
+            <a class="nav-link" href="{{ route('admin.routes.index') }}">
                 <i class="fas fa-fw fa-route"></i>
                 <span>{{ __('Routes') }}</span>
             </a>
@@ -83,8 +83,8 @@
 
 
          <!-- Nav Item - Rides -->
-         <li class="nav-item {{ Nav::isRoute('rides.*') }}">
-            <a class="nav-link" href="{{ route('rides.index') }}">
+         <li class="nav-item {{ Nav::isRoute('admin.rides.*') }}">
+            <a class="nav-link" href="{{ route('admin.rides.index') }}">
                 <i class="fas fa-fw fa-clock"></i>
                 <span>{{ __('Rides') }}</span>
             </a>
@@ -110,8 +110,8 @@
 
 
         <!-- Nav Item - Users -->
-        <li class="nav-item {{ Nav::isRoute('users.*') }}">
-            <a class="nav-link" href="{{ route('users.index') }}">
+        <li class="nav-item {{ Nav::isRoute('super.users.*') }}">
+            <a class="nav-link" href="{{ route('super.users.index') }}">
                 <i class="fas fa-fw fa-users"></i>
                 <span>{{ __('Users') }}</span>
             </a>
@@ -135,8 +135,8 @@
 
 
         <!-- Nav Item - Profile -->
-        <li class="nav-item {{ Nav::isRoute('profile') }}">
-            <a class="nav-link" href="{{ route('profile') }}">
+        <li class="nav-item {{ Nav::isRoute('admin.profile.*') }}">
+            <a class="nav-link" href="{{ route('admin.profile') }}">
                 <i class="fas fa-fw fa-user"></i>
                 <span>{{ __('Profile') }}</span>
             </a>
@@ -190,7 +190,7 @@
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                            <a class="dropdown-item" href="{{ route('profile') }}">
+                            <a class="dropdown-item" href="{{ route('admin.profile') }}">
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 {{ __('Profile') }}
                             </a>

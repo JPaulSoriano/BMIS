@@ -13,6 +13,10 @@ class RideSchedule extends Model
         'start_date', 'end_date', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
     ];
 
+    protected $dates = [
+        'start_date', 'end_date'
+    ];
+
     public function ride()
     {
         return $this->belongsTo(Ride::class);

@@ -124,12 +124,16 @@ namespace App{
  * @property int $user_id
  * @property int $route_id
  * @property int $bus_id
- * @property string $departure_time
- * @property string|null $ride_date
+ * @property \Illuminate\Support\Carbon $departure_time
+ * @property \Illuminate\Support\Carbon|null $ride_date
+ * @property string $ride_type
  * @property int $auto_confirm
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\RideSchedule|null $schedules
+ * @property-read \App\Bus $bus
+ * @property-read array $running_days
+ * @property-read \App\Route $route
+ * @property-read \App\RideSchedule|null $schedule
  * @method static \Illuminate\Database\Eloquent\Builder|Ride newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Ride newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Ride query()
@@ -139,6 +143,7 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|Ride whereDepartureTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Ride whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Ride whereRideDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ride whereRideType($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Ride whereRouteId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Ride whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Ride whereUserId($value)
@@ -152,8 +157,8 @@ namespace App{
  *
  * @property int $id
  * @property int $ride_id
- * @property string $start_date
- * @property string|null $end_date
+ * @property \Illuminate\Support\Carbon $start_date
+ * @property \Illuminate\Support\Carbon|null $end_date
  * @property int $monday
  * @property int $tuesday
  * @property int $wednesday
@@ -297,6 +302,8 @@ namespace App{
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
  * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Ride[] $rides
+ * @property-read int|null $rides_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
  * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Route[] $routes

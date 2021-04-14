@@ -16,9 +16,9 @@
             <div class="card shadow">
                 <div class="card-header bg-primary d-sm-flex align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-white">Create</h6>
-                    <a class="btn btn-light btn-sm" href="{{ route('users.index') }}"><i class="fas fa-long-arrow-alt-left"></i></a>
+                    <a class="btn btn-light btn-sm" href="{{ route('super.users.index') }}"><i class="fas fa-long-arrow-alt-left"></i></a>
                 </div>
-                    <form method="POST" action="{{ route('users.update', $user) }}">
+                    <form method="POST" action="{{ route('super.users.update', $user) }}">
                     @csrf
                     @method('put')
                     <div class="card-body">

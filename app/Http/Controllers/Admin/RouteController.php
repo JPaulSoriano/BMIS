@@ -22,7 +22,7 @@ class RouteController extends Controller
         //
         $routes = Route::latest()->paginate(5);
 
-        return view('admin/routes.index',compact('routes'))
+        return view('admin.routes.index',compact('routes'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -35,7 +35,7 @@ class RouteController extends Controller
     {
         //
         $terminals = Auth::user()->terminals;
-        return view('admin/routes.create', compact('terminals'));
+        return view('admin.routes.create', compact('terminals'));
     }
 
     /**
@@ -55,7 +55,7 @@ class RouteController extends Controller
         $route = Auth::user()->routes()->create($request->only(['route_name']));
         $route->terminals()->attach($routes);
 
-        return redirect()->route('routes.index')
+        return redirect()->route('admin.routes.index')
                         ->with('success','Route created successfully.');
     }
 
@@ -68,7 +68,7 @@ class RouteController extends Controller
     public function show(Route $route)
     {
         //
-        return view('admin/routes.show',compact('route'));
+        return view('admin.routes.show',compact('route'));
     }
 
     /**
@@ -81,7 +81,7 @@ class RouteController extends Controller
     {
         //
         $terminals = Auth::user()->terminals;
-        return view('admin/routes.edit',compact('route', 'terminals'));
+        return view('admin.routes.edit',compact('route', 'terminals'));
     }
 
     /**
@@ -103,7 +103,7 @@ class RouteController extends Controller
         $route->terminals()->detach();
         $route->terminals()->attach($routes);
 
-        return redirect()->route('routes.index')
+        return redirect()->route('admin.routes.index')
                         ->with('success','Route updated successfully');
     }
 
@@ -118,7 +118,7 @@ class RouteController extends Controller
         //
         $route->delete();
 
-        return redirect()->route('routes.index')
+        return redirect()->route('admin.routes.index')
                         ->with('success','Route deleted successfully');
     }
 }

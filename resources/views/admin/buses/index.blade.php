@@ -15,7 +15,7 @@
             <div class="card shadow mb-4">
                 <div class="card-header bg-primary d-sm-flex align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-white">Buses</h6>
-                    <a class="btn btn-light btn-sm" href="{{ route('buses.create') }}"><i class="fas fa-plus"></i></a>
+                    <a class="btn btn-light btn-sm" href="{{ route('admin.buses.create') }}"><i class="fas fa-plus"></i></a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -39,12 +39,9 @@
                                     <td>{{ $bus->bus_class }}</td>
                                     <td>{{ $bus->bus_seat }}</td>
                                     <td class="d-flex justify-content-around">
-                                        <form action="{{ route('buses.destroy',$bus->id) }}" method="POST">
-
-                                            <a class="btn btn-info btn-sm" href="{{ route('buses.show',$bus->id) }}"><i class="fas fa-eye"></i></a>
-
-                                            <a class="btn btn-primary btn-sm" href="{{ route('buses.edit',$bus->id) }}"><i class="fas fa-edit"></i></a>
-
+                                        <a class="btn btn-info btn-sm" href="{{ route('admin.buses.show',$bus->id) }}"><i class="fas fa-eye"></i></a>
+                                        <a class="btn btn-primary btn-sm" href="{{ route('admin.buses.edit',$bus->id) }}"><i class="fas fa-edit"></i></a>
+                                        <form action="{{ route('admin.buses.destroy',$bus->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
 

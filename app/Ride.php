@@ -2,19 +2,46 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Ride extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'route_id', 'bus_id', 'ride_date', 'departure_time', 'auto_confirm'
+        'user_id', 'route_id', 'bus_id', 'ride_date', 'departure_time', 'auto_confirm', 'ride_type'
     ];
 
-    public function schedules()
+    protected $dates = [
+        'ride_date', 'departure_time'
+    ];
+
+    public function schedule()
     {
         return $this->hasOne(RideSchedule::class);
+    }
+
+    public function route()
+    {
+        return $this->belongsTo(Route::class);
+    }
+
+    public function bus()
+    {
+        return $this->belongsTo(Bus::class);
+    }
+
+    public function getRunningDaysAttribute(): array
+    {
+        return collect(Carbon::getDays())
+            ->reject(fn($day) => $this->schedule->attributes[strtolower($day)] == 0)
+            ->toArray();
+    }
+
+    public function isCyclic()
+    {
+        return !isset($this->attributes['ride_date']);
     }
 }

@@ -15,7 +15,7 @@
         <div class="card shadow mb-4">
             <div class="card-header bg-primary d-sm-flex align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-white">Routes</h6>
-                <a class="btn btn-light btn-sm" href="{{ route('routes.create') }}"><i class="fas fa-plus"></i></a>
+                <a class="btn btn-light btn-sm" href="{{ route('admin.routes.create') }}"><i class="fas fa-plus"></i></a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -35,18 +35,18 @@
                                 <td>{{ $route->route_name }}</td>
                                 <td>{{ $route->total_time }}</td>
                                 <td class="d-flex justify-content-around">
-                                        <form action="{{ route('routes.destroy',$route->id) }}" method="POST">
 
-                                            <a class="btn btn-info btn-sm" href="{{ route('routes.show',$route->id) }}"><i class="fas fa-eye"></i></a>
+                                    <a class="btn btn-info btn-sm" href="{{ route('admin.routes.show',$route->id) }}"><i class="fas fa-eye"></i></a>
 
-                                            <a class="btn btn-primary btn-sm" href="{{ route('routes.edit',$route->id) }}"><i class="fas fa-edit"></i></a>
+                                    <a class="btn btn-primary btn-sm" href="{{ route('admin.routes.edit',$route->id) }}"><i class="fas fa-edit"></i></a>
 
-                                            @csrf
-                                            @method('DELETE')
+                                    <form action="{{ route('admin.routes.destroy',$route->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
 
-                                            <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
-                                        </form>
-                                    </td>
+                                        <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
+                                    </form>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>

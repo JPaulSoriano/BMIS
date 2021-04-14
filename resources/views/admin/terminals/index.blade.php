@@ -15,7 +15,7 @@
         <div class="card shadow mb-4">
             <div class="card-header bg-primary d-sm-flex align-items-center justify-content-between">
                 <h6 class="m-0 font-weight-bold text-white">Terminals</h6>
-                <a class="btn btn-light btn-sm" href="{{ route('terminals.create') }}"><i class="fas fa-plus"></i></a>
+                <a class="btn btn-light btn-sm" href="{{ route('admin.terminals.create') }}"><i class="fas fa-plus"></i></a>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -35,15 +35,15 @@
                                 <td>{{ $terminal->terminal_name }}</td>
                                 <td>{{ $terminal->terminal_address }}</td>
                                 <td class="d-flex justify-content-around">
-                                        <form action="{{ route('terminals.destroy',$terminal->id) }}" method="POST">
-                        
-                                            <a class="btn btn-info btn-sm" href="{{ route('terminals.show',$terminal->id) }}"><i class="fas fa-eye"></i></a>
-                            
-                                            <a class="btn btn-primary btn-sm" href="{{ route('terminals.edit',$terminal->id) }}"><i class="fas fa-edit"></i></a>
-                        
+
+                                    <a class="btn btn-info btn-sm" href="{{ route('admin.terminals.show',$terminal->id) }}"><i class="fas fa-eye"></i></a>
+
+                                    <a class="btn btn-primary btn-sm" href="{{ route('admin.terminals.edit',$terminal->id) }}"><i class="fas fa-edit"></i></a>
+
+                                    <form action="{{ route('admin.terminals.destroy',$terminal->id) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
-                            
+
                                             <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                                         </form>
                                     </td>

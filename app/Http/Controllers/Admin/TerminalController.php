@@ -21,7 +21,7 @@ class TerminalController extends Controller
         //
         $terminals = Auth::user()->terminals()->latest()->paginate(5);
 
-        return view('admin/terminals.index',compact('terminals'))
+        return view('admin.terminals.index',compact('terminals'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -33,7 +33,7 @@ class TerminalController extends Controller
     public function create()
     {
         //
-        return view('admin/terminals.create');
+        return view('admin.terminals.create');
     }
 
     /**
@@ -47,7 +47,7 @@ class TerminalController extends Controller
         //
         Auth::user()->terminals()->create($request->validated());
 
-        return redirect()->route('terminals.index')
+        return redirect()->route('admin.terminals.index')
                         ->with('success','Terminal created successfully.');
     }
 
@@ -60,7 +60,7 @@ class TerminalController extends Controller
     public function show(Terminal $terminal)
     {
         //
-        return view('admin/terminals.show',compact('terminal'));
+        return view('admin.terminals.show',compact('terminal'));
     }
 
     /**
@@ -72,7 +72,7 @@ class TerminalController extends Controller
     public function edit(Terminal $terminal)
     {
         //
-        return view('admin/terminals.edit',compact('terminal'));
+        return view('admin.terminals.edit',compact('terminal'));
     }
 
     /**
@@ -87,7 +87,7 @@ class TerminalController extends Controller
         //
         $terminal->update($request->validated());
 
-        return redirect()->route('terminals.index')
+        return redirect()->route('admin.terminals.index')
                         ->with('success','Terminal updated successfully');
     }
 
@@ -102,7 +102,7 @@ class TerminalController extends Controller
         //
         $terminal->delete();
 
-        return redirect()->route('terminals.index')
+        return redirect()->route('admin.terminals.index')
                         ->with('success','Terminal deleted successfully');
     }
 }

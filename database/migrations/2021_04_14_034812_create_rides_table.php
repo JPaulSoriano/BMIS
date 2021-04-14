@@ -19,8 +19,9 @@ class CreateRidesTable extends Migration
             $table->foreignId('route_id')->constrained('routes')->onDelete('cascade');
             $table->foreignId('bus_id')->constrained('buses')->onDelete('cascade');
 
-            $table->dateTime('departure_time');
-            $table->dateTime('ride_date')->nullable();
+            $table->time('departure_time');
+            $table->date('ride_date')->nullable();
+            $table->string('ride_type');
             $table->boolean('auto_confirm')->default(0);
             $table->timestamps();
         });

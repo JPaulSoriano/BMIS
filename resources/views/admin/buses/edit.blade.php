@@ -18,9 +18,9 @@
             <div class="card shadow">
                 <div class="card-header bg-primary d-sm-flex align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-white">Edit</h6>
-                    <a class="btn btn-light btn-sm" href="{{ route('buses.index') }}"><i class="fas fa-long-arrow-alt-left"></i></a>
+                    <a class="btn btn-light btn-sm" href="{{ route('admin.buses.index') }}"><i class="fas fa-long-arrow-alt-left"></i></a>
                 </div>
-                <form method="POST" action="{{ route('buses.update',$bus->id) }}">
+                <form method="POST" action="{{ route('admin.buses.update',$bus->id) }}">
                     @csrf
                     @method('PUT')
                     <div class="card-body">

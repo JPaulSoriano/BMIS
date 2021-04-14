@@ -40,6 +40,6 @@ class ProfileController extends Controller
 
         $user->companyProfile()->updateOrCreate(['user_id' => Auth::user()->id],$request->only(['company_name', 'company_address', 'company_contact', 'company_mission', 'company_profile']));
 
-        return redirect()->route('profile')->withSuccess('Profile updated successfully.');
+        return redirect()->route('admin.profile')->withSuccess('Profile updated successfully.');
     }
 }

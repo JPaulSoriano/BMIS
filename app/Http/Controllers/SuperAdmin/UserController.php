@@ -46,7 +46,7 @@ class UserController extends Controller
         $user = User::create( $request->validated());
 
         $user->assignRole(Role::where('name','admin')->first());
-        return redirect()->route('users.index');
+        return redirect()->route('super.users.index');
     }
 
     /**
@@ -85,7 +85,7 @@ class UserController extends Controller
         //
         $user->update( $request->validated());
 
-        return redirect()->route('users.index');
+        return redirect()->route('super.users.index');
     }
 
     /**
@@ -100,7 +100,7 @@ class UserController extends Controller
         $user->active = 0;
         $user->save();
 
-        return redirect()->route('users.index');
+        return redirect()->route('super.users.index');
     }
 
     public function deactivate(User $user)
@@ -108,7 +108,7 @@ class UserController extends Controller
         $user->active = 0;
         $user->save();
 
-        return redirect()->route('users.index');
+        return redirect()->route('super.users.index');
     }
 
     public function activate(User $user)
@@ -116,6 +116,6 @@ class UserController extends Controller
         $user->active = 1;
         $user->save();
 
-        return redirect()->route('users.index');
+        return redirect()->route('super.users.index');
     }
 }
