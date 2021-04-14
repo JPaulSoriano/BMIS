@@ -118,6 +118,74 @@ namespace App{
 
 namespace App{
 /**
+ * App\Ride
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property int $route_id
+ * @property int $bus_id
+ * @property string $departure_time
+ * @property string|null $ride_date
+ * @property int $auto_confirm
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\RideSchedule|null $schedules
+ * @method static \Illuminate\Database\Eloquent\Builder|Ride newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Ride newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Ride query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Ride whereAutoConfirm($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ride whereBusId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ride whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ride whereDepartureTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ride whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ride whereRideDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ride whereRouteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ride whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Ride whereUserId($value)
+ */
+	class Ride extends \Eloquent {}
+}
+
+namespace App{
+/**
+ * App\RideSchedule
+ *
+ * @property int $id
+ * @property int $ride_id
+ * @property string $start_date
+ * @property string|null $end_date
+ * @property int $monday
+ * @property int $tuesday
+ * @property int $wednesday
+ * @property int $thursday
+ * @property int $friday
+ * @property int $saturday
+ * @property int $sunday
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Ride $ride
+ * @method static \Illuminate\Database\Eloquent\Builder|RideSchedule newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RideSchedule newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|RideSchedule query()
+ * @method static \Illuminate\Database\Eloquent\Builder|RideSchedule whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RideSchedule whereEndDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RideSchedule whereFriday($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RideSchedule whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RideSchedule whereMonday($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RideSchedule whereRideId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RideSchedule whereSaturday($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RideSchedule whereStartDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RideSchedule whereSunday($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RideSchedule whereThursday($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RideSchedule whereTuesday($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RideSchedule whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|RideSchedule whereWednesday($value)
+ */
+	class RideSchedule extends \Eloquent {}
+}
+
+namespace App{
+/**
  * App\Role
  *
  * @property int $id
@@ -144,22 +212,17 @@ namespace App{
  * @property int $id
  * @property int $user_id
  * @property string $route_name
- * @property int $from
- * @property int $to
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Terminal $from_terminal
+ * @property-read mixed $total_time
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Terminal[] $terminals
  * @property-read int|null $terminals_count
- * @property-read \App\Terminal $to_terminal
  * @method static \Illuminate\Database\Eloquent\Builder|Route newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Route newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Route query()
  * @method static \Illuminate\Database\Eloquent\Builder|Route whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Route whereFrom($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Route whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Route whereRouteName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Route whereTo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Route whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Route whereUserId($value)
  */
@@ -228,6 +291,7 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Bus[] $buses
  * @property-read int|null $buses_count
+ * @property-read \App\BusCompanyProfile|null $companyProfile
  * @property-read string $full_name
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count

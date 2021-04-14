@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 
     <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 
     <!-- Favicon -->
@@ -81,11 +82,11 @@
 
 
 
-         <!-- Nav Item - Schedules -->
-         <li class="nav-item {{ Nav::isRoute('schedules') }}">
-            <a class="nav-link" href="">
+         <!-- Nav Item - Rides -->
+         <li class="nav-item {{ Nav::isRoute('rides.*') }}">
+            <a class="nav-link" href="{{ route('rides.index') }}">
                 <i class="fas fa-fw fa-clock"></i>
-                <span>{{ __('Schedules') }}</span>
+                <span>{{ __('Rides') }}</span>
             </a>
         </li>
 
@@ -261,8 +262,7 @@
 </div>
 
 <!-- Scripts -->
-<script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
-<script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/app.js') }}"></script>
 <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
 <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 

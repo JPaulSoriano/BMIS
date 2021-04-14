@@ -24,6 +24,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Via</th>
+                                <th>Total Time Travel</th>
                                 <th style="width: 130px">Action</th>
                             </tr>
                         </thead>
@@ -32,16 +33,17 @@
                             <tr>
                                 <td>{{ ++$i }}</td>
                                 <td>{{ $route->route_name }}</td>
+                                <td>{{ $route->total_time }}</td>
                                 <td class="d-flex justify-content-around">
                                         <form action="{{ route('routes.destroy',$route->id) }}" method="POST">
-                        
+
                                             <a class="btn btn-info btn-sm" href="{{ route('routes.show',$route->id) }}"><i class="fas fa-eye"></i></a>
-                            
+
                                             <a class="btn btn-primary btn-sm" href="{{ route('routes.edit',$route->id) }}"><i class="fas fa-edit"></i></a>
-                        
+
                                             @csrf
                                             @method('DELETE')
-                            
+
                                             <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button>
                                         </form>
                                     </td>

@@ -7,6 +7,7 @@ use App\Terminal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Route\StoreRoute;
+use App\Http\Requests\Route\UpdateRoute;
 
 class RouteController extends Controller
 {
@@ -32,7 +33,7 @@ class RouteController extends Controller
     public function create()
     {
         //
-        $terminals = Terminal::all();
+        $terminals = Auth::user()->terminals;
         return view('admin/routes.create', compact('terminals'));
     }
 
@@ -47,11 +48,11 @@ class RouteController extends Controller
         //
         foreach($request->routes as $key => $route)
         {
-            $routes[$route] = ['order' => $key, 'minutes_from_departure' => $request->travel_time[$key]];
+            $routes[$route] = ['order' => $key, 'minutes_from_departure' => $request->travel_time[$key - 1] ?? null];
         }
 
-        $route = Auth::user()->routes()->create($request->only(['route_name', 'from', 'to']));
-        $route->terminals()->syncWithoutDetaching($routes);
+        $route = Auth::user()->routes()->create($request->only(['route_name']));
+        $route->terminals()->attach($routes);
 
         return redirect()->route('routes.index')
                         ->with('success','Route created successfully.');
@@ -78,7 +79,7 @@ class RouteController extends Controller
     public function edit(Route $route)
     {
         //
-        $terminals = Terminal::all();
+        $terminals = Auth::user()->terminals;
         return view('admin/routes.edit',compact('route', 'terminals'));
     }
 
@@ -89,15 +90,17 @@ class RouteController extends Controller
      * @param  \App\Route  $route
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Route $route)
+    public function update(UpdateRoute $request, Route $route)
     {
-        //
-        $request->validate([
-            'route_name' => 'required',
 
-        ]);
+        foreach($request->routes as $key => $r)
+        {
+            $routes[$r] = ['order' => $key, 'minutes_from_departure' => $request->travel_time[$key - 1] ?? null];
+        }
 
-        $route->update($request->all());
+        $route->update($request->only(['route_name']));
+        $route->terminals()->detach();
+        $route->terminals()->attach($routes);
 
         return redirect()->route('routes.index')
                         ->with('success','Route updated successfully');

@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Schedule;
+use App\Http\Requests\Ride\StoreRide;
+use App\Ride;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class ScheduleController extends Controller
+class RideController extends Controller
 {
+    private $dayNames = [
+        'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +21,7 @@ class ScheduleController extends Controller
     public function index()
     {
         //
-        $schedules = Schedule::latest()->paginate(5);
+        $schedules = Ride::latest()->paginate(5);
 
         return view('admin.rides.index',compact('schedules'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
@@ -32,7 +37,8 @@ class ScheduleController extends Controller
         //
         $buses = Auth::user()->buses;
         $routes = Auth::user()->routes;
-        return view('admin.rides.create', compact('buses', 'routes'));
+        $days = $this->dayNames;
+        return view('admin.rides.create', compact('buses', 'routes', 'days'));
     }
 
     /**
@@ -41,18 +47,31 @@ class ScheduleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRide $request)
     {
         //
+        return $request;
+
+        $ride = Ride::create($request->validated());
+
+        if ($request->ride_type == 'cyclic') {
+            $requestData = collect($request->validated());
+            $rideScheduleData = $requestData
+                ->only('start_date', 'end_date')
+                ->merge($requestData->get('days'))
+                ->toArray();
+
+            $ride->schedule()->create($rideScheduleData);
+        }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Schedule  $schedule
+     * @param  \App\Ride  $ride
      * @return \Illuminate\Http\Response
      */
-    public function show(Schedule $schedule)
+    public function show(Ride $ride)
     {
         //
     }
@@ -60,10 +79,10 @@ class ScheduleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Schedule  $schedule
+     * @param  \App\Ride  $ride
      * @return \Illuminate\Http\Response
      */
-    public function edit(Schedule $schedule)
+    public function edit(Ride $ride)
     {
         //
     }
@@ -72,10 +91,10 @@ class ScheduleController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Schedule  $schedule
+     * @param  \App\Ride  $ride
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Schedule $schedule)
+    public function update(Request $request, Ride $ride)
     {
         //
     }
@@ -83,10 +102,10 @@ class ScheduleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Schedule  $schedule
+     * @param  \App\Ride  $ride
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Schedule $schedule)
+    public function destroy(Ride $ride)
     {
         //
     }

@@ -18,27 +18,14 @@
                                <p>VIA: {{ $route->route_name }}</p>
                             </div>
                         </div>
-                        <div class="row my-5">
-                            <div class="col-1">
-                                From
-                            </div>
-                            <div class="col-5">
-                                {{ $route->from_terminal->terminal_name }}
-                            </div>
-                            <div class="col-1">
-                                To
-                            </div>
-                            <div class="col-5">
-                                {{ $route->to_terminal->terminal_name }}
-                            </div>
-                        </div>
+
                         <dl class="row">
                             @foreach ($route->terminals as $terminal)
                                 <dt class="col-sm-3">{{ $terminal->terminal_name }}</dt>
-                                <dd class="col-sm-9">{{ $terminal->pivot->minutes_from_departure }} min</dd>
+                                <dd class="col-sm-9">{{ $terminal->pivot->minutes_from_departure ?? 'Start' }}</dd>
                             @endforeach
                             <dt class="col-sm-3">Total Time Travel</dt>
-                            <dd class="col-sm-9">{{ $route->terminals->map->pivot->sum('minutes_from_departure') }} min</dd>
+                            <dd class="col-sm-9">{{ $route->terminals->map->pivot->sum('minutes_from_departure') }}</dd>
                         </dl>
                     </div>
                 </form>

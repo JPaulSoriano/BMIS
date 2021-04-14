@@ -18,7 +18,7 @@ class CreateRouteTerminalTable extends Migration
             $table->foreignId('route_id');
             $table->foreignId('terminal_id');
             $table->integer('order');
-            $table->integer('minutes_from_departure');
+            $table->integer('minutes_from_departure')->nullable();
             $table->timestamps();
         });
     }

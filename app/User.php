@@ -78,4 +78,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Route::class);
     }
+
+    public function companyProfile()
+    {
+        return $this->hasOne(BusCompanyProfile::class);
+    }
 }

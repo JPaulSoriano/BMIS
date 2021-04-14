@@ -4,7 +4,7 @@ namespace App\Http\Requests\Route;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRoute extends FormRequest
+class UpdateRoute extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

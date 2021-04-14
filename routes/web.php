@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function(){
     Route::resource('buses','BusController');
     Route::resource('terminals','TerminalController');
     Route::resource('routes','RouteController');
-    Route::resource('schedules','ScheduleController');
+    Route::resource('rides','RideController');
 });
 
 
