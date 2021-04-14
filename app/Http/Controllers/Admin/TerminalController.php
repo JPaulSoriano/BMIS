@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use Auth;
+use App\Terminal;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Terminal\StoreTerminal;
 use App\Http\Requests\Terminal\UpdateTerminal;
-use App\Terminal;
-use Auth;
-use Illuminate\Http\Request;
 
 class TerminalController extends Controller
 {

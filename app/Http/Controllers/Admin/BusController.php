@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Bus;
-use App\Http\Requests\Bus\StoreBus;
-use App\Http\Requests\Bus\UpdateBus;
 use Illuminate\Http\Request;
+use App\Http\Requests\Bus\StoreBus;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Bus\UpdateBus;
 use Illuminate\Support\Facades\Auth;
 
 class BusController extends Controller
