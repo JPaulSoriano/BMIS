@@ -15,9 +15,9 @@
                     <div class="card-body">
                         <div class="form-group">
                             <select name="bus_id" class="form-control @error('bus_id') is-invalid @enderror">
-                                <option selected hidden>Bus</option>
+                                <option selected hidden>Bus Name</option>
                                 @foreach ($buses as $bus)
-                                    <option value="{{ $bus->id }}">{{ $bus->bus_no }}</option>
+                                    <option value="{{ $bus->id }}">{{ $bus->bus_name }}</option>
                                 @endforeach
                             </select>
                         </div>

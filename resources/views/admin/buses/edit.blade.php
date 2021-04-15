@@ -28,15 +28,17 @@
                             <input type="number" class="form-control @error('bus_no') is-invalid @enderror" value="{{ $bus->bus_no }}" placeholder="Bus No" name="bus_no">
                         </div>
                         <div class="form-group">
+                            <input type="text" class="form-control @error('bus_name') is-invalid @enderror" value="{{ $bus->bus_name }}" placeholder="Bus Name" name="bus_name">
+                        </div>
+                        <div class="form-group">
                             <input type="text" class="form-control @error('bus_plate') is-invalid @enderror" value="{{ $bus->bus_plate }}" placeholder="Bus Plate" name="bus_plate">
                         </div>
                         <div class="form-group">
-                            <select class="form-control @error('bus_class') is-invalid @enderror" name="bus_class">
-                            <option value="{{ $bus->bus_class }}">Select Class</option>
-                            <option>Ordinary Bus</option>
-                            <option>Regular Airconditioned</option>
-                            <option>Deluxe</option>
-                            <option>Super Deluxe</option>
+                            <select class="form-control @error('bus_class') is-invalid @enderror" name="bus_class_id">
+                                <option selected disabled hidden>Select Class</option>
+                                @foreach ($bus_classes as $class)
+                                    <option value="{{ $class->id }}" {{ $bus->bus_class_id == $class->id ? 'selected' : '' }}>{{ $class->bus_class }} Bus</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">

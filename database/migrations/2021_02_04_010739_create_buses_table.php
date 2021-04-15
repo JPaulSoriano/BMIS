@@ -16,9 +16,10 @@ class CreateBusesTable extends Migration
         Schema::create('buses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('bus_class_id')->constrained('bus_classes')->onDelete('cascade');
             $table->integer('bus_no');
+            $table->string('bus_name');
             $table->string('bus_plate');
-            $table->string('bus_class');
             $table->integer('bus_seat');
             $table->timestamps();
         });

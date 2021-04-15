@@ -25,9 +25,10 @@ class UpdateBus extends FormRequest
     {
         return [
             'bus_no' => 'required',
+            'bus_name' => 'required|string',
             'bus_plate' => 'required',
             'bus_seat' => 'required',
-            'bus_class' => 'required',
+            'bus_class_id' => 'required|exists:bus_classes,id',
         ];
     }
 }

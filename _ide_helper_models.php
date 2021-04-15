@@ -16,16 +16,21 @@ namespace App{
  *
  * @property int $id
  * @property int $user_id
+ * @property int $bus_class_id
  * @property int $bus_no
+ * @property string $bus_name
  * @property string $bus_plate
- * @property string $bus_class
  * @property int $bus_seat
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\BusClass $busClass
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Ride[] $rides
+ * @property-read int|null $rides_count
  * @method static \Illuminate\Database\Eloquent\Builder|Bus newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Bus newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Bus query()
- * @method static \Illuminate\Database\Eloquent\Builder|Bus whereBusClass($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bus whereBusClassId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Bus whereBusName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Bus whereBusNo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Bus whereBusPlate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Bus whereBusSeat($value)
@@ -35,6 +40,25 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|Bus whereUserId($value)
  */
 	class Bus extends \Eloquent {}
+}
+
+namespace App{
+/**
+ * App\BusClass
+ *
+ * @property int $id
+ * @property string $bus_class
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|BusClass newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BusClass newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BusClass query()
+ * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereBusClass($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereUpdatedAt($value)
+ */
+	class BusClass extends \Eloquent {}
 }
 
 namespace App{

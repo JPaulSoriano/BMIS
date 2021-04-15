@@ -11,20 +11,18 @@
                     <a class="btn btn-light btn-sm" href="{{ route('admin.buses.index') }}"><i class="fas fa-long-arrow-alt-left"></i></a>
                 </div>
                     <div class="card-body text-center">
-                        <div class="row my-5">
-                            <div class="col-sm-3">
-                               <p>NO:{{ $bus->bus_no }}</p>
-                            </div>
-                            <div class="col-sm-3">
-                                <p>PLATE:{{ $bus->bus_plate }}</p>
-                            </div>
-                            <div class="col-sm-3">
-                                <p>CLASS:{{ $bus->bus_class }}</p>
-                            </div>
-                            <div class="col-sm-3">
-                                <p>SEAT:{{ $bus->bus_seat }}</p>
-                            </div>
-                        </div>
+                        <dl class="row">
+                            <dt class="col-sm-3">Bus No:</dt>
+                            <dd class="col-sm-9">{{ $bus->bus_no }}</dd>
+                            <dt class="col-sm-3">Bus Plate:</dt>
+                            <dd class="col-sm-9">{{ $bus->bus_plate }}</dd>
+                            <dt class="col-sm-3">Bus Name:</dt>
+                            <dd class="col-sm-9">{{ $bus->bus_name }}</dd>
+                            <dt class="col-sm-3">Bus Class:</dt>
+                            <dd class="col-sm-9">{{ $bus->busClass->bus_class }}</dd>
+                            <dt class="col-sm-3">Bus Seat:</dt>
+                            <dd class="col-sm-9">{{ $bus->bus_seat }}</dd>
+                        </dl>
                     </div>
                 </form>
             </div>

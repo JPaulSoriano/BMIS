@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Bus;
+use App\BusClass;
 use Illuminate\Http\Request;
 use App\Http\Requests\Bus\StoreBus;
 use App\Http\Controllers\Controller;
@@ -34,7 +35,8 @@ class BusController extends Controller
     public function create()
     {
         //
-        return view('admin.buses.create');
+        $bus_classes = BusClass::all();
+        return view('admin.buses.create', compact('bus_classes'));
     }
 
     /**
@@ -61,6 +63,7 @@ class BusController extends Controller
     public function show(Bus $bus)
     {
         //
+
         return view('admin.buses.show',compact('bus'));
     }
 
@@ -73,7 +76,8 @@ class BusController extends Controller
     public function edit(Bus $bus)
     {
         //
-        return view('admin.buses.edit',compact('bus'));
+        $bus_classes = BusClass::all();
+        return view('admin.buses.edit',compact('bus', 'bus_classes'));
     }
 
     /**

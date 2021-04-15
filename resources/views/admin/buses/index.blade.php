@@ -24,6 +24,7 @@
                                 <tr>
                                     <th>No</th>
                                     <th>Bus No</th>
+                                    <th>Bus Name</th>
                                     <th>Bus Plate</th>
                                     <th>Bus Class</th>
                                     <th>Bus Seat</th>
@@ -35,8 +36,9 @@
                                 <tr>
                                     <td>{{ ++$i }}</td>
                                     <td>{{ $bus->bus_no }}</td>
+                                    <td>{{ $bus->bus_name }}</td>
                                     <td>{{ $bus->bus_plate }}</td>
-                                    <td>{{ $bus->bus_class }}</td>
+                                    <td>{{ $bus->busClass->bus_class }}</td>
                                     <td>{{ $bus->bus_seat }}</td>
                                     <td class="d-flex justify-content-around">
                                         <a class="btn btn-info btn-sm" href="{{ route('admin.buses.show',$bus->id) }}"><i class="fas fa-eye"></i></a>

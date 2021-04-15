@@ -24,22 +24,24 @@
                     @csrf
                     <div class="card-body">
                         <div class="form-group">
-                            <input type="number" class="form-control @error('bus_no') is-invalid @enderror" placeholder="Bus No" name="bus_no">
+                            <input type="number" class="form-control @error('bus_no') is-invalid @enderror" placeholder="Bus No" name="bus_no" value="{{ old('bus_no') }}">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control @error('bus_plate') is-invalid @enderror" placeholder="Bus Plate" name="bus_plate">
+                            <input type="text" class="form-control @error('bus_name') is-invalid @enderror" placeholder="Bus Name" name="bus_name" value="{{ old('bus_name') }}">
                         </div>
                         <div class="form-group">
-                            <select class="form-control @error('bus_class') is-invalid @enderror" name="bus_class">
-                            <option disabled selected>Select Class</option>
-                            <option value="ordinary">Ordinary Bus</option>
-                            <option value="aircon">Regular Airconditioned</option>
-                            <option value="deluxe">Deluxe</option>
-                            <option value="super">Super Deluxe</option>
+                            <input type="text" class="form-control @error('bus_plate') is-invalid @enderror" placeholder="Bus Plate" name="bus_plate" value="{{ old('bus_plate') }}">
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control @error('bus_class') is-invalid @enderror" name="bus_class_id">
+                                <option disabled selected>Select Class</option>
+                                @foreach ($bus_classes as $class)
+                                    <option value="{{ $class->id }}" {{ old('bus_class') == $class->id ? 'selected' : '' }}>{{ $class->bus_class }} Bus</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">
-                            <input type="number" class="form-control @error('bus_seat') is-invalid @enderror" placeholder="Bus Seat" name="bus_seat">
+                            <input type="number" class="form-control @error('bus_seat') is-invalid @enderror" placeholder="Bus Seat" name="bus_seat" value="{{ old('bus_seat') }}">
                         </div>
                     </div>
                     <div class="card-footer bg-primary d-flex justify-content-end">

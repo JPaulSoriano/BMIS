@@ -44,4 +44,16 @@ class Ride extends Model
     {
         return !isset($this->attributes['ride_date']);
     }
+
+    public function isActive() : bool
+    {
+        return ($this->ride_date > Carbon::today()
+            || ($this->ride_date == Carbon::today() && $this->departure_time > Carbon::now())
+            || ($this->isCyclic() && (
+                    optional($this->schedule)->end_date > Carbon::today()
+                    || is_null(optional($this->schedule)->end_date)
+                    || (optional($this->schedule)->end_date == Carbon::today() && $this->departure_time > Carbon::now())
+                )
+            ));
+    }
 }
