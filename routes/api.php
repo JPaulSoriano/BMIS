@@ -21,7 +21,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::namespace('API')->group(function(){
     Route::post('/register', 'PassengerController@register');
     Route::post('/login', 'PassengerController@login');
-    Route::get('/test', 'PassengerController@test');
+    Route::post('/logout', 'PassengerController@logout');
+
+    Route::get('/test', 'PassengerController@test')->middleware('verified');
     // Route::middleware('auth:sanctum')->group(function(){
     //     Route::get('/test', 'PassengerController@test');
     // });

@@ -23,6 +23,7 @@ class PassengerController extends Controller
 
         $user->assignRole('passenger');
         $user->sendEmailVerificationNotification();
+
         return response()->json([
             'message' => 'OK',
             'username' => $user->name,
@@ -39,18 +40,21 @@ class PassengerController extends Controller
         ]);
 
         $credentials = request(['email', 'password']);
-        if(!Auth::attempt($credentials)){
+        $newCredentials = array_merge($credentials, ['active' => 1]);
+
+        if(!Auth::attempt($newCredentials)){
             return response()->json([
                 'message' => 'Given data is invalid',
                 'errors' => [
                     'password' => [
                         'The password doesn\'t match'
                     ],
+                    'active' => [
+                        'Your account is inactive',
+                    ],
                 ],
             ], 422);
         };
-
-        return $request;
 
         $user = User::where('email', $request->email)->first();
         $authToken = $user->createToken('mobile-token')->plainTextToken;
@@ -60,8 +64,20 @@ class PassengerController extends Controller
         ]);
     }
 
+    public function logout(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        $user->tokens()->delete();
+
+        return response()->json([
+            'message' => 'Logout successful',
+        ]);
+    }
+
     public function test()
     {
-        return "Ok token";
+        return response()->json([
+            'test' => 'Test is Successful. Authentication Ok. Verified Ok',
+        ]);
     }
 }
