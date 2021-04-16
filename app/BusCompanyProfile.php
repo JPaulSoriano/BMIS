@@ -12,4 +12,9 @@ class BusCompanyProfile extends Model
     protected $fillable = [
         'company_name', 'company_address', 'company_contact', 'company_mission', 'company_profile',
     ];
+
+    public function employees()
+    {
+        return $this->hasMany(Employee::class, 'company_id');
+    }
 }

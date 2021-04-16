@@ -126,8 +126,8 @@
         </li>
 
         <!-- Nav Item - Employees -->
-        <li class="nav-item {{ Nav::isRoute('employees') }}">
-            <a class="nav-link" href="">
+        <li class="nav-item {{ Nav::isRoute('admin.employees.*') }}">
+            <a class="nav-link" href="{{ route('admin.employees.index') }}">
                 <i class="fas fa-fw fa-user-tie"></i>
                 <span>{{ __('Employees') }}</span>
             </a>

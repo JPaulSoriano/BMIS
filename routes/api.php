@@ -17,3 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::namespace('API')->group(function(){
+    Route::post('/register', 'PassengerController@register');
+    Route::post('/login', 'PassengerController@login');
+    Route::get('/test', 'PassengerController@test');
+    // Route::middleware('auth:sanctum')->group(function(){
+    //     Route::get('/test', 'PassengerController@test');
+    // });
+});

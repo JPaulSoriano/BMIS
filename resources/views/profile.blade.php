@@ -56,7 +56,7 @@
 
                 <div class="card-body">
 
-                    <form method="POST" action="{{ route('profile.update') }}" autocomplete="off">
+                    <form method="POST" action="{{ route('admin.profile.update') }}" autocomplete="off">
                         @csrf
                         @method('put')
 
@@ -139,7 +139,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="form-control-label" for="company_name">Company Name<span class="small text-danger">*</span></label>
-                                        <input type="text" id="name" class="form-control" name="company_name" placeholder="" value="{{ Auth::user()->companyProfile->company_name }}">
+                                        <input type="text" id="name" class="form-control" name="company_name" placeholder="" value="{{ Auth::user()->companyProfile->company_name ?? '' }}">
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +147,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="form-control-label" for="company_address">Company Address<span class="small text-danger">*</span></label>
-                                        <input type="text" id="name" class="form-control" name="company_address" placeholder="" value="{{ Auth::user()->companyProfile->company_address }}">
+                                        <input type="text" id="name" class="form-control" name="company_address" placeholder="" value="{{ Auth::user()->companyProfile->company_address ?? '' }}">
                                     </div>
                                 </div>
                             </div>
@@ -155,7 +155,7 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label class="form-control-label" for="company_contact">Company Contact<span class="small text-danger">*</span></label>
-                                        <input type="text" id="name" class="form-control" name="company_contact" placeholder="" value="{{ Auth::user()->companyProfile->company_contact }}">
+                                        <input type="text" id="name" class="form-control" name="company_contact" placeholder="" value="{{ Auth::user()->companyProfile->company_contact ?? '' }}">
                                     </div>
                                 </div>
                             </div>
@@ -164,7 +164,7 @@
 
                                     <div class="form-group">
                                         <label class="form-control-label" for="company_mission">Company Mission<span class="small text-danger">*</span></label>
-                                        <textarea class="form-control" name="company_mission" id="company_mission" rows="3">{{ Auth::user()->companyProfile->company_mission }}</textarea>
+                                        <textarea class="form-control" name="company_mission" id="company_mission" rows="3">{{ Auth::user()->companyProfile->company_mission ?? '' }}</textarea>
                                     </div>
 
                                 </div>
@@ -175,7 +175,7 @@
 
                                     <div class="form-group">
                                         <label class="form-control-label" for="company_profile">Company Profile<span class="small text-danger">*</span></label>
-                                        <textarea class="form-control" name="company_profile" id="company_profile" rows="3">{{ Auth::user()->companyProfile->company_profile }}</textarea>
+                                        <textarea class="form-control" name="company_profile" id="company_profile" rows="3">{{ Auth::user()->companyProfile->company_profile ?? '' }}</textarea>
                                     </div>
 
                                 </div>

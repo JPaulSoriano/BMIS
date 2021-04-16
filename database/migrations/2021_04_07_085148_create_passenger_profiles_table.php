@@ -21,6 +21,7 @@ class CreatePassengerProfilesTable extends Migration
             $table->string('middle_name')->nullable();
             $table->string('name_extension')->nullable();
             $table->string('contact');
+            $table->string('address');
             $table->timestamps();
         });
     }

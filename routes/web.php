@@ -1,5 +1,6 @@
 <?php
 
+use App\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,9 +18,14 @@ Route::get('/', function () {
     return view('/auth/login');
 });
 
+Route::get('/test', function(){
+    $user = User::find(14);
+    $user->tokens()->delete();
+
+});
 
 //all
-Auth::routes();
+Auth::routes(['verify' => true]);
 
 //all
 
@@ -43,6 +49,8 @@ Route::namespace('Admin')
         Route::resource('terminals','TerminalController');
         Route::resource('routes','RouteController');
         Route::resource('rides','RideController');
+        Route::resource('employees', 'EmployeeController');
+        Route::get('/createToken/{employee}', 'EmployeeController@createTokenForUser')->name('employee.createToken');
     });
 
 Route::namespace('SuperAdmin')

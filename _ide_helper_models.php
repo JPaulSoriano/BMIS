@@ -74,6 +74,8 @@ namespace App{
  * @property string $company_profile
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Employee[] $employees
+ * @property-read int|null $employees_count
  * @method static \Illuminate\Database\Eloquent\Builder|BusCompanyProfile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BusCompanyProfile newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BusCompanyProfile query()
@@ -88,6 +90,39 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|BusCompanyProfile whereUserId($value)
  */
 	class BusCompanyProfile extends \Eloquent {}
+}
+
+namespace App{
+/**
+ * App\Employee
+ *
+ * @property int $id
+ * @property int $user_id
+ * @property int $company_id
+ * @property string $employee_no
+ * @property string $first_name
+ * @property string $last_name
+ * @property string $address
+ * @property string $contact
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $full_name
+ * @property-read \App\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereContact($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereEmployeeNo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereFirstName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereUserId($value)
+ */
+	class Employee extends \Eloquent {}
 }
 
 namespace App{
@@ -307,6 +342,17 @@ namespace App{
 
 namespace App{
 /**
+ * App\Token
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Token newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Token newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Token query()
+ */
+	class Token extends \Eloquent {}
+}
+
+namespace App{
+/**
  * App\User
  *
  * @property int $id
@@ -321,6 +367,7 @@ namespace App{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Bus[] $buses
  * @property-read int|null $buses_count
  * @property-read \App\BusCompanyProfile|null $companyProfile
+ * @property-read \App\Employee|null $employeeProfile
  * @property-read string $full_name
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
@@ -334,6 +381,8 @@ namespace App{
  * @property-read int|null $routes_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Terminal[] $terminals
  * @property-read int|null $terminals_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
+ * @property-read int|null $tokens_count
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|User permission($permissions)

@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -11,6 +12,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use HasRoles;
+    use HasApiTokens;
 
 
     /**
@@ -19,7 +21,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'first_name', 'last_name', 'middle_name', 'name_extension', 'email', 'password',
+        'name', 'email', 'password',
     ];
 
     /**
@@ -83,6 +85,11 @@ class User extends Authenticatable
     public function companyProfile()
     {
         return $this->hasOne(BusCompanyProfile::class);
+    }
+
+    public function employeeProfile()
+    {
+        return $this->hasOne(Employee::class);
     }
 
     public function rides()
