@@ -92,8 +92,8 @@
 
 
         <!-- Nav Item - Bookings -->
-        <li class="nav-item {{ Nav::isRoute('bookings') }}">
-            <a class="nav-link" href="">
+        <li class="nav-item {{ Nav::isRoute('bookings.*') }}">
+            <a class="nav-link" href="{{ route('bookings.my.bookings') }}">
                 <i class="fas fa-fw fa-calendar-check"></i>
                 <span>{{ __('Bookings') }}</span>
             </a>
@@ -135,7 +135,7 @@
 
 
         <!-- Nav Item - Profile -->
-        <li class="nav-item {{ Nav::isRoute('admin.profile.*') }}">
+        <li class="nav-item {{ Nav::isRoute('admin.profile*') }}">
             <a class="nav-link" href="{{ route('admin.profile') }}">
                 <i class="fas fa-fw fa-user"></i>
                 <span>{{ __('Profile') }}</span>

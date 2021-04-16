@@ -23,8 +23,7 @@ Route::namespace('API')->group(function(){
     Route::post('/login', 'PassengerController@login');
     Route::post('/logout', 'PassengerController@logout');
 
-    Route::get('/test', 'PassengerController@test')->middleware('verified');
-    // Route::middleware('auth:sanctum')->group(function(){
-    //     Route::get('/test', 'PassengerController@test');
-    // });
+    Route::middleware(['auth:sanctum', 'verified'])->group(function(){
+        Route::get('/test', 'PassengerController@test');
+    });
 });

@@ -1,13 +1,14 @@
 import $ from 'jquery';
+import flatpickr from "flatpickr"
 import 'jquery-ui/ui/widgets/datepicker.js';
 
 window.$ = window.jQuery = $;
+window.Popper = require('popper.js').default;
+require('./bootstrap');
 
-import flatpickr from "flatpickr"
 window.flatpickr = flatpickr
 
 require( 'datatables.net' );
 require( 'datatables.net-bs' );
 
-require('./bootstrap');
 

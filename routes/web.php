@@ -31,9 +31,14 @@ Auth::routes(['verify' => true]);
 
 
 //admin
-Route::middleware('auth')->group(function(){
+Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/about', 'HomeController@about')->name('about');
+
+    Route::name('bookings.')->group(function(){
+        Route::get('/my-bookings', 'BookingController@index')->name('my.bookings');
+        Route::get('/book', 'BookingController@create')->name('book');
+    });
 });
 
 Route::namespace('Admin')

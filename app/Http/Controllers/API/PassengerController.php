@@ -61,6 +61,7 @@ class PassengerController extends Controller
 
         return response()->json([
             'access_token' => $authToken,
+            'email' => $user->email,
         ]);
     }
 
