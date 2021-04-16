@@ -20,16 +20,28 @@
                     <h6 class="m-0 font-weight-bold text-white">Create</h6>
                     <a class="btn btn-light btn-sm" href="{{ route('bookings.my.bookings') }}"><i class="fas fa-long-arrow-alt-left"></i></a>
                 </div>
-                    <form method="GET" action="#">
+                <form method="GET" action="#">
                     <div class="card-body">
                         <div class="form-group">
-                            <input type="text" placeholder="Start Terminal" class="form-control" name="start">
+                            <select name="start" class="form-control" required>
+                                <option selected disabled hidden>Start Terminal</option>
+                                @foreach ($terminals as $terminal)
+                                    <option value="{{ $terminal->id }}">{{ $terminal->terminal_name }}</option>
+                                @endforeach
+                            </select>
+
                         </div>
                         <div class="form-group">
-                            <input type="text" placeholder="End Terminal" class="form-control" name="end">
+                            <select name="end" class="form-control" required>
+                                <option selected disabled hidden>End Terminal</option>
+                                @foreach ($terminals as $terminal)
+                                    <option value="{{ $terminal->id }}">{{ $terminal->terminal_name }}</option>
+                                @endforeach
+                            </select>
+
                         </div>
                         <div class="form-group">
-                            <input type="text" placeholder="Travel Date" class="form-control datepicker" name="travel_date">
+                            <input type="text" placeholder="Travel Date" class="form-control datepicker" name="travel_date" required>
                         </div>
                     </div>
                     <div class="card-footer bg-primary d-flex justify-content-end">
@@ -64,8 +76,8 @@
                                         <tr>
                                             <td>{{ $ride->route->route_name }}</td>
                                             <td>{{ $ride->departure_time }}</td>
-                                            <td>{{ $ride->departure_time }}</td>
-                                            <td>{{ $ride->departure_time }}</td>
+                                            <td>{{ $ride->route->terminals()->first()->terminal_name }}</td>
+                                            <td>{{ $ride->route->terminals()->orderBy('order', 'desc')->first()->terminal_name }}</td>
                                             <td>{{ $ride->updated_at }}</td>
                                             <td>{{ $ride->isActive() ? 'Active' : 'Inactive' }}</td>
                                             <td>{{ $ride->isActive() ? 'Active' : 'Inactive' }}</td>

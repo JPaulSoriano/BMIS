@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Booking;
 use App\Ride;
+use App\Terminal;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -31,10 +32,15 @@ class BookingController extends Controller
 
         if(request('start') && request('end') && request('travel_date')){
             $rides = Ride::all();
+            $start = request('start');
+            $end = request('end');
+            $travel_date = request('travel_date');
 
         }
 
-        return view('bookings.create', compact('rides'));
+        $terminals = Terminal::all();
+
+        return view('bookings.create', compact('rides', 'terminals'));
     }
 
     /**

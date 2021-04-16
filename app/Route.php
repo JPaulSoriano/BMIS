@@ -17,8 +17,6 @@ class Route extends Model
         return $this->belongsToMany(Terminal::class, 'route_terminal')->withPivot(['order', 'minutes_from_departure'])->orderByPivot('order')->withTimestamps();
     }
 
-
-
     public function getTotalTimeAttribute()
     {
         $minutes = $this->terminals->map->pivot->flatten()->sum('minutes_from_departure');
