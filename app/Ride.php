@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Ride extends Model
@@ -33,6 +34,11 @@ class Ride extends Model
         return $this->belongsTo(Bus::class);
     }
 
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+
     public function getRunningDaysAttribute(): array
     {
         return collect(Carbon::getDays())
@@ -43,6 +49,21 @@ class Ride extends Model
     public function isCyclic()
     {
         return !isset($this->attributes['ride_date']);
+    }
+
+    public function scopeActive(Builder $query)
+    {
+        $query->where('ride_date', '>', Carbon::today())
+            ->orWhere(function (Builder $query) {
+                $query->where('ride_date', Carbon::today())
+                    ->where('departure_time', '>', Carbon::now()->toTimeString());
+            })->orWhereHas('schedule', function (Builder $query) {
+                $query->where('end_date', '>', Carbon::today())
+                    ->orWhere(function (Builder $query) {
+                        $query->where('end_date', Carbon::today())
+                            ->where('departure_time', '>', Carbon::now()->toTimeString());
+                    })->orWhereNull('end_date');
+            });
     }
 
     public function isActive() : bool

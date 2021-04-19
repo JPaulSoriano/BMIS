@@ -17,6 +17,18 @@ class Route extends Model
         return $this->belongsToMany(Terminal::class, 'route_terminal')->withPivot(['order', 'minutes_from_departure'])->orderByPivot('order')->withTimestamps();
     }
 
+    public function getFirstTerminalAttribute()
+    {
+        return $this->terminals->first()->terminal_name;
+    }
+
+    public function getLastTerminalAttribute()
+    {
+        $lastTerminal = $this->terminals->map->pivot->sortByDesc('order')->first()->terminal_id;
+
+        return $this->terminals->where('id', $lastTerminal)->first()->terminal_name;
+    }
+
     public function getTotalTimeAttribute()
     {
         $minutes = $this->terminals->map->pivot->flatten()->sum('minutes_from_departure');

@@ -15,6 +15,12 @@ class CreateBookingsTable extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('route_id')->constrained('routes')->onDelete('cascade');
+            $table->foreignId('passenger_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('start_terminal_id')->constrained('terminals')->onDelete('cascade');
+            $table->foreignId('end_terminal_id')->constrained('terminals')->onDelete('cascade');
+            $table->integer('pax')->default(1);
+            $table->boolean('aboard')->default(0);
             $table->timestamps();
         });
     }

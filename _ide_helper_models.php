@@ -12,6 +12,37 @@
 
 namespace App{
 /**
+ * App\Booking
+ *
+ * @property int $id
+ * @property int $route_id
+ * @property int $passenger_id
+ * @property int $start_terminal_id
+ * @property int $end_terminal_id
+ * @property int $pax
+ * @property int $aboard
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Route $routes
+ * @property-read \App\User $users
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereAboard($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereEndTerminalId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking wherePassengerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking wherePax($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereRouteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereStartTerminalId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUpdatedAt($value)
+ */
+	class Booking extends \Eloquent {}
+}
+
+namespace App{
+/**
  * App\Bus
  *
  * @property int $id
@@ -90,6 +121,29 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|BusCompanyProfile whereUserId($value)
  */
 	class BusCompanyProfile extends \Eloquent {}
+}
+
+namespace App{
+/**
+ * App\BusLocation
+ *
+ * @property int $id
+ * @property int $route_id
+ * @property float $longitude
+ * @property float $latitude
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|BusLocation newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BusLocation newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|BusLocation query()
+ * @method static \Illuminate\Database\Eloquent\Builder|BusLocation whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BusLocation whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BusLocation whereLatitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BusLocation whereLongitude($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BusLocation whereRouteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BusLocation whereUpdatedAt($value)
+ */
+	class BusLocation extends \Eloquent {}
 }
 
 namespace App{
@@ -189,10 +243,13 @@ namespace App{
  * @property int $auto_confirm
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Booking[] $bookings
+ * @property-read int|null $bookings_count
  * @property-read \App\Bus $bus
  * @property-read array $running_days
  * @property-read \App\Route $route
  * @property-read \App\RideSchedule|null $schedule
+ * @method static \Illuminate\Database\Eloquent\Builder|Ride active()
  * @method static \Illuminate\Database\Eloquent\Builder|Ride newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Ride newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Ride query()
@@ -278,6 +335,8 @@ namespace App{
  * @property string $route_name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $first_terminal
+ * @property-read mixed $last_terminal
  * @property-read mixed $total_time
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Terminal[] $terminals
  * @property-read int|null $terminals_count
@@ -364,6 +423,7 @@ namespace App{
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Booking|null $booking
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Bus[] $buses
  * @property-read int|null $buses_count
  * @property-read \App\BusCompanyProfile|null $companyProfile
@@ -371,6 +431,7 @@ namespace App{
  * @property-read string $full_name
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
+ * @property-read \App\PassengerProfile|null $passengerProfile
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
  * @property-read int|null $permissions_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Ride[] $rides
