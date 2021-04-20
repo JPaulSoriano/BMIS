@@ -15,12 +15,14 @@ namespace App{
  * App\Booking
  *
  * @property int $id
- * @property int $route_id
+ * @property int $ride_id
  * @property int $passenger_id
  * @property int $start_terminal_id
  * @property int $end_terminal_id
  * @property int $pax
  * @property int $aboard
+ * @property int $confirmed
+ * @property string $travel_date
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Route $routes
@@ -29,13 +31,15 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|Booking newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Booking query()
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereAboard($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereConfirmed($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereEndTerminalId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking wherePassengerId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking wherePax($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereRouteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereRideId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereStartTerminalId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereTravelDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUpdatedAt($value)
  */
 	class Booking extends \Eloquent {}

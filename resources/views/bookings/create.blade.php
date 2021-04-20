@@ -87,10 +87,11 @@
                                             <td>{{ $ride->updated_at }}</td>
                                             <td>{{ $ride->isActive() ? 'Active' : 'Inactive' }}</td>
                                             <td>
-                                                <form action="#" method="POST">
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-info btn-sm">Book</button>
-                                                </form>
+                                                <a href="{{ route('bookings.book', ['ride' => $ride,
+                                                    'start' => request('start'),
+                                                    'end' => request('end'),
+                                                    'travel_date' => request('travel_date')]) }}"
+                                                    class="btn btn-sm btn-info">Book</a>
                                             </td>
                                         </tr>
                                     @empty

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Ride;
 use App\Route;
 use App\Booking;
+use App\Http\Requests\Booking\StoreBook;
 use App\Terminal;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -46,6 +47,7 @@ class BookingController extends Controller
             $startTerminalQuery = DB::table('route_terminal')->where('terminal_id', $start);
             $endTerminalQuery = DB::table('route_terminal')->where('terminal_id', $end);
 
+            //check if route exists
             $routes = Route::whereHas('terminals', function (Builder $query) use ($start) {
                 $query->where('terminals.id', $start);
             })->whereHas('terminals', function (Builder $query) use ($start, $end) {
@@ -61,6 +63,9 @@ class BookingController extends Controller
                 ->pluck('id')
                 ->toArray();
 
+            //check available seats
+
+            //check if there's available ride
             $rideQuery = Ride::joinSub($startTerminalQuery, 'start_terminal', function($join){
                     $join->on('rides.route_id', 'start_terminal.route_id');
                 })->joinSub($endTerminalQuery, 'end_terminal', function($join){
@@ -96,9 +101,30 @@ class BookingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBook $request)
     {
         //
+        $validated = $request->validate([
+            'ride_id' => 'required|exists:rides,id',
+            'start_terminal_id' => 'required|exists:terminals,id',
+            'end_terminal_id' => 'required|exists:terminals,id',
+            'travel_date' => 'required',
+            'pax' => 'nullable|numeric|min:1|max:8'
+        ]);
+
+        //Check if seats is still available
+
+        //store to database
+        Booking::create([
+            'passenger_id' => 17,
+            'ride_id' => $request->ride_id,
+            'start_terminal_id' => $request->start_terminal_id,
+            'end_terminal_id' => $request->end_terminal_id,
+            'travel_date' => $request->travel_date,
+            'pax' => $request->pax,
+        ]);
+
+        return redirect()->route('bookings.my.bookings');
     }
 
     /**
@@ -144,5 +170,16 @@ class BookingController extends Controller
     public function destroy(Booking $booking)
     {
         //
+    }
+
+    public function book(Ride $ride, $start, $end, $travel_date)
+    {
+        $start_terminal = Terminal::findOrFail($start);
+        $end_terminal = Terminal::findOrFail($end);
+
+        return view('bookings.book', ['ride' => $ride,
+            'start_terminal' => $start_terminal,
+            'end_terminal' => $end_terminal,
+            'travel_date' => $travel_date]);
     }
 }

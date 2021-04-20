@@ -27,8 +27,6 @@ Route::get('/test', function(){
 //all
 Auth::routes(['verify' => true]);
 
-//all
-
 
 //admin
 Route::middleware(['auth', 'verified'])->group(function(){
@@ -37,7 +35,9 @@ Route::middleware(['auth', 'verified'])->group(function(){
 
     Route::name('bookings.')->group(function(){
         Route::get('/my-bookings', 'BookingController@index')->name('my.bookings');
-        Route::get('/book', 'BookingController@create')->name('book');
+        Route::get('/create-booking', 'BookingController@create')->name('book.create');
+        Route::get('/create-booking/{ride}/{start}/{end}/{travel_date}', 'BookingController@book')->name('book');
+        Route::post('/book', 'BookingController@store')->name('book.store');
     });
 });
 
