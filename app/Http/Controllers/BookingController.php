@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Ride;
 use App\Route;
 use App\Booking;
-use App\Http\Requests\Booking\StoreBook;
 use App\Terminal;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Http\Requests\Booking\StoreBook;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Builder;
@@ -24,7 +24,8 @@ class BookingController extends Controller
     public function index()
     {
         //
-        return view('bookings.index');
+        $bookings = Booking::all();
+        return view('bookings.index', compact('bookings'));
     }
 
     /**
@@ -65,8 +66,10 @@ class BookingController extends Controller
 
             //check available seats
 
+
             //check if there's available ride
-            $rideQuery = Ride::joinSub($startTerminalQuery, 'start_terminal', function($join){
+            $ridesQuery = Ride::selectRaw('*, rides.id as ride_id')
+                ->joinSub($startTerminalQuery, 'start_terminal', function($join){
                     $join->on('rides.route_id', 'start_terminal.route_id');
                 })->joinSub($endTerminalQuery, 'end_terminal', function($join){
                     $join->on('rides.route_id', 'end_terminal.route_id');
@@ -86,7 +89,7 @@ class BookingController extends Controller
                 });
 
 
-            $rides = $rideQuery->with('bus')->get();
+            $rides = $ridesQuery->with('bus')->get();
 
         }
 
@@ -104,7 +107,7 @@ class BookingController extends Controller
     public function store(StoreBook $request)
     {
         //
-        $validated = $request->validate([
+        $request->validate([
             'ride_id' => 'required|exists:rides,id',
             'start_terminal_id' => 'required|exists:terminals,id',
             'end_terminal_id' => 'required|exists:terminals,id',
@@ -114,9 +117,11 @@ class BookingController extends Controller
 
         //Check if seats is still available
 
+        //Check auto_confirm
+
         //store to database
         Booking::create([
-            'passenger_id' => 17,
+            'passenger_id' => 17, //Change to passenger_id from api
             'ride_id' => $request->ride_id,
             'start_terminal_id' => $request->start_terminal_id,
             'end_terminal_id' => $request->end_terminal_id,
@@ -181,5 +186,23 @@ class BookingController extends Controller
             'start_terminal' => $start_terminal,
             'end_terminal' => $end_terminal,
             'travel_date' => $travel_date]);
+    }
+
+    public function confirm(Booking $booking)
+    {
+        $booking->status = "confirmed";
+        $booking->reason = null;
+        $booking->save();
+
+        return back();
+    }
+
+    public function reject(Request $request, Booking $booking)
+    {
+        $booking->status = "rejected";
+        $booking->reason = $request->reason;
+        $booking->save();
+
+        return back();
     }
 }

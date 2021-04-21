@@ -42,7 +42,7 @@
                                     <option value="{{ $terminal->id }}">{{ $terminal->terminal_name }}</option>
                                 @endforeach
                             </select>
-                            <input type="number" class="form-control col-md-4 travel" name="travel_time[]" placeholder="Estimated travel time">
+                            <input type="number" class="form-control col-md-4 travel" name="travel_time[]" placeholder="Minutes from departure">
                             <div class="col-md route_buttons">
                                 <button type="button" class="btn btn-primary remove_terminal" hidden><i class="fas fa-minus"></i></button>
                                 <button type="button" class="btn btn-primary add_terminal"><i class="fas fa-plus"></i></button>

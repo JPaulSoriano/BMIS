@@ -38,6 +38,9 @@ Route::middleware(['auth', 'verified'])->group(function(){
         Route::get('/create-booking', 'BookingController@create')->name('book.create');
         Route::get('/create-booking/{ride}/{start}/{end}/{travel_date}', 'BookingController@book')->name('book');
         Route::post('/book', 'BookingController@store')->name('book.store');
+
+        Route::get('/booking/confirm/{booking}', 'BookingController@confirm')->name('book.confirm');
+        Route::put('/booking/reject/{booking}', 'BookingController@reject')->name('book.reject');
     });
 });
 

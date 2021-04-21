@@ -25,7 +25,7 @@
                                 <dd class="col-sm-9">{{ $terminal->pivot->minutes_from_departure ?? 'Start' }}</dd>
                             @endforeach
                             <dt class="col-sm-3">Total Time Travel</dt>
-                            <dd class="col-sm-9">{{ $route->terminals->map->pivot->sum('minutes_from_departure') }}</dd>
+                            <dd class="col-sm-9">{{ $route->total_time}}</dd>
                         </dl>
                     </div>
                 </form>

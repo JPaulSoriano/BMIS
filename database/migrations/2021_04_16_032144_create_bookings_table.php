@@ -21,7 +21,8 @@ class CreateBookingsTable extends Migration
             $table->foreignId('end_terminal_id')->constrained('terminals')->onDelete('cascade');
             $table->integer('pax')->default(1);
             $table->boolean('aboard')->default(0);
-            $table->boolean('confirmed')->default(0);
+            $table->string('status')->default('new');
+            $table->text('reason')->nullable();
             $table->date('travel_date');
             $table->timestamps();
         });

@@ -21,24 +21,28 @@ namespace App{
  * @property int $end_terminal_id
  * @property int $pax
  * @property int $aboard
- * @property int $confirmed
+ * @property string $status
+ * @property string|null $reason
  * @property string $travel_date
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Route $routes
- * @property-read \App\User $users
+ * @property-read \App\Terminal $endTerminal
+ * @property-read \App\User $passenger
+ * @property-read \App\Ride $ride
+ * @property-read \App\Terminal $startTerminal
  * @method static \Illuminate\Database\Eloquent\Builder|Booking newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Booking newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Booking query()
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereAboard($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Booking whereConfirmed($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereEndTerminalId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking wherePassengerId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking wherePax($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereReason($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereRideId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereStartTerminalId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereTravelDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereUpdatedAt($value)
  */

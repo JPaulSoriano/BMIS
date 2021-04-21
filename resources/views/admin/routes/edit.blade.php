@@ -53,7 +53,7 @@
                                     @endforeach
                                 </select>
                                 @if($loop->index != 0)
-                                    <input type="number" class="form-control col-md-4 travel" name="travel_time[]" placeholder="Estimated travel time" value="{{ $item->pivot->minutes_from_departure }}">
+                                    <input type="number" class="form-control col-md-4 travel" name="travel_time[]" placeholder="Minutes from departure" value="{{ $item->pivot->minutes_from_departure }}">
                                 @endif
                                 <div class="col-md @if($loop->index != 0) route_buttons @endif">
                                     @if($loop->index != 0)

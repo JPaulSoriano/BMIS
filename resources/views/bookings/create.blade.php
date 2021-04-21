@@ -62,6 +62,7 @@
                             <table class="table table-bordered text-center" width="100%" cellspacing="0">
                                 <thead>
                                     <tr>
+                                        <th>Id</th>
                                         <th>Ride</th>
                                         <th>Bus</th>
                                         <th>Departure time</th>
@@ -77,6 +78,7 @@
                                 <tbody>
                                     @forelse ($rides as $ride)
                                         <tr>
+                                            <td>{{ $ride->ride_id }}</td>
                                             <td>{{ $ride->route->route_name }}</td>
                                             <td>{{ $ride->bus->bus_name }}</td>
                                             <td>{{ $ride->departure_time->format('h:i a') }}</td>
@@ -87,7 +89,7 @@
                                             <td>{{ $ride->updated_at }}</td>
                                             <td>{{ $ride->isActive() ? 'Active' : 'Inactive' }}</td>
                                             <td>
-                                                <a href="{{ route('bookings.book', ['ride' => $ride,
+                                                <a href="{{ route('bookings.book', ['ride' => $ride->ride_id,
                                                     'start' => request('start'),
                                                     'end' => request('end'),
                                                     'travel_date' => request('travel_date')]) }}"
