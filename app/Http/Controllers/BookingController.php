@@ -36,7 +36,9 @@ class BookingController extends Controller
     public function index()
     {
         //
-        $bookings = Booking::all();
+        $bookings = Booking::when(request('travel_date'), function($query){
+                return $query->where('travel_date', request('travel_date'));
+            })->get();
         return view('bookings.index', compact('bookings'));
     }
 

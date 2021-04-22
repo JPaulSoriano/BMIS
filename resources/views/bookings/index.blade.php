@@ -16,7 +16,13 @@
                     <a class="btn btn-light btn-sm" href="{{ route('bookings.book.create') }}"><i class="fas fa-plus"></i></a>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive">
+                    <form action="{{ route('bookings.my.bookings') }}" method="get">
+                        <div class="row ml-auto">
+                            <input type="date" class="form-control col-sm-2" name="travel_date">
+                            <input type="submit" value="Search" class="btn btn-primary col-sm-auto ml-3">
+                        </div>
+                    </form>
+                    <div class="table-responsive mt-3">
                         <table class="table table-bordered" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
