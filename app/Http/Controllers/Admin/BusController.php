@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Bus;
 use App\BusClass;
 use Illuminate\Http\Request;
-use App\Http\Requests\Bus\StoreBus;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Bus\UpdateBus;
+use App\Http\Requests\Bus\StoreBusRequest;
+use App\Http\Requests\Bus\UpdateBusRequest;
 use Illuminate\Support\Facades\Auth;
 
 class BusController extends Controller
@@ -45,7 +45,7 @@ class BusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreBus $request)
+    public function store(StoreBusRequest $request)
     {
         //
         Auth::user()->buses()->create($request->validated());
@@ -87,7 +87,7 @@ class BusController extends Controller
      * @param  \App\Bus  $bus
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateBus $request, Bus $bus)
+    public function update(UpdateBusRequest $request, Bus $bus)
     {
 
         $bus->update($request->validated());

@@ -7,15 +7,27 @@ use App\Route;
 use App\Booking;
 use App\Terminal;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use App\Http\Requests\Booking\StoreBook;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Query\Builder as QueryBuilder;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Services\BookingService;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
+use App\Http\Requests\Booking\StoreBookingRequest;
+use App\Services\RideService;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class BookingController extends Controller
 {
+
+    private BookingService $bookingService;
+    private RideService $rideService;
+
+    public function __construct(BookingService $bookingService, RideService $rideService)
+    {
+        $this->bookingService = $bookingService;
+        $this->rideService = $rideService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -39,58 +51,7 @@ class BookingController extends Controller
         $rides = collect();
 
         if(request('start') && request('end') && request('travel_date')){
-            //$rides = Ride::all();
-            $start = request('start');
-            $end = request('end');
-            $travelDate = request('travel_date');
-            $dayName = Str::lower(Carbon::parse($travelDate)->dayName);
-
-            $startTerminalQuery = DB::table('route_terminal')->where('terminal_id', $start);
-            $endTerminalQuery = DB::table('route_terminal')->where('terminal_id', $end);
-
-            //check if route exists
-            $routes = Route::whereHas('terminals', function (Builder $query) use ($start) {
-                $query->where('terminals.id', $start);
-            })->whereHas('terminals', function (Builder $query) use ($start, $end) {
-                $query->where('terminals.id', $end)
-                    ->where('order', '>', function (QueryBuilder $query) use ($start) {
-                        $query->select('order')
-                            ->from('route_terminal')
-                            ->where('terminal_id', $start)
-                            ->whereColumn('route_id', 'routes.id');
-                    });
-            })
-                ->get()
-                ->pluck('id')
-                ->toArray();
-
-            //check available seats
-
-
-            //check if there's available ride
-            $ridesQuery = Ride::selectRaw('*, rides.id as ride_id')
-                ->joinSub($startTerminalQuery, 'start_terminal', function($join){
-                    $join->on('rides.route_id', 'start_terminal.route_id');
-                })->joinSub($endTerminalQuery, 'end_terminal', function($join){
-                    $join->on('rides.route_id', 'end_terminal.route_id');
-                })->whereHas('route', function(Builder $query) use ($routes){
-                    $query->whereIn('id', $routes);
-                })->where(function(Builder $query) use ($travelDate, $dayName){
-                    $query->where('ride_date', $travelDate)
-                        ->orWhereHas('schedule', function(Builder $query) use ($travelDate, $dayName){
-                            $query->where(function(Builder $query) use ($travelDate, $dayName){
-                                $query->where('start_date', $travelDate)
-                                    ->where($dayName, true);
-                            })->orWhere(function(Builder $query) use ($travelDate){
-                                $query->where('end_date', '>=', $travelDate)
-                                    ->orWhereNull('end_date');
-                            });
-                        });
-                });
-
-
-            $rides = $ridesQuery->with('bus')->get();
-
+            $rides = $this->rideService->getRidesByTerminals(request('start'), request('end'), request('travel_date'));
         }
 
         $terminals = Terminal::all();
@@ -104,29 +65,36 @@ class BookingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreBook $request)
+    public function store(StoreBookingRequest $request)
     {
-        //
-        $request->validate([
-            'ride_id' => 'required|exists:rides,id',
-            'start_terminal_id' => 'required|exists:terminals,id',
-            'end_terminal_id' => 'required|exists:terminals,id',
-            'travel_date' => 'required',
-            'pax' => 'nullable|numeric|min:1|max:8'
-        ]);
+        $ride = Ride::findOrFail($request->ride_id);
+        $start = $request->start_terminal_id;
+        $end = $request->end_terminal_id;
+        $travelDate = $request->travel_date;
 
         //Check if seats is still available
+        $occupiedSeats = $this->bookingService->getOccupiedSeats($ride, $start, $end, $travelDate);
 
+        $availableSeats = $ride->bus->bus_seat - $occupiedSeats;
+
+        if($request->pax > $availableSeats){
+            return redirect()->back()->withErrors('You cannot book more than available');
+        }
         //Check auto_confirm
+        if($ride->auto_confirm)
+        {
+            $status = "confirmed";
+        }
 
         //store to database
         Booking::create([
             'passenger_id' => 17, //Change to passenger_id from api
-            'ride_id' => $request->ride_id,
-            'start_terminal_id' => $request->start_terminal_id,
-            'end_terminal_id' => $request->end_terminal_id,
-            'travel_date' => $request->travel_date,
+            'ride_id' => $ride->id,
+            'start_terminal_id' => $start,
+            'end_terminal_id' => $end,
+            'travel_date' => $travelDate,
             'pax' => $request->pax,
+            'status' => $status,
         ]);
 
         return redirect()->route('bookings.my.bookings');
@@ -177,15 +145,20 @@ class BookingController extends Controller
         //
     }
 
-    public function book(Ride $ride, $start, $end, $travel_date)
+    public function book(Ride $ride, $start, $end, $travelDate)
     {
-        $start_terminal = Terminal::findOrFail($start);
-        $end_terminal = Terminal::findOrFail($end);
+        $startTerminal = $ride->route->terminals->where('id', $start)->first();
+        $endTerminal = $ride->route->terminals->where('id', $end)->first();
+
+        $occupiedSeats = $this->bookingService->getOccupiedSeats($ride, $start, $end, $travelDate);
+
+        $availableSeats = $ride->bus->bus_seat - $occupiedSeats;
 
         return view('bookings.book', ['ride' => $ride,
-            'start_terminal' => $start_terminal,
-            'end_terminal' => $end_terminal,
-            'travel_date' => $travel_date]);
+            'start_terminal' => $startTerminal,
+            'end_terminal' => $endTerminal,
+            'travel_date' => $travelDate,
+            'available_seats' => $availableSeats]);
     }
 
     public function confirm(Booking $booking)
@@ -194,7 +167,7 @@ class BookingController extends Controller
         $booking->reason = null;
         $booking->save();
 
-        return back();
+        return redirect()->back();
     }
 
     public function reject(Request $request, Booking $booking)
@@ -203,6 +176,6 @@ class BookingController extends Controller
         $booking->reason = $request->reason;
         $booking->save();
 
-        return back();
+        return redirect()->back();
     }
 }

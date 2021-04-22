@@ -23,20 +23,30 @@
                 <form method="POST" action="{{ route('bookings.book.store') }}">
                     @csrf
                     <div class="card-body">
+
                         <div class="form-group">
-                            <input type="text" class="form-control-plaintext" readonly value="{{ $ride->route->route_name }}">
+                            <label for="route">Route:</label>
+                            <input type="text" class="form-control-plaintext" readonly id="route" value="{{ $ride->route->route_name }}">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control-plaintext" readonly value="{{ $start_terminal->terminal_name }}">
+                            <label for="start">Start Terminal:</label>
+                            <input type="text" class="form-control-plaintext" readonly id="start" value="{{ $start_terminal->terminal_name }}">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control-plaintext" readonly value="{{ $end_terminal->terminal_name }}">
+                            <label for="end">End Terminal:</label>
+                            <input type="text" class="form-control-plaintext" readonly id="end" value="{{ $end_terminal->terminal_name }}">
                         </div>
                         <div class="form-group">
-                            <input type="text" placeholder="Travel Date" class="form-control" name="travel_date" value="{{ $travel_date }}" readonly>
+                            <label for="travel_date">Date:</label>
+                            <input type="text" class="form-control-plaintext" readonly id="travel_date" value="{{ $travel_date }}" >
                         </div>
                         <div class="form-group">
-                          <input type="number" class="form-control" name="pax" placeholder="Pax" min=0 step=1>
+                            <label for="seats">Available Seats:</label>
+                          <input type="text" class="form-control-plaintext" readonly id="seats" value="{{ $available_seats }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="pax">Reserve pax:</label>
+                          <input type="number" class="form-control" id="pax" name="pax" placeholder="Pax" min=1 step=1 value=1>
                         </div>
                     </div>
                     <div class="card-footer bg-primary d-flex justify-content-end">
@@ -45,6 +55,7 @@
                     <input type="hidden" name="ride_id" value="{{ $ride->id }}">
                     <input type="hidden" name="start_terminal_id" value="{{ $start_terminal->id }}">
                     <input type="hidden" name="end_terminal_id" value="{{ $end_terminal->id }}">
+                    <input type="hidden" name="travel_date" value="{{ $travel_date }}">
                 </form>
             </div>
         </div>

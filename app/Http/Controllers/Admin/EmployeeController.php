@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use DB;
 use App\User;
-use Exception;
 use App\Employee;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Spatie\Permission\Contracts\Role;
-use Symfony\Component\Console\Helper\Helper;
-use App\Http\Requests\Employee\StoreEmployee;
-use App\Http\Requests\Employee\UpdateEmployee;
+use App\Http\Requests\Employee\StoreEmployeeRequest;
+use App\Http\Requests\Employee\UpdateEmployeeRequest;
 use Illuminate\Support\Str;
 
 class EmployeeController extends Controller
@@ -47,7 +43,7 @@ class EmployeeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreEmployee $request)
+    public function store(StoreEmployeeRequest $request)
     {
         //
         $requestedData = collect($request->validated());
@@ -94,7 +90,7 @@ class EmployeeController extends Controller
      * @param  \App\Employee $employee
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateEmployee $request, Employee $employee)
+    public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
         //
         $requestedData = collect($request->validated());

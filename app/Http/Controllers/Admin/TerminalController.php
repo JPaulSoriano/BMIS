@@ -6,8 +6,8 @@ use Auth;
 use App\Terminal;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Terminal\StoreTerminal;
-use App\Http\Requests\Terminal\UpdateTerminal;
+use App\Http\Requests\Terminal\StoreTerminalRequest;
+use App\Http\Requests\Terminal\UpdateTerminalRequest;
 
 class TerminalController extends Controller
 {
@@ -42,7 +42,7 @@ class TerminalController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreTerminal $request)
+    public function store(StoreTerminalRequest $request)
     {
         //
         Auth::user()->terminals()->create($request->validated());
@@ -82,7 +82,7 @@ class TerminalController extends Controller
      * @param  \App\Terminal  $terminal
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTerminal $request, Terminal $terminal)
+    public function update(UpdateTerminalRequest $request, Terminal $terminal)
     {
         //
         $terminal->update($request->validated());

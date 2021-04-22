@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\Profile\UpdateProfile;
+use App\Http\Requests\Profile\UpdateProfileRequest;
 
 class ProfileController extends Controller
 {
@@ -21,7 +21,7 @@ class ProfileController extends Controller
         return view('profile');
     }
 
-    public function update(UpdateProfile $request)
+    public function update(UpdateProfileRequest $request)
     {
 
         $user = Auth::user();

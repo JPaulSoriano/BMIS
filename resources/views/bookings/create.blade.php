@@ -83,16 +83,16 @@
                                             <td>{{ $ride->bus->bus_name }}</td>
                                             <td>{{ $ride->departure_time->format('h:i a') }}</td>
                                             <td>{{ optional($ride->ride_date)->format('F d, Y') ?? '-' }}</td>
-                                            <td>{{ $ride->route->firstTerminal }}</td>
-                                            <td>{{ $ride->route->lastTerminal }}</td>
-                                            <td>{{ $ride->bus->bus_seat }}</td>
+                                            <td>{{ $ride->route->getTerminalNameById(request('start')) }}</td>
+                                            <td>{{ $ride->route->getTerminalNameById(request('end')) }}</td>
+                                            <td>{{ $ride->bus->bus_seat - $ride->booked_seats }}</td>
                                             <td>{{ $ride->updated_at }}</td>
                                             <td>{{ $ride->isActive() ? 'Active' : 'Inactive' }}</td>
                                             <td>
                                                 <a href="{{ route('bookings.book', ['ride' => $ride->ride_id,
                                                     'start' => request('start'),
                                                     'end' => request('end'),
-                                                    'travel_date' => request('travel_date')]) }}"
+                                                    'travelDate' => request('travel_date')]) }}"
                                                     class="btn btn-sm btn-info">Book</a>
                                             </td>
                                         </tr>

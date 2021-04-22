@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Route;
-use App\Terminal;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Route\StoreRoute;
-use App\Http\Requests\Route\UpdateRoute;
+use App\Http\Requests\Route\StoreRouteRequest;
+use App\Http\Requests\Route\UpdateRouteRequest;
 
 class RouteController extends Controller
 {
@@ -44,7 +43,7 @@ class RouteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRoute $request)
+    public function store(StoreRouteRequest $request)
     {
         //
         foreach($request->routes as $key => $route)
@@ -91,7 +90,7 @@ class RouteController extends Controller
      * @param  \App\Route  $route
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRoute $request, Route $route)
+    public function update(UpdateRouteRequest $request, Route $route)
     {
 
         foreach($request->routes as $key => $r)

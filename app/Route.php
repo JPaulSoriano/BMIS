@@ -33,4 +33,9 @@ class Route extends Model
     {
         return $this->terminals->last()->minutesFromDepartureFormatted();
     }
+
+    public function getTerminalNameById($id)
+    {
+        return $this->terminals->where('id', $id)->first()->terminal_name;
+    }
 }

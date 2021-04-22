@@ -28,4 +28,6 @@ class Terminal extends Model
 
         return sprintf('%2dmin', floor($minutes % 60));
     }
+
+
 }

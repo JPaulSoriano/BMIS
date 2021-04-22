@@ -7,8 +7,8 @@ use App\Ride;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\Ride\StoreRide;
-use App\Http\Requests\Ride\UpdateRide;
+use App\Http\Requests\Ride\StoreRideRequest;
+use App\Http\Requests\Ride\UpdateRideRequest;
 
 class RideController extends Controller
 {
@@ -50,7 +50,7 @@ class RideController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRide $request)
+    public function store(StoreRideRequest $request)
     {
         //
 
@@ -103,7 +103,7 @@ class RideController extends Controller
      * @param  \App\Ride  $ride
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRide $request, Ride $ride)
+    public function update(UpdateRideRequest $request, Ride $ride)
     {
         //
         if ($request->ride_type == 'cyclic') {

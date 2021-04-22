@@ -36,7 +36,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
     Route::name('bookings.')->group(function(){
         Route::get('/my-bookings', 'BookingController@index')->name('my.bookings');
         Route::get('/create-booking', 'BookingController@create')->name('book.create');
-        Route::get('/create-booking/{ride}/{start}/{end}/{travel_date}', 'BookingController@book')->name('book');
+        Route::get('/create-booking/{ride}/{start}/{end}/{travelDate}', 'BookingController@book')->name('book');
         Route::post('/book', 'BookingController@store')->name('book.store');
 
         Route::get('/booking/confirm/{booking}', 'BookingController@confirm')->name('book.confirm');
