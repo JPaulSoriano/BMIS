@@ -50,7 +50,7 @@ Route::namespace('Admin')
     ->name('admin.')
     ->group(function(){
 
-        Route::get('/dashboard', 'DashboardController@index');
+        Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
 
         Route::get('/profile', 'ProfileController@index')->name('profile');
         Route::put('/profile', 'ProfileController@update')->name('profile.update');

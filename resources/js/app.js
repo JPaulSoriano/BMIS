@@ -4,12 +4,15 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 import flatpickr from "flatpickr"
+import Chart from 'chart.js/auto';
 window.flatpickr = flatpickr
+window.Chart = Chart;
 
 require( 'datatables.net' );
 require( 'datatables.net-bs' );
 
 require('./bootstrap');
+
 
 window.Vue = require('vue').default;
 
