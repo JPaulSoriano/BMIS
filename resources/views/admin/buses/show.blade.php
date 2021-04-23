@@ -19,7 +19,7 @@
                             <dt class="col-sm-3">Bus Name:</dt>
                             <dd class="col-sm-9">{{ $bus->bus_name }}</dd>
                             <dt class="col-sm-3">Bus Class:</dt>
-                            <dd class="col-sm-9">{{ $bus->busClass->bus_class }}</dd>
+                            <dd class="col-sm-9">{{ $bus->busClass->name }}</dd>
                             <dt class="col-sm-3">Bus Seat:</dt>
                             <dd class="col-sm-9">{{ $bus->bus_seat }}</dd>
                         </dl>

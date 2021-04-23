@@ -50,15 +50,20 @@ Route::namespace('Admin')
     ->name('admin.')
     ->group(function(){
 
+        Route::get('/dashboard', 'DashboardController@index');
+
         Route::get('/profile', 'ProfileController@index')->name('profile');
         Route::put('/profile', 'ProfileController@update')->name('profile.update');
 
         Route::resource('buses','BusController');
+        Route::resource('bus-classes','BusClassController')->except(['index', 'show']);
         Route::resource('terminals','TerminalController');
         Route::resource('routes','RouteController');
         Route::resource('rides','RideController');
         Route::resource('employees', 'EmployeeController');
         Route::get('/createToken/{employee}', 'EmployeeController@createTokenForUser')->name('employee.createToken');
+
+        Route::get('/passengers', 'PassengerController@index')->name('passengers');
     });
 
 Route::namespace('SuperAdmin')
@@ -69,6 +74,8 @@ Route::namespace('SuperAdmin')
         Route::resource('users', 'UserController');
         Route::get('/users/{user}/activate', 'UserController@activate')->name('users.activate');
         Route::get('/users/{user}/deactivate', 'UserController@deactivate')->name('users.deactivate');
+
+        Route::get('/passengers', 'PassengerController@index')->name('passengers');
     });
 
 

@@ -9,11 +9,12 @@ use App\Terminal;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Services\RideService;
 use App\Services\BookingService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\Booking\StoreBookingRequest;
-use App\Services\RideService;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class BookingController extends Controller
@@ -36,7 +37,10 @@ class BookingController extends Controller
     public function index()
     {
         //
-        $bookings = Booking::when(request('travel_date'), function($query){
+        $bookings = Booking::join('rides', 'ride_id', 'rides.id')
+            ->join('users', 'rides.user_id', 'users.id')
+            ->where('users.id', Auth::user()->id)
+            ->when(request('travel_date'), function($query){
                 return $query->where('travel_date', request('travel_date'));
             })->get();
         return view('bookings.index', compact('bookings'));
@@ -56,7 +60,7 @@ class BookingController extends Controller
             $rides = $this->rideService->getRidesByTerminals(request('start'), request('end'), request('travel_date'));
         }
 
-        $terminals = Terminal::all();
+        $terminals = Auth::user()->terminals()->all();
 
         return view('bookings.create', compact('rides', 'terminals'));
     }

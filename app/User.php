@@ -72,6 +72,11 @@ class User extends Authenticatable
         return $this->hasMany(Bus::class);
     }
 
+    public function busClasses()
+    {
+        return $this->hasMany(BusClass::class);
+    }
+
     public function terminals()
     {
         return $this->hasMany(Terminal::class);

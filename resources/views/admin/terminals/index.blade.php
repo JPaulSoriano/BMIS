@@ -24,7 +24,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Name</th>
-                                <th>Adress</th>
+                                <th>Address</th>
                                 <th style="width: 130px">Action</th>
                             </tr>
                         </thead>

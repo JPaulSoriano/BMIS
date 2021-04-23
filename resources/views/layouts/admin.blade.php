@@ -59,7 +59,7 @@
             </div>
 
             <!-- Nav Item - Buses -->
-            <li class="nav-item {{ Nav::isRoute('admin.buses.*') }}">
+            <li class="nav-item {{ Nav::isRoute('admin.buses.*') }} {{  Nav::isRoute('admin.bus-classes.*')  }}">
                 <a class="nav-link" href="{{ route('admin.buses.index') }}">
                     <i class="fas fa-fw fa-bus"></i>
                     <span>{{ __('Buses') }}</span>
@@ -111,21 +111,36 @@
             </li>
 
 
-            <!-- Nav Item - Users -->
-            <li class="nav-item {{ Nav::isRoute('super.users.*') }}">
-                <a class="nav-link" href="{{ route('super.users.index') }}">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>{{ __('Users') }}</span>
-                </a>
-            </li>
+            @role('superadmin')
+                <!-- Nav Item - Users -->
+                <li class="nav-item {{ Nav::isRoute('super.users.*') }}">
+                    <a class="nav-link" href="{{ route('super.users.index') }}">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>{{ __('Users') }}</span>
+                    </a>
+                </li>
 
-            <!-- Nav Item - Users -->
-            <li class="nav-item {{ Nav::isRoute('passengers') }}">
-                <a class="nav-link" href="">
+            <!-- Nav Item - Passengers - super -->
+            <li class="nav-item {{ Nav::isRoute('super.passengers*') }}">
+                <a class="nav-link" href="{{ route('super.passengers') }}">
                     <i class="fas fa-fw fa-walking"></i>
                     <span>{{ __('Passengers') }}</span>
                 </a>
             </li>
+
+            @else
+
+            <!-- Nav Item - Passengers - super -->
+            <li class="nav-item {{ Nav::isRoute('admin.passengers*') }}">
+                <a class="nav-link" href="{{ route('admin.passengers') }}">
+                    <i class="fas fa-fw fa-walking"></i>
+                    <span>{{ __('Passengers') }}</span>
+                </a>
+            </li>
+
+            @endrole
+
+
 
             <!-- Nav Item - Employees -->
             <li class="nav-item {{ Nav::isRoute('admin.employees.*') }}">
@@ -144,13 +159,13 @@
                 </a>
             </li>
 
-            <!-- Nav Item - About -->
+            {{-- <!-- Nav Item - About -->
             <li class="nav-item {{ Nav::isRoute('about') }}">
                 <a class="nav-link" href="{{ route('about') }}">
                     <i class="fas fa-fw fa-hands-helping"></i>
                     <span>{{ __('About') }}</span>
                 </a>
-            </li>
+            </li> --}}
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

@@ -10,6 +10,6 @@ class BusClass extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name', 'rate'
     ];
 }

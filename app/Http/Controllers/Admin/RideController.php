@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Ride;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +26,22 @@ class RideController extends Controller
     public function index()
     {
         //
-        $rides = Auth::user()->rides()->latest()->paginate(5);
+        if( request('ride_date')){
+            $ride_date = request('ride_date');
+            $dayName = Str::lower(Carbon::parse($ride_date)->dayName);
+        }else{
+            $ride_date = null;
+            $dayName = null;
+        }
+
+
+        $rides = Auth::user()->rides()->when($ride_date, function($query) use ($ride_date, $dayName){
+            $query->where('ride_date', $ride_date)
+                ->orWhereHas('schedule', function($query) use ($dayName){
+                    $query->where($dayName, true);
+                });
+        // })->dd();
+        })->latest()->paginate(5);
 
         return view('admin.rides.index',compact('rides'))
             ->with('i', (request()->input('page', 1) - 1) * 5);

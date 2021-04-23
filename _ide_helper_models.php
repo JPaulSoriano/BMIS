@@ -86,16 +86,20 @@ namespace App{
  * App\BusClass
  *
  * @property int $id
- * @property string $bus_class
+ * @property int $user_id
+ * @property string $name
+ * @property float $rate
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass query()
- * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereBusClass($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereRate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereUserId($value)
  */
 	class BusClass extends \Eloquent {}
 }
@@ -432,6 +436,8 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Booking|null $booking
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\BusClass[] $busClasses
+ * @property-read int|null $bus_classes_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Bus[] $buses
  * @property-read int|null $buses_count
  * @property-read \App\BusCompanyProfile|null $companyProfile

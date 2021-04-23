@@ -36,7 +36,7 @@
                             <select class="form-control @error('bus_class') is-invalid @enderror" name="bus_class_id">
                                 <option disabled selected>Select Class</option>
                                 @foreach ($bus_classes as $class)
-                                    <option value="{{ $class->id }}" {{ old('bus_class') == $class->id ? 'selected' : '' }}>{{ $class->bus_class }} Bus</option>
+                                    <option value="{{ $class->id }}" {{ old('bus_class') == $class->id ? 'selected' : '' }}>{{ $class->name }} Bus</option>
                                 @endforeach
                             </select>
                         </div>

@@ -14,11 +14,18 @@
     @endif
         <div class="card shadow mb-4">
             <div class="card-header bg-primary d-sm-flex align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-white">Schedules</h6>
+                <h6 class="m-0 font-weight-bold text-white">Ride Schedules</h6>
                 <a class="btn btn-light btn-sm" href="{{ route('admin.rides.create') }}"><i class="fas fa-plus"></i></a>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
+                <form action="#" method="get">
+                    <div class="row ml-auto">
+                        <input type="date" class="form-control col-sm-2" name="ride_date">
+                        <input type="submit" value="Search" class="btn btn-primary col-sm-auto ml-3">
+                    </div>
+                </form>
+
+                <div class="table-responsive mt-3">
                     <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead>
                             <tr>

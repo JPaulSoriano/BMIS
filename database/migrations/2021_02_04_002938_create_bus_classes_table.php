@@ -15,7 +15,8 @@ class CreateBusClassesTable extends Migration
     {
         Schema::create('bus_classes', function (Blueprint $table) {
             $table->id();
-            $table->string('bus_class');
+            $table->string('name');
+            $table->float('rate');
             $table->timestamps();
         });
     }

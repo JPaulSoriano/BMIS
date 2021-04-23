@@ -5,18 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\BusClass;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Bus\BusClassRequest;
+use Auth;
 
 class BusClassController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -26,6 +19,7 @@ class BusClassController extends Controller
     public function create()
     {
         //
+        return view('admin.buses.bus_classes.create');
     }
 
     /**
@@ -34,21 +28,14 @@ class BusClassController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BusClassRequest $request)
     {
         //
+        Auth::user()->busClasses()->create($request->validated());
+
+        return redirect()->route('admin.buses.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\BusClass  $busClass
-     * @return \Illuminate\Http\Response
-     */
-    public function show(BusClass $busClass)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -59,6 +46,7 @@ class BusClassController extends Controller
     public function edit(BusClass $busClass)
     {
         //
+        return view('admin.buses.bus_classes.edit', compact('busClass'));
     }
 
     /**
@@ -68,9 +56,12 @@ class BusClassController extends Controller
      * @param  \App\BusClass  $busClass
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BusClass $busClass)
+    public function update(BusClassRequest $request, BusClass $busClass)
     {
         //
+        $busClass->update($request->validated());
+
+        return redirect()->route('admin.buses.index');
     }
 
     /**

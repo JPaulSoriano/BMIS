@@ -21,8 +21,9 @@ class BusController extends Controller
     {
         //
         $buses = Auth::user()->buses()->latest()->paginate(5);
+        $busClasses = Auth::user()->busClasses()->get();
 
-        return view('admin.buses.index',compact('buses'))
+        return view('admin.buses.index',compact('buses', 'busClasses'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
 
     }
