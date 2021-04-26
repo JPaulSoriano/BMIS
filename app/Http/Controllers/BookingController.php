@@ -37,12 +37,20 @@ class BookingController extends Controller
     public function index()
     {
         //
-        $bookings = Booking::join('rides', 'ride_id', 'rides.id')
+        $travel_date = null;
+
+        if(request('travel_date')){
+            $travel_date = request('travel_date');
+        }
+
+        $bookings = Booking::select('*', 'bookings.id as book_id')
+            ->join('rides', 'ride_id', 'rides.id')
             ->join('users', 'rides.user_id', 'users.id')
             ->where('users.id', Auth::user()->id)
-            ->when(request('travel_date'), function($query){
+            ->when($travel_date, function($query){
                 return $query->where('travel_date', request('travel_date'));
-            })->get();
+            })->orderBy('bookings.updated_at', 'desc')
+            ->orderBy('travel_date', 'asc')->paginate(10);
         return view('bookings.index', compact('bookings'));
     }
 
@@ -60,7 +68,7 @@ class BookingController extends Controller
             $rides = $this->rideService->getRidesByTerminals(request('start'), request('end'), request('travel_date'));
         }
 
-        $terminals = Auth::user()->terminals()->all();
+        $terminals = Terminal::all();
 
         return view('bookings.create', compact('rides', 'terminals'));
     }
@@ -86,6 +94,7 @@ class BookingController extends Controller
         if($request->pax > $availableSeats){
             return redirect()->back()->withErrors('You cannot book more than available');
         }
+
         //Check auto_confirm
         if($ride->auto_confirm)
         {
@@ -100,7 +109,7 @@ class BookingController extends Controller
             'end_terminal_id' => $end,
             'travel_date' => $travelDate,
             'pax' => $request->pax,
-            'status' => $status,
+            'status' => $status ?? 'new',
         ]);
 
         return redirect()->route('bookings.my.bookings');

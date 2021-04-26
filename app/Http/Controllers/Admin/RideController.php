@@ -41,7 +41,9 @@ class RideController extends Controller
                     $query->where($dayName, true);
                 });
         // })->dd();
-        })->latest()->paginate(5);
+        })
+        ->orderBy('updated_at', 'desc')
+        ->paginate(10);
 
         return view('admin.rides.index',compact('rides'))
             ->with('i', (request()->input('page', 1) - 1) * 5);

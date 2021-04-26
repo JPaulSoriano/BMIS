@@ -17,9 +17,6 @@ class RideService
 {
     public function getRidesByTerminals($start, $end, $travelDate, $routes = null) : Collection
     {
-        // $start = request('start');
-        // $end = request('end');
-        // $travelDate = request('travel_date');
         $dayName = Str::lower(Carbon::parse($travelDate)->dayName);
 
         $startRouteTerminalQuery = DB::table('route_terminal')->where('terminal_id', $start);

@@ -18,8 +18,9 @@
                 <div class="card-body">
                     <form action="{{ route('bookings.my.bookings') }}" method="get">
                         <div class="row ml-auto">
-                            <input type="date" class="form-control col-sm-2" name="travel_date">
+                            <input type="date" class="form-control col-sm-2" name="travel_date" value="{{ request('travel_date') ?? date('Y-m-d') }}">
                             <input type="submit" value="Search" class="btn btn-primary col-sm-auto ml-3">
+                            <a href="{{ route('bookings.my.bookings') }}" class="btn btn-danger col-sm-auto ml-3">Clear</a>
                         </div>
                     </form>
                     <div class="table-responsive mt-3">
@@ -56,9 +57,9 @@
                                             @endif
                                         </td>
                                         <td class="d-flex justify-content-around">
-                                            <a class="btn btn-sm btn-info" href="{{ route('bookings.book.confirm', $booking) }}"><i class="fa fa-check"></i></a>
+                                            <a class="btn btn-sm btn-info" href="{{ route('bookings.book.confirm', $booking->book_id) }}"><i class="fa fa-check"></i></a>
                                             @if(!$booking->isRejected())
-                                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#rejectModal" data-id="{{ $booking->id }}" data-passenger="{{ $booking->passenger->name }}"><i class="fa fa-times"></i></button>
+                                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#rejectModal" data-id="{{ $booking->book_id }}" data-passenger="{{ $booking->passenger->name }}"><i class="fa fa-times"></i></button>
                                             @endif
                                         </td>
                                     </tr>

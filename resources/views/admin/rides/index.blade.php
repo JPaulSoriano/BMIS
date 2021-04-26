@@ -22,6 +22,7 @@
                     <div class="row ml-auto">
                         <input type="date" class="form-control col-sm-2" name="ride_date">
                         <input type="submit" value="Search" class="btn btn-primary col-sm-auto ml-3">
+
                     </div>
                 </form>
 
@@ -64,6 +65,7 @@
                             @endforeach
                         </tbody>
                     </table>
+                    {{ $rides->links() }}
                 </div>
 
             </div>
