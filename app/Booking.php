@@ -2,8 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Booking extends Model
 {
@@ -36,5 +37,15 @@ class Booking extends Model
     public function isRejected() : bool
     {
         return $this->reason != null;
+    }
+
+    public function canBeCancelled() : bool
+    {
+        $today = Carbon::now();
+
+        if($today > $this->travel_date){
+            return true;
+        }
+        return false;
     }
 }

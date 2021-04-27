@@ -29,7 +29,7 @@ class StoreBookingRequest extends FormRequest
             'ride_id' => 'required|exists:rides,id',
             'start_terminal_id' => 'required|exists:terminals,id',
             'end_terminal_id' => 'required|exists:terminals,id',
-            'travel_date' => 'required|after_or_equal:'.$today,
+            'travel_date' => 'required|after:'.$today,
             'pax' => 'nullable|numeric|min:1'
         ];
     }

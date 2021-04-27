@@ -18,11 +18,8 @@ Route::get('/', function () {
     return view('/auth/login');
 });
 
-Route::get('/test', function(){
-    $user = User::find(14);
-    $user->tokens()->delete();
 
-});
+
 
 //all
 Auth::routes(['verify' => true]);
@@ -51,6 +48,7 @@ Route::namespace('Admin')
     ->group(function(){
 
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+        Route::get('/graph', 'DashboardController@graph');
 
         Route::get('/profile', 'ProfileController@index')->name('profile');
         Route::put('/profile', 'ProfileController@update')->name('profile.update');

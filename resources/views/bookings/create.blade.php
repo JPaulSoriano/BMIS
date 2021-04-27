@@ -121,9 +121,9 @@
         allowInput: true,
         altInput: true,
         altFormat: "F j, Y",
-        minDate: 'today',
         position: 'auto left',
         dateFormat: "Y-m-d",
+        minDate: new Date().fp_incr(1),
         locale: {
             firstDayOfWeek: 1
         },

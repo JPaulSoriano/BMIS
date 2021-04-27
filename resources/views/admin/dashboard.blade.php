@@ -12,7 +12,11 @@
                     <h6 class="m-0 font-weight-bold text-white">Dashboard</h6>
                 </div>
                 <div class="card-body">
-
+                    <div class="d-flex justify-content-between mb-5">
+                        <button class="btn btn-info btn-sm select-date" data-target="sub"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                        <span id="week_no">Week #, Year 2021</span>
+                        <button class="btn btn-info btn-sm select-date" data-target="add"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
+                    </div>
                     <div style="position: relative; height:500px;">
                         <canvas id="chart"></canvas>
                     </div>
@@ -27,7 +31,10 @@
                             <h6 class="m-0 font-weight-bold text-white">Today</h6>
                         </div>
                         <div class="card-body">
-                            Booked:
+                            <ul class="list-unstyled">
+                                <li>Booked: </li>
+                                <li>Rides: </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -44,7 +51,10 @@
                                 <input type="date" class="form-control col">
                                 <input type="submit" value="Search" class="btn btn-primary col ml-4">
                             </div>
-                                Booked:
+                            <ul class="list-unstyled">
+                                <li>Booked: </li>
+                                <li>Rides: </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -58,39 +68,100 @@
 
 @section('scripts')
 <script>
+$(document).ready(function(){
+
+    var dates, booked, aboard;
+    var today = new Date();
+
+    var url = "{{ url('/admin/graph') }}";
+    getData(today);
+
+    $(document).on('click', 'button', function(event){
+        var action = $(this).data('target');
+        if(action === 'sub'){
+            today.setDate(today.getDate() - 7);
+        }else if(action === 'add'){
+            today.setDate(today.getDate() + 7);
+        }
+        getData(today);
+    });
+
+    function formatDate(date)
+    {
+        var dd = date.getDate();
+        var mm = date.getMonth()+1;
+        var yyyy = date.getFullYear();
+
+        if(dd<10)
+        {
+            dd='0'+dd;
+        }
+
+        if(mm<10)
+        {
+            mm='0'+mm;
+        }
+        return yyyy+'-'+mm+'-'+dd;
+    }
+
+    function getData(d)
+    {
+        var date = formatDate(d);
+        $.ajax({
+            url: url,
+            data: {date: date},
+            beforeSend: function()
+            {
+                $('.select-date').attr('disabled', true);
+            },
+            success: function(response)
+            {
+                var dates = response.dates;
+                var booked = response.booked;
+                var aboard = response.aboard;
+                var week = response.week;
+                var year = response.year;
+
+                chart.data.labels = dates;
+                chart.data.datasets[0].data = booked;
+                chart.data.datasets[1].data = aboard;
+                chart.update();
+                var text = "Week No. " + week + ", Year " + year;
+                $('#week_no').text(text);
+
+                $('.select-date').attr('disabled', false);
+            }
+        });
+    }
 
     var ctx = document.getElementById('chart').getContext('2d');
     var chart = new Chart(ctx, {
-        // The type of chart we want to create
         type: 'line',
-
-        // The data for our dataset
         data: {
-            labels: ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'],
+            labels: dates,
             datasets: [
                 {
                     label: 'Booked',
                     backgroundColor: ['#f21d13'],
                     borderColor: ['#f21d13'],
-                    data: [1, 3, 4, 2, 5, 1, 7]
                 },{
                     label: 'Aboard',
                     backgroundColor: ['#123'],
                     borderColor: ['#123'],
-                    data: [2, 5, 7, 1, 6, 2, 4]
                 }
             ]
         },
         options: {
             maintainAspectRatio: false,
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'Week 5'
-                },
+            scales: {
+                y: {
+                    min: 0,
+                }
             },
         }
-
     });
+
+
+});
 </script>
 @endsection

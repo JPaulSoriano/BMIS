@@ -28,7 +28,8 @@ class BookingService
                 ['end_terminal.order', '>', $startTerminal->pivot->order],
             ])->where(function(Builder $query) use ($travelDate){
                 $query->where('travel_date', $travelDate);
-            })->sum('pax');
+            })->whereRaw("bookings.status = 'confirmed'")
+            ->sum('pax');
     }
 
 }
