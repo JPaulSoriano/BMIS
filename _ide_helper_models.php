@@ -249,7 +249,7 @@ namespace App{
  * @property int $user_id
  * @property int $route_id
  * @property int $bus_id
- * @property \Illuminate\Support\Carbon $departure_time
+ * @property string $departure_time
  * @property \Illuminate\Support\Carbon|null $ride_date
  * @property string $ride_type
  * @property int $auto_confirm

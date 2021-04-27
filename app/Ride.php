@@ -16,7 +16,7 @@ class Ride extends Model
     ];
 
     protected $dates = [
-        'ride_date', 'departure_time'
+        'ride_date', 'departure_time' => 'datetime:H:i:s',
     ];
 
     public function schedule()

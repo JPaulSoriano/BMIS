@@ -57,9 +57,9 @@ class RideService
             })->where(function(Builder $query) use ($travelDate, $dayName){
                 $query->where('ride_date', $travelDate)
                     ->orWhereHas('schedule', function(Builder $query) use ($travelDate, $dayName){
-                        $query->where(function(Builder $query) use ($travelDate, $dayName){
-                            $query->where('start_date', $travelDate)
-                                ->where($dayName, true);
+                        $query->where($dayName, true)
+                            ->where(function(Builder $query) use ($travelDate, $dayName){
+                            $query->where('start_date', $travelDate);
                         })->orWhere(function(Builder $query) use ($travelDate){
                             $query->where('end_date', '>=', $travelDate)
                                 ->orWhereNull('end_date');

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Str;
 
 class DashboardController extends Controller
 {
@@ -55,5 +56,28 @@ class DashboardController extends Controller
             'week' => $selectedDate->weekOfYear,
             'year' => $selectedDate->year,
         ]);
+    }
+
+    public function todayRides()
+    {
+
+        $today = Carbon::now();
+        $dayName = Str::lower($today->dayName);
+        $today->format('Y-m-d');
+
+        $rides = Auth::user()->rides()
+            ->where(function($query) use ($today){
+                $query->where('ride_date', $today);
+        })->orWhereHas('schedule', function($query) use ($today, $dayName){
+            $query->where($dayName, true)
+                ->where(function($query) use ($today, $dayName){
+                    $query->where('start_date', '<=' , $today);
+                })->where(function($query) use ($today){
+                    $query->where('end_date', '>=', $today)
+                        ->orWhereNull('end_date');
+                });
+        });
+
+        return $rides->get();
     }
 }

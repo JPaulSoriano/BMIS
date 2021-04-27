@@ -18,7 +18,7 @@ Route::get('/', function () {
     return view('/auth/login');
 });
 
-
+Route::get('/test', 'Admin\DashboardController@todayRides');
 
 
 //all

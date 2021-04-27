@@ -12,7 +12,7 @@
                     <h6 class="m-0 font-weight-bold text-white">Dashboard</h6>
                 </div>
                 <div class="card-body">
-                    <div class="d-flex justify-content-between mb-5">
+                    <div class="d-flex justify-content-between mb-2">
                         <button class="btn btn-info btn-sm select-date" data-target="sub"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
                         <span id="week_no">Week #, Year 2021</span>
                         <button class="btn btn-info btn-sm select-date" data-target="add"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
@@ -32,8 +32,8 @@
                         </div>
                         <div class="card-body">
                             <ul class="list-unstyled">
-                                <li>Booked: </li>
                                 <li>Rides: </li>
+                                <li>Booked: </li>
                             </ul>
                         </div>
                     </div>
@@ -52,8 +52,8 @@
                                 <input type="submit" value="Search" class="btn btn-primary col ml-4">
                             </div>
                             <ul class="list-unstyled">
-                                <li>Booked: </li>
                                 <li>Rides: </li>
+                                <li>Booked: </li>
                             </ul>
                         </div>
                     </div>
@@ -155,7 +155,14 @@ $(document).ready(function(){
             maintainAspectRatio: false,
             scales: {
                 y: {
-                    min: 0,
+                    beginAtZero: true,
+                    suggestedMax: 50,
+                    ticks: {
+                        callback: function(val, index) {
+                            // Hide the label of every 2nd dataset
+                            return index % 2 === 0 ? this.getLabelForValue(val) : '';
+                        },
+                    }
                 }
             },
         }
