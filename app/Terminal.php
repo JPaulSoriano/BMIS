@@ -15,7 +15,7 @@ class Terminal extends Model
 
     public function routes()
     {
-        return $this->belongsToMany(Route::class, 'route_terminal', 'route_id', 'terminal_id')->withPivot(['order', 'minutes_from_departure'])->withTimestamps();
+        return $this->belongsToMany(Route::class, 'route_terminal', 'route_id', 'terminal_id')->withPivot(['order', 'minutes_from_departure', 'distance_from_departure'])->withTimestamps();
     }
 
     public function minutesFromDepartureFormatted()
@@ -29,5 +29,9 @@ class Terminal extends Model
         return sprintf('%2dmin', floor($minutes % 60));
     }
 
+    public function scopeSearchTerminal($query, $id)
+    {
+        return $query->where('id', $id);
+    }
 
 }

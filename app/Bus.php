@@ -22,4 +22,9 @@ class Bus extends Model
     {
         return $this->hasMany(Ride::class);
     }
+
+    public function getRatePerKmAttribute()
+    {
+        return $this->busClass->rate;
+    }
 }

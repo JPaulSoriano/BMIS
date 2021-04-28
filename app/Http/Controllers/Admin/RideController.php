@@ -34,7 +34,6 @@ class RideController extends Controller
             $dayName = null;
         }
 
-
         $rides = Auth::user()->rides()->when($ride_date, function($query) use ($ride_date, $dayName){
             $query->where('ride_date', $ride_date)
                 ->orWhereHas('schedule', function($query) use ($dayName){
@@ -42,7 +41,7 @@ class RideController extends Controller
                 });
         // })->dd();
         })
-        ->orderBy('updated_at', 'desc')
+        ->orderBy('departure_time', 'asc')
         ->paginate(10);
 
         return view('admin.rides.index',compact('rides'))

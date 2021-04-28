@@ -21,11 +21,13 @@
 
                         <dl class="row">
                             @foreach ($route->terminals as $terminal)
-                                <dt class="col-sm-3">{{ $terminal->terminal_name }}</dt>
-                                <dd class="col-sm-9">{{ $terminal->pivot->minutes_from_departure ?? 'Start' }}</dd>
+                                <dt class="col-sm-5">{{ $terminal->terminal_name }}</dt>
+                                <dd class="col-sm-3">{{ $terminal->pivot->minutes_from_departure ?? 'Start' }}</dd>
+                                <dd class="col-sm-3">{{ $terminal->pivot->distance_from_departure ?? 'Start' }} km</dd>
                             @endforeach
-                            <dt class="col-sm-3">Total Time Travel</dt>
-                            <dd class="col-sm-9">{{ $route->total_time}}</dd>
+                            <dt class="col-sm-5">Total Time Travel</dt>
+                            <dd class="col-sm-3">{{ $route->total_time}}</dd>
+                            <dd class="col-sm-3">{{ $route->total_km}} km</dd>
                         </dl>
                     </div>
                 </form>

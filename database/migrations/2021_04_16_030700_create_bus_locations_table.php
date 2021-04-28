@@ -15,7 +15,7 @@ class CreateBusLocationsTable extends Migration
     {
         Schema::create('bus_locations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('route_id')->constained('routes')->onDelete('cascade');
+            $table->foreignId('ride_id')->constained('routes')->onDelete('cascade');
             $table->float('longitude', 9, 6);
             $table->float('latitude', 8, 6);
             $table->timestamps();

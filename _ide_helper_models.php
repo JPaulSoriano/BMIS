@@ -26,7 +26,9 @@ namespace App{
  * @property string $travel_date
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Bus $bus
  * @property-read \App\Terminal $endTerminal
+ * @property-read mixed $payment
  * @property-read \App\User $passenger
  * @property-read \App\Ride $ride
  * @property-read \App\Terminal $startTerminal
@@ -63,6 +65,7 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\BusClass $busClass
+ * @property-read mixed $rate_per_km
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Ride[] $rides
  * @property-read int|null $rides_count
  * @method static \Illuminate\Database\Eloquent\Builder|Bus newModelQuery()
@@ -140,7 +143,8 @@ namespace App{
  * App\BusLocation
  *
  * @property int $id
- * @property int $route_id
+ * @property int $ride_id
+ * @property int $conductor_id
  * @property float $longitude
  * @property float $latitude
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -148,14 +152,36 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|BusLocation newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BusLocation newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BusLocation query()
+ * @method static \Illuminate\Database\Eloquent\Builder|BusLocation whereConductorId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusLocation whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusLocation whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusLocation whereLatitude($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusLocation whereLongitude($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BusLocation whereRouteId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BusLocation whereRideId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusLocation whereUpdatedAt($value)
  */
 	class BusLocation extends \Eloquent {}
+}
+
+namespace App{
+/**
+ * App\ConductorHistory
+ *
+ * @property int $id
+ * @property int $ride_id
+ * @property int $conductor_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|ConductorHistory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ConductorHistory newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ConductorHistory query()
+ * @method static \Illuminate\Database\Eloquent\Builder|ConductorHistory whereConductorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ConductorHistory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ConductorHistory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ConductorHistory whereRideId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|ConductorHistory whereUpdatedAt($value)
+ */
+	class ConductorHistory extends \Eloquent {}
 }
 
 namespace App{
@@ -258,6 +284,7 @@ namespace App{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Booking[] $bookings
  * @property-read int|null $bookings_count
  * @property-read \App\Bus $bus
+ * @property-read mixed $departure_time_formatted
  * @property-read array $running_days
  * @property-read \App\Route $route
  * @property-read \App\RideSchedule|null $schedule
@@ -349,6 +376,7 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $first_terminal
  * @property-read mixed $last_terminal
+ * @property-read mixed $total_km
  * @property-read mixed $total_time
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Terminal[] $terminals
  * @property-read int|null $terminals_count
@@ -390,6 +418,7 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|Terminal newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Terminal newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Terminal query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Terminal searchTerminal($id)
  * @method static \Illuminate\Database\Eloquent\Builder|Terminal whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Terminal whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Terminal whereTerminalAddress($value)
@@ -438,9 +467,12 @@ namespace App{
  * @property-read \App\Booking|null $booking
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\BusClass[] $busClasses
  * @property-read int|null $bus_classes_count
+ * @property-read \App\BusLocation|null $busLocation
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Bus[] $buses
  * @property-read int|null $buses_count
  * @property-read \App\BusCompanyProfile|null $companyProfile
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\ConductorHistory[] $conductorHistory
+ * @property-read int|null $conductor_history_count
  * @property-read \App\Employee|null $employeeProfile
  * @property-read string $full_name
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications

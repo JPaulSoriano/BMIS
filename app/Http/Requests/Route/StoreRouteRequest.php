@@ -29,6 +29,8 @@ class StoreRouteRequest extends FormRequest
             'routes.*' => 'required',
             'travel_time' => 'array',
             'travel_time.*' => 'required',
+            'distance' => 'array',
+            'distance.*' => 'required'
         ];
     }
 }

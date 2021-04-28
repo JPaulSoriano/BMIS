@@ -20,7 +20,6 @@ Route::get('/', function () {
 
 Route::get('/test', 'Admin\DashboardController@todayRides');
 
-
 //all
 Auth::routes(['verify' => true]);
 
@@ -49,6 +48,7 @@ Route::namespace('Admin')
 
         Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
         Route::get('/graph', 'DashboardController@graph');
+        Route::get('/todayRides', 'DashboardController@todayRides');
 
         Route::get('/profile', 'ProfileController@index')->name('profile');
         Route::put('/profile', 'ProfileController@update')->name('profile.update');

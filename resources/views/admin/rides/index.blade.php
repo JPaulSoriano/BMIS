@@ -47,7 +47,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $ride->route->route_name }}</td>
                                     <td>{{ $ride->bus->bus_name }}</td>
-                                    <td>{{ $ride->departure_time->format('h:i A') }}</td>
+                                    <td>{{ $ride->departure_time_formatted }}</td>
                                     <td>{{ optional($ride->ride_date)->format('F d, Y') ?? '-' }}</td>
                                     <td>{{ $ride->ride_type }}</td>
                                     <td>{{ $ride->updated_at }}</td>

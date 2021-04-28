@@ -16,7 +16,7 @@ class Ride extends Model
     ];
 
     protected $dates = [
-        'ride_date', 'departure_time' => 'datetime:H:i:s',
+        'ride_date', 'departure_time' => 'datetime:h:i A',
     ];
 
     public function schedule()
@@ -44,6 +44,11 @@ class Ride extends Model
         return collect(Carbon::getDays())
             ->reject(fn($day) => $this->schedule->attributes[strtolower($day)] == 0)
             ->toArray();
+    }
+
+
+    public function getDepartureTimeFormattedAttribute(){
+        return Carbon::parse($this->departure_time)->format('h:i A');
     }
 
     public function isCyclic()

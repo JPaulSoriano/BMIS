@@ -35,6 +35,7 @@
                                     <th>Start Location</th>
                                     <th>End Location</th>
                                     <th>Updated at</th>
+                                    <th>Payment</th>
                                     <th>State</th>
                                     <th style="width: 130px">Action</th>
                                 </tr>
@@ -50,6 +51,7 @@
                                         <td>{{ $booking->startTerminal->terminal_name }}</td>
                                         <td>{{ $booking->endTerminal->terminal_name }}</td>
                                         <td>{{ $booking->updated_at->format('F d, Y h:i:s a') }}</td>
+                                        <td>{{ $booking->payment }}</td>
                                         <td>
                                             {{ $booking->status }}
                                             @if($booking->isRejected())

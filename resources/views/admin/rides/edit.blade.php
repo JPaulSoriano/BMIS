@@ -31,7 +31,7 @@
                             </select>
                         </div>
                         <div class="form-group row">
-                            <input type="text" class="form-control col-md mx-3 @error('departure_time') is-invalid @enderror" placeholder="Departure Time" id="departure_time" name="departure_time" value="{{ $ride->departure_time->format('H:i') }}">
+                            <input type="text" class="form-control col-md mx-3 @error('departure_time') is-invalid @enderror" placeholder="Departure Time" id="departure_time" name="departure_time" value="{{ $ride->departure_time_formatted }}">
                         </div>
 
                         <div class="form-group text-center mt-4">

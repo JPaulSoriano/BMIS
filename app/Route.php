@@ -14,7 +14,7 @@ class Route extends Model
 
     public function terminals()
     {
-        return $this->belongsToMany(Terminal::class, 'route_terminal')->withPivot(['order', 'minutes_from_departure'])->orderByPivot('order')->withTimestamps();
+        return $this->belongsToMany(Terminal::class, 'route_terminal')->withPivot(['order', 'minutes_from_departure', 'distance_from_departure'])->orderByPivot('order')->withTimestamps();
     }
 
     public function getFirstTerminalAttribute()
@@ -34,8 +34,24 @@ class Route extends Model
         return $this->terminals->last()->minutesFromDepartureFormatted();
     }
 
+    public function getTotalKmAttribute()
+    {
+        return $this->terminals->last()->pivot->distance_from_departure;
+    }
+
+    public function getTotalKm($start, $end)
+    {
+        $startTerminalKm = $this->terminals->where('id', $start)->first()->pivot->distance_from_departure;
+        $endTerminalKm = $this->terminals->where('id', $end)->first()->pivot->distance_from_departure;
+
+        return $endTerminalKm - $startTerminalKm;
+
+    }
+
     public function getTerminalNameById($id)
     {
         return $this->terminals->where('id', $id)->first()->terminal_name;
     }
+
+
 }

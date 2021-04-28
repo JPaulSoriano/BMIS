@@ -81,7 +81,7 @@
                                             <td>{{ $ride->ride_id }}</td>
                                             <td>{{ $ride->route->route_name }}</td>
                                             <td>{{ $ride->bus->bus_name }}</td>
-                                            <td>{{ $ride->departure_time->format('h:i a') }}</td>
+                                            <td>{{ $ride->departure_time_formatted }}</td>
                                             <td>{{ optional($ride->ride_date)->format('F d, Y') ?? '-' }}</td>
                                             <td>{{ $ride->route->getTerminalNameById(request('start')) }}</td>
                                             <td>{{ $ride->route->getTerminalNameById(request('end')) }}</td>

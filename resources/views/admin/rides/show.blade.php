@@ -26,12 +26,20 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row">Bus</th>
+                                <th scope="row">Bus Name</th>
+                                <td>{{ "{$ride->bus->name} ({$ride->bus->bus_name})" }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Bus Class</th>
+                                <td>{{ "{$ride->bus->name} ({$ride->bus->busClass->name})" }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Bus Seats</th>
                                 <td>{{ "{$ride->bus->name} ({$ride->bus->bus_seat} seats)" }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Departure time</th>
-                                <td>{{ $ride->departure_time->format('H:i') }}</td>
+                                <td>{{ $ride->departure_time_formatted }}</td>
                             </tr>
                             {{-- <tr>
                                 <th scope="row">Arrival time</th>

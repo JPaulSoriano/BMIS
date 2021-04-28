@@ -111,4 +111,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Booking::class);
     }
+
+    public function busLocation()
+    {
+        return $this->hasOne(BusLocation::class, 'conductor_id');
+    }
+
+    public function conductorHistory()
+    {
+        return $this->hasMany(ConductorHistory::class, 'conductor_id');
+    }
 }

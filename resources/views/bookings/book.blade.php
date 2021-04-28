@@ -37,6 +37,14 @@
                             <input type="text" class="form-control-plaintext" readonly id="end" value="{{ $end_terminal->terminal_name }}">
                         </div>
                         <div class="form-group">
+                            <label for="travel_date">Bus Class:</label>
+                            <input type="text" class="form-control-plaintext" readonly id="travel_date" value="{{ $ride->bus->busClass->name }}" >
+                        </div>
+                        <div class="form-group">
+                            <label for="travel_date">Total payment:</label>
+                            <input type="text" class="form-control-plaintext" readonly id="travel_date" value="{{ "P ".$ride->route->getTotalKm($start_terminal->id, $end_terminal->id) * $ride->bus->busClass->rate }}" >
+                        </div>
+                        <div class="form-group">
                             <label for="travel_date">Date:</label>
                             <input type="text" class="form-control-plaintext" readonly id="travel_date" value="{{ $travel_date }}" >
                         </div>

@@ -31,10 +31,20 @@
                             <h6 class="m-0 font-weight-bold text-white">Today</h6>
                         </div>
                         <div class="card-body">
-                            <ul class="list-unstyled">
-                                <li>Rides: </li>
-                                <li>Booked: </li>
-                            </ul>
+                            <div class="row">
+                                <div class="col-3">
+                                    <ul class="list-unstyled" id="today">
+                                        <li>Rides: <span id="rides_today"></span></li>
+                                        <li>Booked: <span id="booked_today"></span></li>
+                                        <li>Aboarded: <span id="aboard_today"></span></li>
+                                    </ul>
+                                </div>
+                                <div class="col">
+                                    <b>Rides Today</b>
+                                    <ul class="list-unstyled" id="rides">
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -54,6 +64,7 @@
                             <ul class="list-unstyled">
                                 <li>Rides: </li>
                                 <li>Booked: </li>
+                                <li>Aboarded: </li>
                             </ul>
                         </div>
                     </div>
@@ -68,12 +79,13 @@
 
 @section('scripts')
 <script>
-$(document).ready(function(){
-
+$(document).ready(function()
+{
+    //Charts
     var dates, booked, aboard;
     var today = new Date();
 
-    var url = "{{ url('/admin/graph') }}";
+    var url_graph = "{{ url('/admin/graph') }}";
     getData(today);
 
     $(document).on('click', 'button', function(event){
@@ -96,7 +108,6 @@ $(document).ready(function(){
         {
             dd='0'+dd;
         }
-
         if(mm<10)
         {
             mm='0'+mm;
@@ -108,7 +119,7 @@ $(document).ready(function(){
     {
         var date = formatDate(d);
         $.ajax({
-            url: url,
+            url: url_graph,
             data: {date: date},
             beforeSend: function()
             {
@@ -168,6 +179,28 @@ $(document).ready(function(){
         }
     });
 
+    //Today
+    var url_today = "{{ url('admin/todayRides') }}";
+    $.ajax({
+        url: url_today,
+        success: function(response){
+            $('#rides_today').text(response.rides_count);
+            $('#booked_today').text(response.booked);
+            $('#aboard_today').text(response.aboard);
+
+            var output = "";
+
+            if(response.rides.length === 0)
+                output = "No rides today";
+
+            jQuery.each(response.rides, function(key,value){
+                //console.log(value.route.route_name + " " + value.departure_time);
+                output += "<li>" + value.departure_time + " (" + value.route.route_name + ")</li>";
+            });
+            $('#rides').children().remove();
+            $('#rides').append(output);
+        }
+    })
 
 });
 </script>

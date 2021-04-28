@@ -19,6 +19,11 @@ class Booking extends Model
         return $this->belongsTo(User::class, 'passenger_id');
     }
 
+    public function bus()
+    {
+        return $this->belongsTo(Bus::class);
+    }
+
     public function ride()
     {
         return $this->belongsTo(Ride::class);
@@ -32,6 +37,12 @@ class Booking extends Model
     public function endTerminal()
     {
         return $this->belongsTo(Terminal::class, 'end_terminal_id');
+    }
+
+    public function getPaymentAttribute()
+    {
+        $payment = $this->ride->route->total_km * $this->ride->bus->rate_per_km;
+        return $payment;
     }
 
     public function isRejected() : bool

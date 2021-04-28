@@ -53,7 +53,8 @@
                                     @endforeach
                                 </select>
                                 @if($loop->index != 0)
-                                    <input type="number" class="form-control col-md-4 travel" name="travel_time[]" placeholder="Minutes from departure" value="{{ $item->pivot->minutes_from_departure }}">
+                                    <input type="number" class="form-control col-md-2 mr-2 travel" name="travel_time[]" value="{{ $item->pivot->minutes_from_departure }}">
+                                    <input type="number" class="form-control col-md-2 distance" name="distance[]" value="{{ $item->pivot->distance_from_departure }}">
                                 @endif
                                 <div class="col-md @if($loop->index != 0) route_buttons @endif">
                                     @if($loop->index != 0)
@@ -65,23 +66,23 @@
                         @endforeach
 
                         @if ($route->terminals->count() < 2)
-                        <div class="form-inline mb-3" id="terminal">
-                            <select class="form-control col-md-6 mr-3" name="routes[]">
-                                    <option selected disabled>Terminals</option>
-                                @foreach ($terminals as $terminal)
-                                    <option value="{{ $terminal->id }}">{{ $terminal->terminal_name }}</option>
-                                @endforeach
-                            </select>
+                            <div class="form-inline mb-3" id="terminal">
+                                <select class="form-control col-md-6 mr-3" name="routes[]">
+                                        <option selected disabled>Terminals</option>
+                                    @foreach ($terminals as $terminal)
+                                        <option value="{{ $terminal->id }}">{{ $terminal->terminal_name }}</option>
+                                    @endforeach
+                                </select>
 
-                            <input type="number" class="form-control col-md-4 travel" name="travel_time[]" placeholder="Estimated travel time" value="{{ $item->pivot->minutes_from_departure }}">
+                                <input type="number" class="form-control col-md-4 travel" name="travel_time[]" value="{{ $item->pivot->minutes_from_departure }}">
+                                <input type="number" class="form-control col-md-2 distance" name="distance[]" value="{{ $item->pivot->distance_from_departure }}">
+                                <div class="col-md route_buttons">
 
-                            <div class="col-md route_buttons">
+                                    <button type="button" class="btn btn-primary remove_terminal"><i class="fas fa-minus"></i></button>
+                                    <button type="button" class="btn btn-primary add_terminal"><i class="fas fa-plus"></i></button>
 
-                                <button type="button" class="btn btn-primary remove_terminal"><i class="fas fa-minus"></i></button>
-                                <button type="button" class="btn btn-primary add_terminal"><i class="fas fa-plus"></i></button>
-
+                                </div>
                             </div>
-                        </div>
                         @endif
 
 
@@ -100,6 +101,11 @@
 @endsection
 
 @section('scripts')
+    @include('admin.routes.scripts.route-script')
+@endsection
+
+
+{{-- @section('scripts')
 <script>
     $(document).ready(function(){
 
@@ -195,4 +201,4 @@
         });
     });
 </script>
-@endsection
+@endsection --}}
