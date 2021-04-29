@@ -42,7 +42,7 @@ class Booking extends Model
     public function getPaymentAttribute()
     {
         $payment = $this->ride->route->total_km * $this->ride->bus->rate_per_km;
-        return $payment;
+        return "₱ ".number_format($payment, 2, '.', '.');
     }
 
     public function isRejected() : bool

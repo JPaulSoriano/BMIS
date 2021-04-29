@@ -42,7 +42,7 @@
                         </div>
                         <div class="form-group">
                             <label for="travel_date">Total payment:</label>
-                            <input type="text" class="form-control-plaintext" readonly id="travel_date" value="{{ "P ".$ride->route->getTotalKm($start_terminal->id, $end_terminal->id) * $ride->bus->busClass->rate }}" >
+                            <input type="text" class="form-control-plaintext" readonly id="travel_date" value="{{ "₱ ".$ride->route->getTotalKm($start_terminal->id, $end_terminal->id) * $ride->bus->busClass->rate }}" >
                         </div>
                         <div class="form-group">
                             <label for="travel_date">Date:</label>

@@ -104,7 +104,7 @@ class BookingController extends Controller
         //store to database
         Booking::create([
             'passenger_id' => 17, //Change to passenger_id from api
-            'ride_id' => $ride,
+            'ride_id' => $ride->id,
             'start_terminal_id' => $start,
             'end_terminal_id' => $end,
             'travel_date' => $travelDate,

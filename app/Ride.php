@@ -46,6 +46,11 @@ class Ride extends Model
             ->toArray();
     }
 
+    public function getTotalPayment()
+    {
+
+    }
+
 
     public function getDepartureTimeFormattedAttribute(){
         return Carbon::parse($this->departure_time)->format('h:i A');
