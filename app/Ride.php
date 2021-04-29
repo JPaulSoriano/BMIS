@@ -46,9 +46,9 @@ class Ride extends Model
             ->toArray();
     }
 
-    public function getTotalPayment()
+    public function getTotalPayment($start, $end)
     {
-
+        return $this->route->getTotalKm($start, $end) * $this->bus->busClass->rate;
     }
 
 

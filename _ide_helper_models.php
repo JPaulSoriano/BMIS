@@ -394,6 +394,17 @@ namespace App{
 
 namespace App{
 /**
+ * App\Sale
+ *
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale query()
+ */
+	class Sale extends \Eloquent {}
+}
+
+namespace App{
+/**
  * App\Schedule
  *
  * @method static \Illuminate\Database\Eloquent\Builder|Schedule newModelQuery()

@@ -59,10 +59,10 @@ class RideService
                     ->orWhereHas('schedule', function(Builder $query) use ($travelDate, $dayName){
                         $query->where($dayName, true)
                             ->where(function(Builder $query) use ($travelDate, $dayName){
-                            $query->where('start_date', $travelDate);
-                        })->orWhere(function(Builder $query) use ($travelDate){
-                            $query->where('end_date', '>=', $travelDate)
-                                ->orWhereNull('end_date');
+                                $query->where('start_date', '<=' ,$travelDate);
+                            })->where(function(Builder $query) use ($travelDate, $dayName){
+                                $query->where('end_date', '>=', $travelDate)
+                                    ->orWhereNull('end_date');
                         });
                     });
             });
@@ -90,4 +90,5 @@ class RideService
                 ->pluck('id')
                 ->toArray();
     }
+
 }

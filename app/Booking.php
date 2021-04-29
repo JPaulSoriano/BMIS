@@ -41,7 +41,7 @@ class Booking extends Model
 
     public function getPaymentAttribute()
     {
-        $payment = $this->ride->route->total_km * $this->ride->bus->rate_per_km;
+        $payment = $this->ride->getTotalPayment($this->start_terminal_id, $this->end_terminal_id) * $this->pax;
         return "₱ ".number_format($payment, 2, '.', '.');
     }
 

@@ -103,6 +103,7 @@ class BookingController extends Controller
         }
 
         $user = User::find($request->user_id);
+
         $user->bookings()->create([
             'ride_id' => $ride->id,
             'start_terminal_id' => $start,
