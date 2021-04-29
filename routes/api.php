@@ -24,6 +24,6 @@ Route::namespace('API')->group(function(){
     Route::post('/logout', 'PassengerController@logout');
 
     Route::middleware(['auth:sanctum', 'verified'])->group(function(){
-        Route::get('/test', 'PassengerController@test');
+        Route::resource('bookings', 'BookingController');
     });
 });

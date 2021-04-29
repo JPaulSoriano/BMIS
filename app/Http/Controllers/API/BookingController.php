@@ -102,10 +102,8 @@ class BookingController extends Controller
             $status = "confirmed";
         }
 
-
-        //store to database
-        Booking::create([
-            'passenger_id' => 17, //Change to passenger_id from api
+        $user = User::find($request->user_id);
+        $user->bookings()->create([
             'ride_id' => $ride->id,
             'start_terminal_id' => $start,
             'end_terminal_id' => $end,

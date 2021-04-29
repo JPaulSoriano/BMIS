@@ -107,9 +107,9 @@ class User extends Authenticatable
         return $this->hasOne(PassengerProfile::class, 'passenger_id');
     }
 
-    public function booking()
+    public function bookings()
     {
-        return $this->hasOne(Booking::class);
+        return $this->hasMany(Booking::class, 'passenger_id');
     }
 
     public function busLocation()

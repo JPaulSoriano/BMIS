@@ -464,7 +464,8 @@ namespace App{
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Booking|null $booking
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Booking[] $bookings
+ * @property-read int|null $bookings_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\BusClass[] $busClasses
  * @property-read int|null $bus_classes_count
  * @property-read \App\BusLocation|null $busLocation
