@@ -59,6 +59,7 @@ Route::namespace('Admin')
         Route::resource('routes','RouteController');
         Route::resource('rides','RideController');
         Route::resource('employees', 'EmployeeController');
+        Route::resource('sales', 'SaleController');
         Route::get('/createToken/{employee}', 'EmployeeController@createTokenForUser')->name('employee.createToken');
 
         Route::get('/passengers', 'PassengerController@index')->name('passengers');

@@ -17,8 +17,22 @@
                 </div>
                 <div class="card-body">
                     <form action="{{ route('bookings.my.bookings') }}" method="get">
-                        <div class="row ml-auto">
-                            <input type="date" class="form-control col-sm-2" name="travel_date" value="{{ request('travel_date') ?? date('Y-m-d') }}">
+                        <div class="d-flex ml-auto align-items-center">
+                            <input type="date" class="form-control col-sm-2" name="travel_date" value="{{ request('travel_date') ?? '' }}">
+                            <div class="form-check form-check-inline ml-2">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="radio" name="status" value="all" checked> All
+                                </label>
+                                <label class="form-check-label ml-2">
+                                    <input class="form-check-input" type="radio" name="status" value="new" @if(request('status') == 'new') checked @endif> New
+                                </label>
+                                <label class="form-check-label ml-2">
+                                    <input class="form-check-input" type="radio" name="status" value="confirmed" @if(request('status') == 'confirmed') checked @endif> Confirmed
+                                </label>
+                                <label class="form-check-label ml-2">
+                                    <input class="form-check-input" type="radio" name="status" value="rejected" @if(request('status') == 'rejected') checked @endif> Rejected
+                                </label>
+                            </div>
                             <input type="submit" value="Search" class="btn btn-primary col-sm-auto ml-3">
                             <a href="{{ route('bookings.my.bookings') }}" class="btn btn-danger col-sm-auto ml-3">Clear</a>
                         </div>

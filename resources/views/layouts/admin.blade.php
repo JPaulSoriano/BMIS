@@ -103,8 +103,8 @@
 
 
             <!-- Nav Item - Sales -->
-            <li class="nav-item {{ Nav::isRoute('sales') }}">
-                <a class="nav-link" href="">
+            <li class="nav-item {{ Nav::isRoute('admin.sales.*') }}">
+                <a class="nav-link" href="{{ route('admin.sales.index') }}">
                     <i class="fas fa-fw fa-money-bill"></i>
                     <span>{{ __('Sales') }}</span>
                 </a>

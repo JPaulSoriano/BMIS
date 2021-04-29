@@ -6,6 +6,8 @@ use Auth;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use DB;
+use Exception;
 use Illuminate\Support\Facades\Validator;
 
 class PassengerController extends Controller
@@ -16,19 +18,37 @@ class PassengerController extends Controller
         $validated = $request->validate([
             'name' => 'required|max:16',
             'email' => 'required|unique:users,email',
-            'password' => 'required|min:8|confirmed'
+            'password' => 'required|min:8|confirmed',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'contact' => 'required',
+            'address' => 'required'
         ]);
 
-        $user = User::create($validated);
+        $data = collect($validated);
+        try{
+            DB::beginTransaction();
+            $user = User::create($data->only('name', 'email', 'password')->toArray());
+            $user->passengerProfile()->create($data->except('name', 'email', 'password')->toArray());
+            DB::commit();
+        }catch(Exception $e)
+        {
+            DB::rollBack();
+
+            return response()->json([
+                'error' => "There seems to be an error in the server.",
+                'for_developer' => $e->getMessage()
+            ]);
+        }
 
         $user->assignRole('passenger');
-        $user->sendEmailVerificationNotification();
+        //$user->sendEmailVerificationNotification();
 
         return response()->json([
             'message' => 'OK',
             'username' => $user->name,
             'email' => $user->email,
-        ], 200);
+        ]);
     }
 
     public function login(Request $request)
@@ -67,6 +87,10 @@ class PassengerController extends Controller
 
     public function logout(Request $request)
     {
+        $this->validate($request, [
+            'email' => 'required|email',
+        ]);
+
         $user = User::where('email', $request->email)->first();
         $user->tokens()->delete();
 

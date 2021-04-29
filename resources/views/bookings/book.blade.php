@@ -37,12 +37,12 @@
                             <input type="text" class="form-control-plaintext" readonly id="end" value="{{ $end_terminal->terminal_name }}">
                         </div>
                         <div class="form-group">
-                            <label for="travel_date">Bus Class:</label>
-                            <input type="text" class="form-control-plaintext" readonly id="travel_date" value="{{ $ride->bus->busClass->name }}" >
+                            <label for="class">Bus Class:</label>
+                            <input type="text" class="form-control-plaintext" readonly id="class" value="{{ $ride->bus->busClass->name }}" >
                         </div>
                         <div class="form-group">
-                            <label for="travel_date">Total payment:</label>
-                            <input type="text" class="form-control-plaintext" readonly id="travel_date" value="{{ "₱ ".$ride->route->getTotalKm($start_terminal->id, $end_terminal->id) * $ride->bus->busClass->rate }}" >
+                            <label for="payment">Payment:</label>
+                            <input type="text" class="form-control-plaintext" readonly id="payment" value="{{ "₱ ".number_format($ride->getTotalPayment($start_terminal->id, $end_terminal->id), 2, '.', ',') }}" >
                         </div>
                         <div class="form-group">
                             <label for="travel_date">Date:</label>
@@ -53,8 +53,12 @@
                           <input type="text" class="form-control-plaintext" readonly id="seats" value="{{ $available_seats }}">
                         </div>
                         <div class="form-group">
+                            <label for="total">Total Payment:</label>
+                          <input type="text" class="form-control-plaintext" readonly id="total" value="0">
+                        </div>
+                        <div class="form-group">
                             <label for="pax">Reserve pax:</label>
-                          <input type="number" class="form-control" id="pax" name="pax" placeholder="Pax" min=1 step=1 value=1>
+                          <input type="number" class="form-control" id="pax" name="pax" placeholder="Pax" min=1 step=1 placeholder=0>
                         </div>
                     </div>
                     <div class="card-footer bg-primary d-flex justify-content-end">
@@ -64,9 +68,23 @@
                     <input type="hidden" name="start_terminal_id" value="{{ $start_terminal->id }}">
                     <input type="hidden" name="end_terminal_id" value="{{ $end_terminal->id }}">
                     <input type="hidden" name="travel_date" value="{{ $travel_date }}">
+                    <input type="hidden" id="pay" value="{{ $ride->getTotalPayment($start_terminal->id, $end_terminal->id) }}">
                 </form>
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function(){
+        $(document).on( 'keyup ready', '#pax' ,function(event){
+            var pax = $(this).val();
+            var pay = $('#pay').val();
+            var total = pax * pay;
+            $('#total').val("₱ " +total.toFixed(2));
+        });
+    });
+</script>
 @endsection

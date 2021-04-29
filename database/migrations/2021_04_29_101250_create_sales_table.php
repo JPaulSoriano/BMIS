@@ -15,9 +15,7 @@ class CreateSalesTable extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('passenger_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('ride_id')->constrained('rides')->onDelete('cascade');
-            $table->integer('pax');
+            $table->foreignId('booking_id')->constrained('bookings')->onDelete('cascade');
             $table->float('rate');
             $table->float('payment');
             $table->timestamps();

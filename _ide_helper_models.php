@@ -31,6 +31,7 @@ namespace App{
  * @property-read mixed $payment
  * @property-read \App\User $passenger
  * @property-read \App\Ride $ride
+ * @property-read \App\Sale|null $sale
  * @property-read \App\Terminal $startTerminal
  * @method static \Illuminate\Database\Eloquent\Builder|Booking newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Booking newQuery()
@@ -396,9 +397,22 @@ namespace App{
 /**
  * App\Sale
  *
+ * @property int $id
+ * @property int $booking_id
+ * @property float $rate
+ * @property float $payment
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Booking $booking
  * @method static \Illuminate\Database\Eloquent\Builder|Sale newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Sale newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Sale query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereBookingId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale wherePayment($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereRate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Sale whereUpdatedAt($value)
  */
 	class Sale extends \Eloquent {}
 }
@@ -498,6 +512,8 @@ namespace App{
  * @property-read int|null $roles_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Route[] $routes
  * @property-read int|null $routes_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Sale[] $sales
+ * @property-read int|null $sales_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Terminal[] $terminals
  * @property-read int|null $terminals_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens

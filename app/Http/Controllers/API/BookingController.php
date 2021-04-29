@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Ride;
 use App\User;
@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\Booking\StoreBookingRequest;
+use App\Http\Controllers\Controller;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 
 class BookingController extends Controller
@@ -51,8 +52,8 @@ class BookingController extends Controller
             ->when($travel_date, function($query){
                 return $query->where('travel_date', request('travel_date'));
             })->orderBy('bookings.updated_at', 'desc')
-            ->orderBy('travel_date', 'asc')->paginate(10);
-        return view('bookings.index', compact('bookings'));
+            ->orderBy('travel_date', 'asc')->get();
+        return response()->json($bookings);
     }
 
     /**
@@ -71,7 +72,11 @@ class BookingController extends Controller
 
         $terminals = Terminal::all();
 
-        return view('bookings.create', compact('rides', 'terminals'));
+        //return view('bookings.create', compact('rides', 'terminals'));
+        return response()->json([
+            'rides' => $rides,
+            'terminals' => $terminals,
+        ]);
     }
 
     /**
@@ -102,9 +107,7 @@ class BookingController extends Controller
             $status = "confirmed";
         }
 
-        $user = User::find($request->user_id);
-
-        $user->bookings()->create([
+        $request->user()->bookings()->create([
             'ride_id' => $ride->id,
             'start_terminal_id' => $start,
             'end_terminal_id' => $end,
@@ -113,7 +116,10 @@ class BookingController extends Controller
             'status' => $status ?? 'new',
         ]);
 
-        return redirect()->route('bookings.my.bookings');
+        // return redirect()->route('bookings.my.bookings');
+        return response()->json([
+            'OK' => 'Successful'
+        ]);
     }
 
     /**

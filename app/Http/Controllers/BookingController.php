@@ -44,14 +44,24 @@ class BookingController extends Controller
             $travel_date = request('travel_date');
         }
 
-        $bookings = Booking::select('*', 'bookings.id as book_id')
+        $bookings = Booking::query();
+
+        $bookings = $bookings->select('*', 'bookings.id as book_id')
             ->join('rides', 'ride_id', 'rides.id')
             ->join('users', 'rides.user_id', 'users.id')
             ->where('users.id', Auth::user()->id)
             ->when($travel_date, function($query){
                 return $query->where('travel_date', request('travel_date'));
-            })->orderBy('bookings.updated_at', 'desc')
-            ->orderBy('travel_date', 'asc')->paginate(10);
+            })
+            ->orderBy('bookings.updated_at', 'desc')
+            ->orderBy('travel_date', 'asc');
+
+        if(request('status') && request('status') != 'all')
+        {
+            $bookings->where('status', request('status'));
+        }
+
+        $bookings = $bookings->paginate(10);
         return view('bookings.index', compact('bookings'));
     }
 
@@ -102,9 +112,8 @@ class BookingController extends Controller
             $status = "confirmed";
         }
 
-
         //store to database
-        Booking::create([
+        $booking = Booking::create([
             'passenger_id' => 17, //Change to passenger_id from api
             'ride_id' => $ride->id,
             'start_terminal_id' => $start,
@@ -112,6 +121,11 @@ class BookingController extends Controller
             'travel_date' => $travelDate,
             'pax' => $request->pax,
             'status' => $status ?? 'new',
+        ]);
+
+        $booking->sale()->create([
+            'rate' => $ride->bus->busClass->rate,
+            'payment' => $ride->getTotalPayment($start, $end) * $request->pax,
         ]);
 
         return redirect()->route('bookings.my.bookings');

@@ -29,6 +29,11 @@ class Booking extends Model
         return $this->belongsTo(Ride::class);
     }
 
+    public function sale()
+    {
+        return $this->hasOne(Sale::class);
+    }
+
     public function startTerminal()
     {
         return $this->belongsTo(Terminal::class, 'start_terminal_id');
