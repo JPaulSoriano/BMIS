@@ -20,7 +20,7 @@ class DashboardController extends Controller
 
     public function graph()
     {
-        $company_id = Auth::user()->companyProfile->id;
+        $company_id = Auth::user()->company()->id;
 
         $selectedDate = Carbon::parse(request('date'));
 
@@ -30,13 +30,9 @@ class DashboardController extends Controller
         $interval = new \DateInterval('P1D');
         $datePeriod = collect(new \DatePeriod($startDate, $interval, $endDate));
 
-        // $dateRange = collect($datePeriod)->map(function($date){
-        //     return $date->format('Y-m-d');
-        // });
-
         $query = DB::table('bookings')
             ->join('rides', 'ride_id', 'rides.id')
-            ->where('rides.user_id', $company_id);
+            ->where('rides.company_id', $company_id);
 
 
         foreach($datePeriod as $date)
@@ -60,32 +56,33 @@ class DashboardController extends Controller
 
     public function todayRides()
     {
-        $company_id = Auth::user()->companyProfile->id;
+
+        $company_id = Auth::user()->company()->id;
 
         $today = Carbon::now();
         $dayName = Str::lower($today->dayName);
         $today = $today->format('Y-m-d');
 
-        $rides = Auth::user()->rides()
+        $rides = Auth::user()->company()->rides()
             ->where(function($query) use ($today){
                 $query->where('ride_date', $today);
-        })
-        ->orWhereHas('schedule', function($query) use ($today, $dayName){
-            $query->where($dayName, true)
-                ->where(function($query) use ($today){
-                    $query->where('start_date', '<=' , $today);
-                })->where(function($query) use ($today){
-                    $query->where('end_date', '>=', $today)
-                        ->orWhereNull('end_date');
-                });
-        })
-        ->with('route')
-        ->orderBy('departure_time')
-        ->get();
+            })
+            ->orWhereHas('schedule', function($query) use ($today, $dayName){
+                $query->where($dayName, true)
+                    ->where(function($query) use ($today){
+                        $query->where('start_date', '<=' , $today);
+                    })->where(function($query) use ($today){
+                        $query->where('end_date', '>=', $today)
+                            ->orWhereNull('end_date');
+                    });
+            })
+            ->with('route')
+            ->orderBy('departure_time')
+            ->get();
 
         $query = DB::table('bookings')
             ->join('rides', 'ride_id', 'rides.id')
-            ->where('rides.user_id', $company_id);
+            ->where('rides.company_id', $company_id);
 
         $booked = (clone $query)->where('travel_date', $today)->sum('pax');
         //$booked = (clone $query)->sum('pax');
