@@ -20,8 +20,8 @@ class SaleController extends Controller
         $sales = Sale::join('bookings', 'booking_id', 'bookings.id')
             ->join('rides', 'bookings.ride_id', 'rides.id')
             ->join('users', 'bookings.passenger_id', 'users.id')
-            ->where('rides.user_id', Auth::id())
-            ->get();
+            ->where('rides.company_id', Auth::user()->company()->id)
+            ->paginate(10);
 
         return view('admin.sales.index', compact('sales'));
     }

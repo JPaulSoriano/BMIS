@@ -15,7 +15,6 @@ class CreateBusCompanyProfilesTable extends Migration
     {
         Schema::create('bus_company_profiles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('company_name');
             $table->string('company_address');
             $table->string('company_contact');

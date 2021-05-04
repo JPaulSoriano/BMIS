@@ -59,7 +59,7 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td><a href="{{ route('admin.rides.show', $booking->ride) }}">{{ $booking->ride->route->route_name }}</a></td>
-                                        <td>{{ $booking->passenger->name }}</td>
+                                        <td>{{ $booking->passenger->passengerProfile->full_name }}</td>
                                         <td>{{ $booking->pax }}</td>
                                         <td>{{ $booking->travel_date }}</td>
                                         <td>{{ $booking->startTerminal->terminal_name }}</td>

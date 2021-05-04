@@ -17,15 +17,19 @@ class PassengerController extends Controller
     public function index()
     {
         //
+        // $users = User::role('passenger')->with('passengerProfile')
+        //     ->join('bookings', 'bookings.passenger_id', 'users.id')
+        //     ->join('rides', 'rides.id', 'bookings.ride_id')
+        //     ->where('rides.company_id', Auth::user()->company()->id)
+        //     ->get();
+
         $users = User::role('passenger')
-            ->join('bookings', 'bookings.passenger_id', 'users.id')
-            ->join('rides', function($join){
-                $join->on('rides.id', 'bookings.ride_id');
+            ->with('passengerProfile')
+            ->whereHas('bookings.ride', function($query){
+                $query->where('rides.company_id', Auth::user()->company()->id);
             })
-            ->where('rides.user_id', Auth::user()->id)
-            ->select('name', 'email', 'passenger_id')
-            ->groupBy('passenger_id', 'name', 'email')
-            ->get();
+            ->paginate(10);
+
 
         return view('admin.passengers.index', compact('users'));
 

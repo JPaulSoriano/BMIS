@@ -25,6 +25,7 @@
                                 <th>No</th>
                                 <th>Employee No</th>
                                 <th>Full Name</th>
+                                <th>Role</th>
                                 <th style="width: 130px">Action</th>
                             </tr>
                         </thead>
@@ -32,12 +33,13 @@
                             @foreach ($employees as $employee)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $employee->employee_no }}</td>
-                                    <td>{{ $employee->full_name }}</td>
+                                    <td>{{ $employee->employeeProfile->employee_no }}</td>
+                                    <td>{{ $employee->employeeProfile->full_name }}</td>
+                                    <td>{{ $employee->roles->first()->name }}</td>
                                     <td class="d-flex justify-content-around">
-                                        <a class="btn btn-info btn-sm" href="{{ route('admin.employees.show',$employee) }}"><i class="fas fa-eye"></i></a>
-                                        <a class="btn btn-primary btn-sm" href="{{ route('admin.employees.edit',$employee) }}"><i class="fas fa-edit"></i></a>
-                                        <form action="{{ route('admin.employees.destroy',$employee) }}" method="POST">
+                                        <a class="btn btn-info btn-sm" href="{{ route('admin.employees.show', $employee->employeeProfile) }}"><i class="fas fa-eye"></i></a>
+                                        <a class="btn btn-primary btn-sm" href="{{ route('admin.employees.edit', $employee->employeeProfile ) }}"><i class="fas fa-edit"></i></a>
+                                        <form action="{{ route('admin.employees.destroy',$employee->employeeProfile ) }}" method="POST">
                                             @csrf
                                             @method('DELETE')
 

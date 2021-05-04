@@ -19,7 +19,7 @@ class RouteController extends Controller
     public function index()
     {
         //
-        $routes = Auth::user()->routes()->latest()->paginate(10);
+        $routes = Auth::user()->company()->routes()->latest()->paginate(10);
 
         return view('admin.routes.index',compact('routes'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
@@ -33,7 +33,7 @@ class RouteController extends Controller
     public function create()
     {
         //
-        $terminals = Auth::user()->terminals;
+        $terminals = Auth::user()->company()->terminals()->get();
         return view('admin.routes.create', compact('terminals'));
     }
 
@@ -57,7 +57,7 @@ class RouteController extends Controller
         }
 
 
-        $route = Auth::user()->companyProfile->routes()->create($request->only(['route_name']));
+        $route = Auth::user()->company()->routes()->create($request->only(['route_name']));
         $route->terminals()->attach($routes);
 
         return redirect()->route('admin.routes.index')
@@ -85,7 +85,7 @@ class RouteController extends Controller
     public function edit(Route $route)
     {
         //
-        $terminals = Auth::user()->terminals;
+        $terminals = Auth::user()->company()->terminals()->get();
         return view('admin.routes.edit',compact('route', 'terminals'));
     }
 

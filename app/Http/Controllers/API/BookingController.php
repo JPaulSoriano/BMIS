@@ -107,13 +107,18 @@ class BookingController extends Controller
             $status = "confirmed";
         }
 
-        $request->user()->bookings()->create([
+        $booking = $request->user()->bookings()->create([
             'ride_id' => $ride->id,
             'start_terminal_id' => $start,
             'end_terminal_id' => $end,
             'travel_date' => $travelDate,
             'pax' => $request->pax,
             'status' => $status ?? 'new',
+        ]);
+
+        $booking->sale()->create([
+            'rate' => $ride->bus->busClass->rate,
+            'payment' => $ride->getTotalPayment($start, $end) * $request->pax,
         ]);
 
         // return redirect()->route('bookings.my.bookings');

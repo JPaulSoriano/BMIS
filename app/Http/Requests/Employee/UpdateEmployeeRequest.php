@@ -26,10 +26,11 @@ class UpdateEmployeeRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$this->employee->user->id,
-            'password' => 'required|confirmed|min:8',
+            'password' => 'nullable|confirmed|min:8',
             'employee_no' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
+            'role' => 'required',
             'contact' => 'required',
             'address' => 'required',
         ];

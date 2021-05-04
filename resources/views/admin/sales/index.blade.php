@@ -32,7 +32,7 @@
                             @foreach ($sales as $sale)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $sale->name }}</td>
+                                    <td>{{ $sale->booking->passenger->passengerProfile->full_name }}</td>
                                     <td>{{ "₱ ". number_format($sale->payment, 2, '.', ',') }}</td>
                                     <td>{{ $sale->created_at }}</td>
                                 </tr>

@@ -18,11 +18,6 @@ class Employee extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function companyProfile()
-    {
-        return $this->belongsTo(BusCompanyProfile::class, 'company_id');
-    }
-
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";

@@ -31,11 +31,11 @@ class UpdateProfileRequest
             'current_password' => 'nullable|required_with:new_password',
             'new_password' => 'nullable|min:8|max:12|required_with:current_password',
             'password_confirmation' => 'nullable|min:8|max:12|required_with:new_password|same:new_password',
-            'company_name' => 'required|max:255',
-            'company_address' => 'required|max:255',
-            'company_contact' => 'required|max:255',
-            'company_mission' => 'required|max:255',
-            'company_profile' => 'required|max:255'
+            'company_name' => 'nullable|max:255',
+            'company_address' => 'required_with_all:company_name|max:255',
+            'company_contact' => 'required_with_all:company_name|max:255',
+            'company_mission' => 'required_with_all:company_name|max:255',
+            'company_profile' => 'required_with_all:company_name|max:255'
         ];
     }
 }

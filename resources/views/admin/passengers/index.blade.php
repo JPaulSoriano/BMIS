@@ -28,7 +28,7 @@
                                 @foreach ($users as $user)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->passengerProfile->full_name }}</td>
                                         <td>{{ $user->email }}</td>
                                     </tr>
                                 @endforeach

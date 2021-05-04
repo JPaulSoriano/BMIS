@@ -48,8 +48,8 @@ class BookingController extends Controller
 
         $bookings = $bookings->select('*', 'bookings.id as book_id')
             ->join('rides', 'ride_id', 'rides.id')
-            ->join('users', 'rides.user_id', 'users.id')
-            ->where('users.id', Auth::user()->id)
+            ->join('bus_company_profiles as company', 'rides.company_id', 'company.id')
+            ->where('company.id', Auth::user()->company()->id)
             ->when($travel_date, function($query){
                 return $query->where('travel_date', request('travel_date'));
             })
