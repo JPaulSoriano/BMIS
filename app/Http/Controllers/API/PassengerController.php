@@ -56,7 +56,8 @@ class PassengerController extends Controller
 
         $request->validate([
             'email' => 'required|email',
-            'password' => 'required'
+            'password' => 'required',
+            'device_name' => 'required',
         ]);
 
         $credentials = request(['email', 'password']);
@@ -77,7 +78,7 @@ class PassengerController extends Controller
         };
 
         $user = User::where('email', $request->email)->first();
-        $authToken = $user->createToken('mobile-token')->plainTextToken;
+        $authToken = $user->createToken($request->device_name)->plainTextToken;
 
         return response()->json([
             'access_token' => $authToken,

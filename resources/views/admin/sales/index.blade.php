@@ -18,7 +18,14 @@
 
             </div>
             <div class="card-body">
-                <div class="table-responsive">
+                <form action="{{ route('admin.sales.index') }}" method="get">
+                    <div class="row ml-auto">
+                        <input type="date" class="form-control col-sm-2" name="date">
+                        <input type="submit" value="Search" class="btn btn-primary col-sm-auto ml-3">
+
+                    </div>
+                </form>
+                <div class="table-responsive mt-3">
                     <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead>
                             <tr>
