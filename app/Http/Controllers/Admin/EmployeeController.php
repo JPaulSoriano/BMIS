@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Employee\StoreEmployeeRequest;
 use App\Http\Requests\Employee\UpdateEmployeeRequest;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 
@@ -56,6 +57,8 @@ class EmployeeController extends Controller
         $requestedData = collect($request->validated());
 
         $user = User::create($requestedData->only('name', 'email', 'password')->merge(['email_verified_at', now()])->toArray());
+
+
         $user->assignRole($request->role);
         $user->companyProfile()->attach(Auth::user()->company());
 

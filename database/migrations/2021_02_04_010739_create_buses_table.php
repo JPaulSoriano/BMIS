@@ -17,7 +17,7 @@ class CreateBusesTable extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained('bus_company_profiles')->onDelete('cascade');
             $table->foreignId('bus_class_id')->constrained('bus_classes')->onDelete('cascade');
-            $table->integer('bus_no');
+            $table->string('bus_no');
             $table->string('bus_name');
             $table->string('bus_plate');
             $table->integer('bus_seat');

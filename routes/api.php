@@ -21,9 +21,25 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::namespace('API')->group(function(){
     Route::post('/register', 'PassengerController@register');
     Route::post('/login', 'PassengerController@login');
-    Route::post('/logout', 'PassengerController@logout');
 
-    Route::middleware(['auth:sanctum', 'verified'])->group(function(){
-        Route::resource('bookings', 'BookingController');
+
+    Route::middleware(['auth:sanctum', 'verified'])
+        ->prefix('passenger')
+        ->group(function(){
+            Route::post('/logout', 'PassengerController@logout');
+            Route::resource('bookings', 'BookingController');
     });
+
+    Route::prefix('conductor')
+        ->group(function(){
+            Route::post('/login', 'ConductorController@login');
+            Route::post('/logout', 'ConductorController@logout');
+
+            Route::middleware('auth:sanctum')
+                ->group(function(){
+                    Route::post('/depart', 'ConductorController@depart');
+                    Route::post('/arrive', 'ConductorController@arrive');
+                    Route::post('/check-scheds', 'ConductorController@checkSchedules');
+                });
+        });
 });

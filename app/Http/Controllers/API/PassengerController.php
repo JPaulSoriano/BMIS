@@ -78,12 +78,7 @@ class PassengerController extends Controller
         };
 
         $user = User::where('email', $request->email)->first();
-        $authToken = $user->createToken($request->device_name)->plainTextToken;
-
-        return response()->json([
-            'access_token' => $authToken,
-            'email' => $user->email,
-        ]);
+        return $user->createToken($request->device_name)->plainTextToken;
     }
 
     public function logout(Request $request)

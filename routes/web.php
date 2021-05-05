@@ -53,6 +53,9 @@ Route::namespace('Admin')
         Route::put('/profile', 'ProfileController@update')->name('profile.update');
 
         Route::resource('buses','BusController');
+        Route::put('/assign-conductor/{bus}', 'BusController@assignConductor')->name('assign-conductor');
+        Route::put('/assign-driver/{bus}', 'BusController@assignDriver')->name('assign-driver');
+
         Route::resource('bus-classes','BusClassController')->except(['index', 'show']);
         Route::resource('terminals','TerminalController');
         Route::resource('routes','RouteController');
