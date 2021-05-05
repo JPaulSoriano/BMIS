@@ -19,7 +19,7 @@ class TerminalController extends Controller
     public function index()
     {
         //
-        $terminals = Auth::user()->terminals()->latest()->paginate(5);
+        $terminals = Auth::user()->company()->terminals()->latest()->paginate(5);
 
         return view('admin.terminals.index',compact('terminals'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
@@ -45,7 +45,7 @@ class TerminalController extends Controller
     public function store(StoreTerminalRequest $request)
     {
         //
-        Auth::user()->companyProfile->terminals()->create($request->validated());
+        Auth::user()->company()->terminals()->create($request->validated());
 
         return redirect()->route('admin.terminals.index')
                         ->with('success','Terminal created successfully.');

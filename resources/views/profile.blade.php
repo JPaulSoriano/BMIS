@@ -4,7 +4,7 @@
 <div class="container">
     @if($errors->any())
         <div class="alert alert-danger">
-            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+            <strong>Whoops!</strong> There were some problems.<br><br>
             <ul>
 
                 @foreach($errors->all() as $error)
@@ -122,76 +122,79 @@
             </div>
 
         </div>
-        <div class="row">
 
-            <div class="col-lg-12">
+        @role('admin')
+            <div class="row">
 
-                <div class="card shadow mb-4">
+                <div class="col-lg-12">
 
-                    <div class="card-header bg-primary">
-                        <h6 class="m-0 font-weight-bold text-white">Profile</h6>
-                    </div>
+                    <div class="card shadow mb-4">
 
-                    <div class="card-body">
+                        <div class="card-header bg-primary">
+                            <h6 class="m-0 font-weight-bold text-white">Profile</h6>
+                        </div>
 
-                            <div class="pl-lg-4">
+                        <div class="card-body">
+
+                                <div class="pl-lg-4">
 
 
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="company_name">Company Name<span class="small text-danger">*</span></label>
-                                            <input type="text" id="name" class="form-control" name="company_name" placeholder="" value="{{ Auth::user()->companyProfile->company_name ?? '' }}">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="company_name">Company Name<span class="small text-danger">*</span></label>
+                                                <input type="text" id="name" class="form-control" name="company_name" placeholder="" value="{{ old('company_name', Auth::user()->companyProfile->first()->company_name ?? '') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="company_address">Company Address<span class="small text-danger">*</span></label>
+                                                <input type="text" id="name" class="form-control" name="company_address" placeholder="" value="{{ old('company_address', Auth::user()->companyProfile->first()->company_address ?? '') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="company_contact">Company Contact<span class="small text-danger">*</span></label>
+                                                <input type="text" id="name" class="form-control" name="company_contact" placeholder="" value="{{ old('company_contact', Auth::user()->companyProfile->first()->company_contact ?? '') }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="company_mission">Company Mission<span class="small text-danger">*</span></label>
+                                                <textarea class="form-control" name="company_mission" id="company_mission" rows="3">{{ old('company_mission', Auth::user()->companyProfile->first()->company_mission ?? '') }}</textarea>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12">
+
+                                            <div class="form-group">
+                                                <label class="form-control-label" for="company_profile">Company Profile<span class="small text-danger">*</span></label>
+                                                <textarea class="form-control" name="company_profile" id="company_profile" rows="3">{{ old('company_profile', Auth::user()->companyProfile->first()->company_profile ?? '') }}</textarea>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="company_address">Company Address<span class="small text-danger">*</span></label>
-                                            <input type="text" id="name" class="form-control" name="company_address" placeholder="" value="{{ Auth::user()->companyProfile->company_address ?? '' }}">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="company_contact">Company Contact<span class="small text-danger">*</span></label>
-                                            <input type="text" id="name" class="form-control" name="company_contact" placeholder="" value="{{ Auth::user()->companyProfile->company_contact ?? '' }}">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="company_mission">Company Mission<span class="small text-danger">*</span></label>
-                                            <textarea class="form-control" name="company_mission" id="company_mission" rows="3">{{ Auth::user()->companyProfile->company_mission ?? '' }}</textarea>
-                                        </div>
-
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-lg-12">
-
-                                        <div class="form-group">
-                                            <label class="form-control-label" for="company_profile">Company Profile<span class="small text-danger">*</span></label>
-                                            <textarea class="form-control" name="company_profile" id="company_profile" rows="3">{{ Auth::user()->companyProfile->company_profile ?? '' }}</textarea>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
 
 
+
+                        </div>
 
                     </div>
 
                 </div>
-
             </div>
-        </div>
+        @endrole
     </form>
 </div>
 @endsection

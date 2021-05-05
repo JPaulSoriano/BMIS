@@ -20,7 +20,7 @@
                     <h6 class="m-0 font-weight-bold text-white">Edit</h6>
                     <a class="btn btn-light btn-sm" href="{{ route('admin.buses.index') }}"><i class="fas fa-long-arrow-alt-left"></i></a>
                 </div>
-                <form method="POST" action="{{ route('admin.buses.update',$bus->id) }}">
+                <form method="POST" action="{{ route('admin.buses.update', $bus) }}">
                     @csrf
                     @method('PUT')
                     <div class="card-body">
@@ -37,7 +37,7 @@
                             <select class="form-control @error('bus_class') is-invalid @enderror" name="bus_class_id">
                                 <option selected disabled hidden>Select Class</option>
                                 @foreach ($bus_classes as $class)
-                                    <option value="{{ $class->id }}" {{ $bus->bus_class_id == $class->id ? 'selected' : '' }}>{{ $class->bus_class }} Bus</option>
+                                    <option value="{{ $class->id }}" {{ $bus->bus_class_id == $class->id ? 'selected' : '' }}>{{ $class->name }} Bus</option>
                                 @endforeach
                             </select>
                         </div>

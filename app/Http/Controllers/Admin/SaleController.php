@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Sale;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -17,11 +18,23 @@ class SaleController extends Controller
     public function index()
     {
         //
+
         $sales = Sale::join('bookings', 'booking_id', 'bookings.id')
             ->join('rides', 'bookings.ride_id', 'rides.id')
             ->join('users', 'bookings.passenger_id', 'users.id')
-            ->where('rides.user_id', Auth::id())
-            ->get();
+            ->where('rides.company_id', Auth::user()->company()->id);
+
+        if(request('date')){
+            $date = [
+                '0' => Carbon::createFromFormat('Y-m-d', request('date'))->startOfDay(),
+                '1' => Carbon::createFromFormat('Y-m-d', request('date'))->endOfDay(),
+            ];
+
+            $sales->whereBetween('sales.created_at', $date);
+        }
+
+        $sales = $sales->paginate(10);
+
 
         return view('admin.sales.index', compact('sales'));
     }

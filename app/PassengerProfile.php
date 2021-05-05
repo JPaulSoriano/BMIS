@@ -10,4 +10,9 @@ class PassengerProfile extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function getFullNameAttribute()
+    {
+        return "{$this->last_name}, {$this->first_name}";
+    }
 }

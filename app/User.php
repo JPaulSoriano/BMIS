@@ -69,7 +69,12 @@ class User extends Authenticatable
 
     public function companyProfile()
     {
-        return $this->hasOne(BusCompanyProfile::class);
+        return $this->belongsToMany(BusCompanyProfile::class, 'company_user_pivot', 'user_id', 'company_id')->withTimestamps();
+    }
+
+    public function company()
+    {
+        return $this->companyProfile->first();
     }
 
     // public function buses()
@@ -126,4 +131,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(ConductorHistory::class, 'conductor_id');
     }
+
+
+
 }

@@ -34,7 +34,7 @@ class RideController extends Controller
             $dayName = null;
         }
 
-        $rides = Auth::user()->rides()->when($ride_date, function($query) use ($ride_date, $dayName){
+        $rides = Auth::user()->company()->rides()->when($ride_date, function($query) use ($ride_date, $dayName){
             $query->where('ride_date', $ride_date)
                 ->orWhereHas('schedule', function($query) use ($dayName){
                     $query->where($dayName, true);
@@ -56,8 +56,8 @@ class RideController extends Controller
     public function create()
     {
         //
-        $buses = Auth::user()->buses;
-        $routes = Auth::user()->routes;
+        $buses = Auth::user()->company()->buses()->get();
+        $routes = Auth::user()->company()->routes()->get();
         $days = $this->dayNames;
         return view('admin.rides.create', compact('buses', 'routes', 'days'));
     }
@@ -72,7 +72,7 @@ class RideController extends Controller
     {
         //
 
-        $ride = Auth::user()->rides()->create($request->validated());
+        $ride = Auth::user()->company()->rides()->create($request->validated());
 
         if ($request->ride_type == 'cyclic') {
             $requestData = collect($request->validated());
@@ -108,8 +108,8 @@ class RideController extends Controller
     public function edit(Ride $ride)
     {
         //
-        $buses = Auth::user()->buses;
-        $routes = Auth::user()->routes;
+        $buses = Auth::user()->buses()->get();
+        $routes = Auth::user()->routes()->get();
         $days = $this->dayNames;
         return view('admin.rides.edit', compact('buses', 'routes', 'days', 'ride'));
     }

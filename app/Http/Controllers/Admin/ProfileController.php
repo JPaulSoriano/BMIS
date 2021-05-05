@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\BusCompanyProfile;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -37,7 +38,42 @@ class ProfileController extends Controller
 
         $user->save();
 
-        $user->companyProfile()->updateOrCreate(['user_id' => Auth::user()->id],$request->only(['company_name', 'company_address', 'company_contact', 'company_mission', 'company_profile']));
+
+        if($user->hasRole('admin'))
+        {
+            if($request->company_name){
+
+                if(count($user->companyProfile))
+                {
+                    $company = BusCompanyProfile::find($user->companyProfile->first()->id);
+                    $company->update(
+                    $request->only([
+                            'company_name',
+                            'company_address',
+                            'company_contact',
+                            'company_mission',
+                            'company_profile'
+                            ]
+                        )
+                    );
+                }
+                else
+                {
+                    $company = BusCompanyProfile::create(
+                        $request->only([
+                                'company_name',
+                                'company_address',
+                                'company_contact',
+                                'company_mission',
+                                'company_profile'
+                            ]
+                        )
+                    );
+                    $user->companyProfile()->attach($company);
+                }
+            }
+        }
+
 
         return redirect()->route('admin.profile')->withSuccess('Profile updated successfully.');
     }

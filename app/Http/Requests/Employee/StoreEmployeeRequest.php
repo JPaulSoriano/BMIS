@@ -30,6 +30,7 @@ class StoreEmployeeRequest extends FormRequest
             'employee_no' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
+            'role' => 'required',
             'contact' => 'required',
             'address' => 'required',
         ];

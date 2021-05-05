@@ -19,6 +19,8 @@
                     <dd class="col-sm-9">{{ $employee->employee_no }}</dd>
                     <dt class="col-sm-3">Employee Name</dt>
                     <dd class="col-sm-9">{{ $employee->full_name }}</dd>
+                    <dt class="col-sm-3">Role</dt>
+                    <dd class="col-sm-9">{{ $employee->user->roles()->first()->name }}</dd>
                     <dt class="col-sm-3">Address</dt>
                     <dd class="col-sm-9">{{ $employee->address }}</dd>
                     <dt class="col-sm-3">Contact</dt>

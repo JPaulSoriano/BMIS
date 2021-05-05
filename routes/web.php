@@ -1,6 +1,5 @@
 <?php
 
-use App\User;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,6 +17,7 @@ Route::get('/', function () {
     return view('/auth/login');
 });
 
+Route::get('/test', 'Admin\DashboardController@graph');
 
 //all
 Auth::routes(['verify' => true]);

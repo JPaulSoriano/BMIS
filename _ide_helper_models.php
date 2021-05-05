@@ -113,7 +113,6 @@ namespace App{
  * App\BusCompanyProfile
  *
  * @property int $id
- * @property int $user_id
  * @property string $company_name
  * @property string $company_address
  * @property string $company_contact
@@ -127,6 +126,8 @@ namespace App{
  * @property-read int|null $buses_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Employee[] $employees
  * @property-read int|null $employees_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Ride[] $rides
+ * @property-read int|null $rides_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Route[] $routes
  * @property-read int|null $routes_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Terminal[] $terminals
@@ -142,7 +143,6 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|BusCompanyProfile whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusCompanyProfile whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusCompanyProfile whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|BusCompanyProfile whereUserId($value)
  */
 	class BusCompanyProfile extends \Eloquent {}
 }
@@ -194,7 +194,7 @@ namespace App{
  * App\Employee
  *
  * @property int $id
- * @property int $company_id
+ * @property int $user_id
  * @property string $employee_no
  * @property string $first_name
  * @property string $last_name
@@ -202,14 +202,12 @@ namespace App{
  * @property string $contact
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\BusCompanyProfile $companyProfile
  * @property-read mixed $full_name
  * @property-read \App\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|Employee newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Employee newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Employee query()
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereAddress($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Employee whereCompanyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereContact($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereEmployeeNo($value)
@@ -217,6 +215,7 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereLastName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Employee whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Employee whereUserId($value)
  */
 	class Employee extends \Eloquent {}
 }
@@ -246,6 +245,7 @@ namespace App{
  * @property string $address
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read mixed $full_name
  * @method static \Illuminate\Database\Eloquent\Builder|PassengerProfile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PassengerProfile newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PassengerProfile query()
@@ -508,7 +508,8 @@ namespace App{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Booking[] $bookings
  * @property-read int|null $bookings_count
  * @property-read \App\BusLocation|null $busLocation
- * @property-read \App\BusCompanyProfile|null $companyProfile
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\BusCompanyProfile[] $companyProfile
+ * @property-read int|null $company_profile_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\ConductorHistory[] $conductorHistory
  * @property-read int|null $conductor_history_count
  * @property-read \App\Employee|null $employeeProfile

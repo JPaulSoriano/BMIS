@@ -37,4 +37,9 @@ class BusCompanyProfile extends Model
     {
         return $this->hasMany(Route::class, 'company_id');
     }
+
+    public function rides()
+    {
+        return $this->hasMany(Ride::class, 'company_id');
+    }
 }

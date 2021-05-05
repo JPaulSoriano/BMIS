@@ -31,7 +31,7 @@ class BusClassController extends Controller
     public function store(BusClassRequest $request)
     {
         //
-        Auth::user()->companyProfile->busClasses()->create($request->validated());
+        Auth::user()->company()->busClasses()->create($request->validated());
 
         return redirect()->route('admin.buses.index');
     }

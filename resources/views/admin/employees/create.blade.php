@@ -53,6 +53,14 @@
                             <input type="text" class="form-control @error('last_name') is-invalid @enderror" placeholder="Last Name" name="last_name" value="{{ old('last_name') }}">
                         </div>
                         <div class="form-group">
+                            <select name="role" class="form-control @error('role') is-invalid @enderror">
+                                <option selected hidden disabled>Role</option>
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->id }}">{{ ucfirst($role->name) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <input type="text" class="form-control @error('contact') is-invalid @enderror" placeholder="Contact Number" name="contact" value="{{ old('contact') }}">
                         </div>
                         <div class="form-group">
