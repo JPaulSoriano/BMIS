@@ -46,11 +46,15 @@ class Ride extends Model
             ->toArray();
     }
 
+    public function employeeRide()
+    {
+        return $this->hasOne(EmployeeRide::class);
+    }
+
     public function getTotalPayment($start, $end)
     {
         return $this->route->getTotalKm($start, $end) * $this->bus->busClass->rate;
     }
-
 
     public function getDepartureTimeFormattedAttribute(){
         return Carbon::parse($this->departure_time)->format('h:i A');

@@ -2,8 +2,9 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -50,6 +51,14 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        if ($exception instanceof ModelNotFoundException) {
+            $model = explode('\\', $exception->getModel());
+            $modelPhrase = ucwords(implode(' ',preg_split('/(?=[A-Z])/', end($model))));
+
+            return response()->json([
+                'error' => \App::make($exception->getModel())->modelNotFoundMessage ?? $modelPhrase . ' not found'
+            ], 404);
+        }
         return parent::render($request, $exception);
     }
 }

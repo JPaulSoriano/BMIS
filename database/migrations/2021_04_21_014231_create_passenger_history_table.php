@@ -24,6 +24,7 @@ class CreatePassengerHistoryTable extends Migration
             $table->string('status')->default('new');
             $table->text('reason')->nullable();
             $table->date('travel_date');
+            $table->float('points')->default(0);
             $table->timestamps();
         });
     }

@@ -21,6 +21,8 @@ class CreateBusesTable extends Migration
             $table->string('bus_name');
             $table->string('bus_plate');
             $table->integer('bus_seat');
+            $table->foreignId('conductor_id')->nullable();
+            $table->foreignId('driver_id')->nullable();
             $table->timestamps();
         });
     }

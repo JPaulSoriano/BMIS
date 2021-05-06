@@ -15,6 +15,7 @@ class CreateEmployeeRideTable extends Migration
     {
         Schema::create('employee_ride', function (Blueprint $table) {
             $table->id();
+            $table->uuid('ride_code', 10);
             $table->foreignId('ride_id')->constrained('rides')->onDelete('cascade');
             $table->foreignId('conductor_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('driver_id')->constrained('users')->onDelete('cascade');

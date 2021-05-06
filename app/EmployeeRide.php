@@ -10,7 +10,7 @@ class EmployeeRide extends Model
     use HasFactory;
 
     protected $fillable = [
-        'ride_id', 'conductor_id', 'driver_id', 'travel_date',
+        'conductor_id', 'driver_id', 'travel_date', 'ride_code'
     ];
 
     protected $table = 'employee_ride';
@@ -30,8 +30,13 @@ class EmployeeRide extends Model
         return $this->belongsTo(Ride::class);
     }
 
-    public function departureArrival()
+    public function departure()
     {
-        return $this->hasOne(DepartureArrival::class, 'employee_ride_id');
+        return $this->hasOne(Departure::class, 'employee_ride_id');
+    }
+
+    public function arrival()
+    {
+        return $this->hasOne(Arrival::class, 'employee_ride_id');
     }
 }

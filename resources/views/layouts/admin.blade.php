@@ -159,13 +159,13 @@
                 </a>
             </li>
 
-            {{-- <!-- Nav Item - About -->
-            <li class="nav-item {{ Nav::isRoute('about') }}">
-                <a class="nav-link" href="{{ route('about') }}">
+            <!-- Nav Item - About -->
+            <li class="nav-item {{ Nav::isRoute('admin.report*') }}">
+                <a class="nav-link" href="{{ route('admin.report.depart.arrive') }}">
                     <i class="fas fa-fw fa-hands-helping"></i>
-                    <span>{{ __('About') }}</span>
+                    <span>{{ __('Reports') }}</span>
                 </a>
-            </li> --}}
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

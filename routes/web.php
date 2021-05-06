@@ -65,6 +65,8 @@ Route::namespace('Admin')
         Route::get('/createToken/{employee}', 'EmployeeController@createTokenForUser')->name('employee.createToken');
 
         Route::get('/passengers', 'PassengerController@index')->name('passengers');
+
+        Route::get('/report', 'ReportController@departureArrival')->name('report.depart.arrive');
     });
 
 Route::namespace('SuperAdmin')
