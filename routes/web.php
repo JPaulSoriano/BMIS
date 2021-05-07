@@ -18,6 +18,9 @@ Route::get('/', function () {
 });
 
 Route::get('/test', 'Admin\DashboardController@graph');
+Route::get('/403', function(){
+    return view('403');
+});
 
 //all
 Auth::routes(['verify' => true]);
@@ -40,7 +43,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
 });
 
 Route::namespace('Admin')
-    ->middleware('auth')
+    ->middleware(['auth', 'check.role'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function(){
@@ -70,7 +73,7 @@ Route::namespace('Admin')
     });
 
 Route::namespace('SuperAdmin')
-    ->middleware('auth')
+    ->middleware(['auth', 'check.role'])
     ->prefix('super')
     ->name('super.')
     ->group(function(){

@@ -53,7 +53,7 @@
 
                                 <hr>
 
-                                @if (Route::has('password.request'))
+                                {{-- @if (Route::has('password.request'))
                                     <div class="text-center">
                                         <a class="small" href="{{ route('password.request') }}">
                                             {{ __('Forgot Password?') }}
@@ -65,7 +65,7 @@
                                     <div class="text-center">
                                         <a class="small" href="{{ route('register') }}">{{ __('Create an Account!') }}</a>
                                     </div>
-                                @endif
+                                @endif --}}
                             </div>
                         </div>
                     </div>

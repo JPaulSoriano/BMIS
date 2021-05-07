@@ -20,7 +20,7 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('admin.profile.update') }}" autocomplete="off">
+    <form method="POST" action="{{ route('admin.profile.update') }}" autocomplete="off" enctype="multipart/form-data">
 
         <div class="row">
 
@@ -31,7 +31,9 @@
                         <h6 class="m-0 font-weight-bold text-white">Profile</h6>
                     </div>
                     <div class="card-profile-image mt-4">
-                        <figure class="rounded-circle avatar avatar font-weight-bold" style="font-size: 60px; height: 180px; width: 180px;" data-initial="{{ Auth::user()->name[0] }}"></figure>
+                        <figure class="rounded-circle avatar font-weight-bold" style="font-size: 60px; height: 180px; width: 180px;" data-initial="{{ Auth::user()->name[0] }}">
+                            <img id="logo" />
+                        </figure>
                     </div>
                     <div class="card-body">
 
@@ -40,6 +42,18 @@
                                 <div class="text-center">
                                     <h5 class="font-weight-bold">{{  Auth::user()->fullName }}</h5>
                                     <p>{{ Auth::user()->getRoleNames()->first() }}</p>
+                                    {{-- @role('admin')
+                                        <input type="file" name="logo" id="logo" accept="image/*" class="form-control" onchange="
+                                            if (this.files && this.files[0]) {
+                                                var reader = new FileReader();
+                                                reader.onload = function (e) {
+                                                    $('#logo')
+                                                        .attr('src', e.target.result);
+                                                };
+                                                reader.readAsDataURL(this.files[0]);
+                                            }
+                                        ">
+                                    @endrole --}}
                                 </div>
                             </div>
                         </div>

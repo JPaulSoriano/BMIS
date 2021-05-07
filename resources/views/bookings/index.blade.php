@@ -13,7 +13,7 @@
             <div class="card shadow mb-4">
                 <div class="card-header bg-primary d-sm-flex align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-white">Passenger Bookings</h6>
-                    <a class="btn btn-light btn-sm" href="{{ route('bookings.book.create') }}"><i class="fas fa-plus"></i></a>
+                    {{-- <a class="btn btn-light btn-sm" href="{{ route('bookings.book.create') }}"><i class="fas fa-plus"></i></a> --}}
                 </div>
                 <div class="card-body">
                     <form action="{{ route('bookings.my.bookings') }}" method="get">

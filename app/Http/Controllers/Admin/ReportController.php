@@ -29,7 +29,6 @@ class ReportController extends Controller
                 $date->copy()->endOfDay(),
             ];
 
-
             $departures->join('terminals', 'terminal_id', 'terminals.id')
                 ->where('terminals.company_id', Auth::user()->company()->id)
                 ->where('terminal_id', request('terminal'))
@@ -39,10 +38,10 @@ class ReportController extends Controller
                 ->where('terminals.company_id', Auth::user()->company()->id)
                 ->whereBetween('time', $arrDate)
                 ->where('terminal_id', request('terminal'));
-        }
 
-        $departures =  $departures->get();
-        $arrivals = $arrivals->get();
+            $departures =  $departures->get();
+            $arrivals = $arrivals->get();
+        }
 
         return view('admin.reports.depart_arrive', compact('departures', 'arrivals', 'terminals'));
     }

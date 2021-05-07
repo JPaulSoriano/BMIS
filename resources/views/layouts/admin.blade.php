@@ -58,6 +58,7 @@
                 {{ __('Settings') }}
             </div>
 
+
             <!-- Nav Item - Buses -->
             <li class="nav-item {{ Nav::isRoute('admin.buses.*') }} {{  Nav::isRoute('admin.bus-classes.*')  }}">
                 <a class="nav-link" href="{{ route('admin.buses.index') }}">
@@ -101,6 +102,7 @@
                 </a>
             </li>
 
+            @role('admin')
 
             <!-- Nav Item - Sales -->
             <li class="nav-item {{ Nav::isRoute('admin.sales.*') }}">
@@ -109,6 +111,8 @@
                     <span>{{ __('Sales') }}</span>
                 </a>
             </li>
+
+            @endrole
 
 
             @role('superadmin')
@@ -140,7 +144,7 @@
 
             @endrole
 
-
+            @role('admin')
 
             <!-- Nav Item - Employees -->
             <li class="nav-item {{ Nav::isRoute('admin.employees.*') }}">
@@ -158,6 +162,8 @@
                     <span>{{ __('Profile') }}</span>
                 </a>
             </li>
+
+            @endrole
 
             <!-- Nav Item - About -->
             <li class="nav-item {{ Nav::isRoute('admin.report*') }}">
