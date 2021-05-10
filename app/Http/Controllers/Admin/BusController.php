@@ -23,6 +23,7 @@ class BusController extends Controller
     public function index()
     {
         //
+        
         if(Auth::user()->companyProfile->count() == 0)
             return redirect()->route('admin.profile')->withErrors(['error' => 'Provide company profile first']);
 
