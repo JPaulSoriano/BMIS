@@ -38,10 +38,11 @@ Route::namespace('API')->group(function(){
     Route::prefix('conductor')
         ->group(function(){
             Route::post('/login', 'ConductorController@login');
-            Route::post('/logout', 'ConductorController@logout');
 
             Route::middleware('auth:sanctum')
                 ->group(function(){
+                    Route::post('/logout', 'ConductorController@logout');
+
                     Route::post('/depart', 'ConductorController@depart');
                     Route::post('/arrive', 'ConductorController@arrive');
                     Route::post('/check-scheds', 'ConductorController@checkSchedules');
