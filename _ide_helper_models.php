@@ -14,24 +14,11 @@ namespace App{
 /**
  * App\Arrival
  *
- * @property int $id
- * @property int $employee_ride_id
- * @property int $terminal_id
- * @property string $or_no
- * @property \Illuminate\Support\Carbon $time
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\EmployeeRide $employeeRide
+ * @property-read mixed $time
  * @method static \Illuminate\Database\Eloquent\Builder|Arrival newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Arrival newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Arrival query()
- * @method static \Illuminate\Database\Eloquent\Builder|Arrival whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Arrival whereEmployeeRideId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Arrival whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Arrival whereOrNo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Arrival whereTerminalId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Arrival whereTime($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Arrival whereUpdatedAt($value)
  */
 	class Arrival extends \Eloquent {}
 }
@@ -91,13 +78,11 @@ namespace App{
  * @property string $bus_name
  * @property string $bus_plate
  * @property int $bus_seat
- * @property int|null $driver_id
- * @property int|null $conductor_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\BusClass $busClass
- * @property-read \App\User|null $conductor
- * @property-read \App\User|null $driver
+ * @property-read \App\User $conductor
+ * @property-read \App\User $driver
  * @property-read mixed $rate_per_km
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Ride[] $rides
  * @property-read int|null $rides_count
@@ -110,9 +95,7 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|Bus whereBusPlate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Bus whereBusSeat($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Bus whereCompanyId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Bus whereConductorId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Bus whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Bus whereDriverId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Bus whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Bus whereUpdatedAt($value)
  */
@@ -231,24 +214,11 @@ namespace App{
 /**
  * App\Departure
  *
- * @property int $id
- * @property int $employee_ride_id
- * @property int $terminal_id
- * @property string $or_no
- * @property string $time
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\EmployeeRide $employeeRide
+ * @property-read mixed $time
  * @method static \Illuminate\Database\Eloquent\Builder|Departure newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Departure newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Departure query()
- * @method static \Illuminate\Database\Eloquent\Builder|Departure whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Departure whereEmployeeRideId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Departure whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Departure whereOrNo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Departure whereTerminalId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Departure whereTime($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Departure whereUpdatedAt($value)
  */
 	class Departure extends \Eloquent {}
 }
@@ -288,14 +258,6 @@ namespace App{
 /**
  * App\EmployeeRide
  *
- * @property int $id
- * @property string $ride_code
- * @property int $ride_id
- * @property int $conductor_id
- * @property int $driver_id
- * @property string $travel_date
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Arrival|null $arrival
  * @property-read \App\User $conductor
  * @property-read \App\Departure|null $departure
@@ -304,14 +266,6 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|EmployeeRide newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|EmployeeRide newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|EmployeeRide query()
- * @method static \Illuminate\Database\Eloquent\Builder|EmployeeRide whereConductorId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|EmployeeRide whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|EmployeeRide whereDriverId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|EmployeeRide whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|EmployeeRide whereRideCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder|EmployeeRide whereRideId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|EmployeeRide whereTravelDate($value)
- * @method static \Illuminate\Database\Eloquent\Builder|EmployeeRide whereUpdatedAt($value)
  */
 	class EmployeeRide extends \Eloquent {}
 }

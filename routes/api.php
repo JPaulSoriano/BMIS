@@ -19,6 +19,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::namespace('API')->group(function(){
+
+    Route::get('/test', function(){
+        return response()->json(['ok' => 'hello']);
+    });
+
     Route::post('/register', 'PassengerController@register');
     Route::post('/login', 'PassengerController@login');
 
@@ -40,6 +45,8 @@ Route::namespace('API')->group(function(){
                     Route::post('/depart', 'ConductorController@depart');
                     Route::post('/arrive', 'ConductorController@arrive');
                     Route::post('/check-scheds', 'ConductorController@checkSchedules');
+                    Route::get('/today-sched', 'ConductorController@todaySchedule');
+                    Route::get('/employee-profile', 'ConductorController@getEmployeeProfile');
                 });
         });
 });
