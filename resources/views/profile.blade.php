@@ -32,7 +32,7 @@
                     </div>
                     <div class="card-profile-image mt-4">
                         <figure class="rounded-circle avatar font-weight-bold" style="font-size: 60px; height: 180px; width: 180px;" data-initial="{{ Auth::user()->name[0] }}">
-                            <img id="logo" />
+
                         </figure>
                     </div>
                     <div class="card-body">
@@ -157,7 +157,7 @@
                                         <div class="col-lg-12">
                                             <div class="form-group">
                                                 <label class="form-control-label" for="company_name">Company Name<span class="small text-danger">*</span></label>
-                                                <input type="text" id="name" class="form-control" name="company_name" placeholder="" value="{{ old('company_name', Auth::user()->companyProfile->first()->company_name ?? '') }}">
+                                                <input type="text" id="name" class="form-control" name="company_name" placeholder="" value="{{ old('company_name', Auth::user()->company()->company_name ?? '') }}">
                                             </div>
                                         </div>
                                     </div>
@@ -165,7 +165,7 @@
                                         <div class="col-lg-12">
                                             <div class="form-group">
                                                 <label class="form-control-label" for="company_address">Company Address<span class="small text-danger">*</span></label>
-                                                <input type="text" id="name" class="form-control" name="company_address" placeholder="" value="{{ old('company_address', Auth::user()->companyProfile->first()->company_address ?? '') }}">
+                                                <input type="text" id="name" class="form-control" name="company_address" placeholder="" value="{{ old('company_address', Auth::user()->company()->company_address ?? '') }}">
                                             </div>
                                         </div>
                                     </div>
@@ -173,7 +173,7 @@
                                         <div class="col-lg-12">
                                             <div class="form-group">
                                                 <label class="form-control-label" for="company_contact">Company Contact<span class="small text-danger">*</span></label>
-                                                <input type="text" id="name" class="form-control" name="company_contact" placeholder="" value="{{ old('company_contact', Auth::user()->companyProfile->first()->company_contact ?? '') }}">
+                                                <input type="text" id="name" class="form-control" name="company_contact" placeholder="" value="{{ old('company_contact', Auth::user()->company()->company_contact ?? '') }}">
                                             </div>
                                         </div>
                                     </div>
@@ -182,7 +182,7 @@
 
                                             <div class="form-group">
                                                 <label class="form-control-label" for="company_mission">Company Mission<span class="small text-danger">*</span></label>
-                                                <textarea class="form-control" name="company_mission" id="company_mission" rows="3">{{ old('company_mission', Auth::user()->companyProfile->first()->company_mission ?? '') }}</textarea>
+                                                <textarea class="form-control" name="company_mission" id="company_mission" rows="3">{{ old('company_mission', Auth::user()->company()->company_mission ?? '') }}</textarea>
                                             </div>
 
                                         </div>
@@ -193,14 +193,19 @@
 
                                             <div class="form-group">
                                                 <label class="form-control-label" for="company_profile">Company Profile<span class="small text-danger">*</span></label>
-                                                <textarea class="form-control" name="company_profile" id="company_profile" rows="3">{{ old('company_profile', Auth::user()->companyProfile->first()->company_profile ?? '') }}</textarea>
+                                                <textarea class="form-control" name="company_profile" id="company_profile" rows="3">{{ old('company_profile', Auth::user()->company()->company_profile ?? '') }}</textarea>
                                             </div>
 
                                         </div>
                                     </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" id="activate_point" name="activate_point" value="1" aria-describedby="helpBlock" @if(Auth::user()->company()->activate_point == 1) checked @endif>
+                                        <label class="form-check-label" for="activate_point">Activate Bus Points</label>
+                                    </div>
+                                    <small id="helpBlock" class="form-text text-muted">
+                                        Set points for passenger to avail promo.
+                                    </small>
                                 </div>
-
-
 
                         </div>
 

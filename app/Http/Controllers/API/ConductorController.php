@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Booking;
 use App\Ride;
 use App\User;
 use App\EmployeeRide;
@@ -14,6 +15,13 @@ use Illuminate\Support\Facades\Validator;
 
 class ConductorController extends Controller
 {
+    function generateNumber()
+    {
+        $number = mt_rand(00000000000, 9999999999);
+        if(EmployeeRide::whereRideCode($number)->exists()) $this->generateNumber();
+        return $number;
+    }
+
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -74,8 +82,10 @@ class ConductorController extends Controller
 
         $ride = Ride::findOrFail($request->ride_id);
 
+        $number = $this->generateNumber();
+
         $employee_ride = $ride->employeeRide()->create([
-            'ride_code' => Str::uuid()->toString(),
+            'ride_code' => $number,
             'conductor_id' => $request->user()->id,
             'driver_id' => $ride->bus->driver_id,
             'travel_date' => Carbon::now()->toDateString(),
@@ -142,5 +152,21 @@ class ConductorController extends Controller
             ->get();
 
         return response()->json( $rides);
+    }
+
+    public function issueReceipt(Request $request)
+    {
+        $booking = Booking::whereBookingCode(request('booking_code'));
+
+        if(!$booking->exists())
+        {
+            return response()->json(['error' => 'No bookings found!']);
+        }
+
+        $booking->aboard =  1;
+
+        $booking->save();
+
+        return response()->json(['message' => 'Successful']);
     }
 }

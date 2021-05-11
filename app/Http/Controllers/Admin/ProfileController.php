@@ -52,10 +52,13 @@ class ProfileController extends Controller
                             'company_address',
                             'company_contact',
                             'company_mission',
-                            'company_profile'
+                            'company_profile',
+                            'activate_point'
                             ]
                         )
                     );
+
+                    if(!$request->activate_point) $company->update(['activate_point' => 0]);
                 }
                 else
                 {
@@ -65,7 +68,8 @@ class ProfileController extends Controller
                                 'company_address',
                                 'company_contact',
                                 'company_mission',
-                                'company_profile'
+                                'company_profile',
+                                'activate_point'
                             ]
                         )
                     );

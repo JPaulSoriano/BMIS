@@ -41,6 +41,7 @@ namespace App{
  * App\Booking
  *
  * @property int $id
+ * @property string $booking_code
  * @property int $ride_id
  * @property int $passenger_id
  * @property int $start_terminal_id
@@ -63,6 +64,7 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|Booking newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Booking query()
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereAboard($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking whereBookingCode($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereEndTerminalId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereId($value)
@@ -125,6 +127,7 @@ namespace App{
  * @property int $company_id
  * @property string $name
  * @property float $rate
+ * @property float|null $point
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass newModelQuery()
@@ -134,6 +137,7 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BusClass wherePoint($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereRate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereUpdatedAt($value)
  */
@@ -150,6 +154,7 @@ namespace App{
  * @property string $company_contact
  * @property string $company_mission
  * @property string $company_profile
+ * @property int $activate_point
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\BusClass[] $busClasses
@@ -167,6 +172,7 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|BusCompanyProfile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BusCompanyProfile newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BusCompanyProfile query()
+ * @method static \Illuminate\Database\Eloquent\Builder|BusCompanyProfile whereActivatePoint($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusCompanyProfile whereCompanyAddress($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusCompanyProfile whereCompanyContact($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusCompanyProfile whereCompanyMission($value)

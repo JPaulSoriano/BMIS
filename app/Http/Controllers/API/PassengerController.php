@@ -61,7 +61,6 @@ class PassengerController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required',
-            'device_name' => 'required',
         ]);
 
         if($validator->fails())
@@ -87,7 +86,7 @@ class PassengerController extends Controller
         };
 
         $user = User::where('email', $request->email)->first();
-        return $user->createToken($request->device_name)->plainTextToken;
+        return $user->createToken($request->email)->plainTextToken;
     }
 
     public function logout(Request $request)

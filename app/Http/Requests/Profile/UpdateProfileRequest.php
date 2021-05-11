@@ -35,7 +35,8 @@ class UpdateProfileRequest
             'company_address' => 'required_with_all:company_name|max:255',
             'company_contact' => 'required_with_all:company_name|max:255',
             'company_mission' => 'required_with_all:company_name|max:255',
-            'company_profile' => 'required_with_all:company_name|max:255'
+            'company_profile' => 'required_with_all:company_name|max:255',
+            'activate_point' => 'nullable|numeric|min:0'
         ];
     }
 }
