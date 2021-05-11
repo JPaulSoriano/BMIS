@@ -19,7 +19,6 @@ class ConductorController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required',
-            'device_name' => 'required',
         ]);
 
         if($validator->fails())
@@ -45,7 +44,10 @@ class ConductorController extends Controller
         };
 
         $user = User::where('email', $request->email)->first();
-        return $user->createToken($request->device_name)->plainTextToken;
+        return response()->json([
+            'token' => $user->createToken($request->email)->plainTextToken,
+        ]);
+        
     }
 
     public function logout(Request $request)
@@ -141,6 +143,29 @@ class ConductorController extends Controller
             ->whereBetween('rides.ride_date', [$arrDates[0], $arrDates[1]])
             ->get();
 
-        return response()->json( $rides);
+        return response()->json($rides);
+    }
+
+    public function todaySchedule(Request $request)
+    {
+
+        $arrDates = [
+            0 => Carbon::now()->startOfDay(),
+            1 => Carbon::now()->endOfDay()
+        ];
+
+        // return $arrDates;
+
+        $rides = Ride::join('buses', 'bus_id', 'buses.id')
+            ->where('buses.conductor_id', $request->user()->id)
+            ->whereBetween('rides.ride_date', [$arrDates[0], $arrDates[1]])
+            ->get();
+
+        return response()->json($rides);
+    }
+
+    public function getEmployeeProfile(Request $request)
+    {
+        return response()->json($request->user()->employeeProfile);
     }
 }
