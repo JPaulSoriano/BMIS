@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
+use App\PassengerHistory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -55,7 +56,7 @@ class ConductorController extends Controller
         return response()->json([
             'token' => $user->createToken($request->email)->plainTextToken,
         ]);
-        
+
     }
 
     public function logout(Request $request)
@@ -97,6 +98,8 @@ class ConductorController extends Controller
             'terminal_id' => $request->terminal_id,
             'or_no' => $request->or_no,
         ]);
+
+        //Broadcast to passenger that bus depart
 
         return response()->json([
             'ride_code' => $employee_ride->ride_code,
@@ -146,8 +149,6 @@ class ConductorController extends Controller
             1 => Carbon::parse($request->date, 'UTC')->endOfDay()
         ];
 
-        // return $arrDates;
-
         $rides = Ride::join('buses', 'bus_id', 'buses.id')
             ->where('buses.conductor_id', $request->user()->id)
             ->whereBetween('rides.ride_date', [$arrDates[0], $arrDates[1]])
@@ -163,8 +164,6 @@ class ConductorController extends Controller
             0 => Carbon::now()->startOfDay(),
             1 => Carbon::now()->endOfDay()
         ];
-
-        // return $arrDates;
 
         $rides = Ride::join('buses', 'bus_id', 'buses.id')
             ->where('buses.conductor_id', $request->user()->id)
@@ -188,9 +187,21 @@ class ConductorController extends Controller
             return response()->json(['error' => 'No bookings found!']);
         }
 
-        $booking->aboard =  1;
+        $receipt = collect($booking->replicate()->only('booking_code', 'ride_id', 'passenger_id', 'start_terminal_id', 'end_terminal_id', 'pax'));
 
+        if($request->user()->company()->activate_point == 1)
+        {
+            $totalKm = $booking->ride->route->getTotalKm($booking->start_terminal_id, $booking->end_terminal_id);
+            $totalPoints = $totalKm/10 * $booking->ride->bus->point;
+            $receipt = $receipt->merge(['points' => $totalPoints]);
+        }
+
+        $booking->aboard =  1;
         $booking->save();
+
+        PassengerHistory::create($receipt);
+
+        //Send receipt to passenger
 
         return response()->json(['message' => 'Successful']);
     }
