@@ -122,7 +122,6 @@ class ConductorController extends Controller
 
         $employeeRide = EmployeeRide::where('ride_code', $request->ride_code)->first();
 
-
         $employeeRide->arrival()->create([
             'terminal_id' => $request->terminal_id,
             'or_no' => $request->or_no,

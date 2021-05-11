@@ -199,7 +199,7 @@
                                         </div>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" id="activate_point" name="activate_point" value="1" aria-describedby="helpBlock" @if(Auth::user()->company()->activate_point == 1) checked @endif>
+                                        <input class="form-check-input" type="checkbox" id="activate_point" name="activate_point" value="1" aria-describedby="helpBlock" @if(Auth::user()->company()->activate_point == 1 && Auth::user()->company()->activate_point) checked @endif>
                                         <label class="form-check-label" for="activate_point">Activate Bus Points</label>
                                     </div>
                                     <small id="helpBlock" class="form-text text-muted">
