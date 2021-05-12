@@ -56,6 +56,7 @@ class ConductorController extends Controller
         $user = User::where('email', $request->email)->first();
         return response()->json([
             'token' => $user->createToken($request->email)->plainTextToken,
+            'profile' => $user->employeeProfile,
         ]);
 
     }
