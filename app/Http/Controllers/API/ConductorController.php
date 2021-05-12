@@ -151,7 +151,6 @@ class ConductorController extends Controller
 
         $rides = Ride::join('buses', 'bus_id', 'buses.id')
             ->where('buses.conductor_id', $request->user()->id)
-            ->where('ride_date', $travelDate)
             ->where(function(Builder $query) use ($travelDate, $dayName){
                 $query->where('ride_date', $travelDate)
                     ->orWhereHas('schedule', function(Builder $query) use ($travelDate, $dayName){
@@ -179,7 +178,6 @@ class ConductorController extends Controller
 
         $ride = Ride::join('buses', 'bus_id', 'buses.id')
             ->where('buses.conductor_id', $request->user()->id)
-            ->where('ride_date', $travelDate)
             ->where(function(Builder $query) use ($travelDate, $dayName){
                 $query->where('ride_date', $travelDate)
                     ->orWhereHas('schedule', function(Builder $query) use ($travelDate, $dayName){
