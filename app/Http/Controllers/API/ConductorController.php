@@ -194,6 +194,8 @@ class ConductorController extends Controller
             ->with(['route', 'route.terminals', 'bus.driver.employeeProfile'])
             ->first();
 
+        if(!$ride) return response()->json(['error' => 'No rides']);
+
         $booked = Booking::where('ride_id', $ride->id);
 
         $aboard = (clone $booked)->where('aboard', 1)->sum('pax');
