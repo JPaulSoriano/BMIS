@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use App\PassengerHistory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -143,14 +144,26 @@ class ConductorController extends Controller
             return response()->json($validator->messages(), 422);
         }
 
-        $arrDates = [
-            0 => Carbon::parse($request->date, 'UTC')->startOfDay(),
-            1 => Carbon::parse($request->date, 'UTC')->endOfDay()
-        ];
+        $travelDate = Carbon::parse($request->date);
+        $dayName = Str::lower($travelDate->copy()->dayName);
+        $travelDate = $travelDate->toDateString();
 
         $rides = Ride::join('buses', 'bus_id', 'buses.id')
             ->where('buses.conductor_id', $request->user()->id)
-            ->whereBetween('rides.ride_date', [$arrDates[0], $arrDates[1]])
+            ->where('ride_date', $travelDate)
+            ->where(function(Builder $query) use ($travelDate, $dayName){
+                $query->where('ride_date', $travelDate)
+                    ->orWhereHas('schedule', function(Builder $query) use ($travelDate, $dayName){
+                        $query->where($dayName, true)
+                            ->where(function(Builder $query) use ($travelDate, $dayName){
+                                $query->where('start_date', '<=' ,$travelDate);
+                            })->where(function(Builder $query) use ($travelDate, $dayName){
+                                $query->where('end_date', '>=', $travelDate)
+                                    ->orWhereNull('end_date');
+                        });
+                    });
+            })
+            ->with(['route', 'route.terminals', 'bus.driver.employeeProfile'])
             ->get();
 
         return response()->json($rides);
@@ -158,18 +171,40 @@ class ConductorController extends Controller
 
     public function todaySchedule(Request $request)
     {
+        $travelDate = Carbon::now();
+        $dayName = Str::lower($travelDate->copy()->dayName);
+        $travelDate = $travelDate->toDateString();
 
-        $arrDates = [
-            0 => Carbon::now()->startOfDay(),
-            1 => Carbon::now()->endOfDay()
-        ];
 
-        $rides = Ride::join('buses', 'bus_id', 'buses.id')
+        $ride = Ride::join('buses', 'bus_id', 'buses.id')
             ->where('buses.conductor_id', $request->user()->id)
-            ->whereBetween('rides.ride_date', [$arrDates[0], $arrDates[1]])
-            ->get();
+            ->where('ride_date', $travelDate)
+            ->where(function(Builder $query) use ($travelDate, $dayName){
+                $query->where('ride_date', $travelDate)
+                    ->orWhereHas('schedule', function(Builder $query) use ($travelDate, $dayName){
+                        $query->where($dayName, true)
+                            ->where(function(Builder $query) use ($travelDate){
+                                $query->where('start_date', '<=' ,$travelDate);
+                            })->where(function(Builder $query) use ($travelDate){
+                                $query->where('end_date', '>=', $travelDate)
+                                    ->orWhereNull('end_date');
+                        });
+                    });
+            })
+            ->with(['route', 'route.terminals', 'bus.driver.employeeProfile'])
+            ->first();
 
-        return response()->json($rides);
+        $booked = Booking::where('ride_id', $ride->id);
+
+        $aboard = (clone $booked)->where('aboard', 1)->sum('pax');
+        $booked = $booked->sum('pax');
+
+        $employeeRide = EmployeeRide::where('ride_code', $request->ride_code);
+        if($employeeRide->exists()) $exists = 1;
+        else $exists = 0;
+
+        // return $date;
+        return response()->json(['ride' => $ride, 'booked' => $booked, 'aboard' => $aboard, 'exists' => $exists] );
     }
 
     public function getEmployeeProfile(Request $request)

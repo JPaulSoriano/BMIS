@@ -69,7 +69,7 @@
                                 <label for="ride-date">Ride date</label>
                                 <input type="date" name="ride_date" id="ride-date" required
                                        class="form-control @error('ride_date') is-invalid @enderror datepicker"
-                                       value="{{ old('ride_date', $ride->ride_date ? $ride->ride_date->format('Y-m-d') : '') }}"
+                                       value="{{ old('ride_date', $ride->ride_date ? $ride->ride_date_formatted->format('Y-m-d') : '') }}"
                                     {{ ($ride->isCyclic() && ! old('ride_type'))
                                         || old('ride_type') == 'cyclic' ? "disabled" : "" }}>
 

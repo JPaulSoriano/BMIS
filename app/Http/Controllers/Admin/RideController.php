@@ -108,8 +108,8 @@ class RideController extends Controller
     public function edit(Ride $ride)
     {
         //
-        $buses = Auth::user()->buses()->get();
-        $routes = Auth::user()->routes()->get();
+        $buses = Auth::user()->company()->buses()->get();
+        $routes = Auth::user()->company()->routes()->get();
         $days = $this->dayNames;
         return view('admin.rides.edit', compact('buses', 'routes', 'days', 'ride'));
     }

@@ -21,4 +21,5 @@ class RideSchedule extends Model
     {
         return $this->belongsTo(Ride::class);
     }
+
 }

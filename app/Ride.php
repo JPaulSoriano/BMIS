@@ -15,9 +15,9 @@ class Ride extends Model
         'route_id', 'bus_id', 'ride_date', 'departure_time', 'auto_confirm', 'ride_type'
     ];
 
-    protected $dates = [
-        'ride_date', 'departure_time' => 'datetime:h:i A',
-    ];
+    // protected $dates = [
+    //     'ride_date', 'departure_time' => 'datetime:h:i A',
+    // ];
 
     public function schedule()
     {
@@ -58,6 +58,11 @@ class Ride extends Model
 
     public function getDepartureTimeFormattedAttribute(){
         return Carbon::parse($this->departure_time)->format('h:i A');
+    }
+
+    public function getRideDateFormattedAttribute()
+    {
+        return !$this->isCyclic() ? Carbon::parse($this->attributes['ride_date']) : null;
     }
 
     public function isCyclic()
