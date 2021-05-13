@@ -27,7 +27,7 @@ class EmployeeRide extends Model
 
     public function ride()
     {
-        return $this->belongsTo(Ride::class);
+        return $this->belongsTo(Ride::class, 'ride_id');
     }
 
     public function departure()
