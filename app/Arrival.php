@@ -14,10 +14,6 @@ class Arrival extends Model
         'or_no', 'terminal_id', 'time'
     ];
 
-    protected $dates = [
-        'time'
-    ];
-
     public function employeeRide()
     {
         return $this->belongsTo(EmployeeRide::class, 'employee_ride_id');

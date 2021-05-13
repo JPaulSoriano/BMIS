@@ -18,7 +18,7 @@ namespace App{
  * @property int $employee_ride_id
  * @property int $terminal_id
  * @property string $or_no
- * @property \Illuminate\Support\Carbon $time
+ * @property string $time
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\EmployeeRide $employeeRide
