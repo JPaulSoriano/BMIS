@@ -84,7 +84,7 @@ class ConductorController extends Controller
         }
 
         $ride = Ride::findOrFail($request->ride_id);
-        $terminal_id = $ride->route->first_terminal;
+        $terminal_id = $ride->route->terminals->first()->id;
 
         $number = $this->generateNumber();
         $orNumber = $this->generateNumber();
@@ -122,7 +122,7 @@ class ConductorController extends Controller
 
         $orNumber = $this->generateNumber();
         $employeeRide = EmployeeRide::where('ride_code', $request->ride_code)->first();
-        $terminal_id = $employeeRide->ride->route->last_terminal;
+        $terminal_id = $employeeRide->ride->route->terminals->map->pivot->sortByDesc('order')->first()->id;
 
         $employeeRide->arrival()->create([
             'terminal_id' => $terminal_id,
