@@ -199,7 +199,8 @@ class ConductorController extends Controller
         $aboard = (clone $booked)->where('aboard', 1)->sum('pax');
         $booked = $booked->sum('pax');
 
-        $employeeRide = EmployeeRide::where('ride_code', $request->ride_code)->with(['departure', 'arrival'])->get();
+        $employeeRide = EmployeeRide::with(['departure', 'arrival'])
+            ->where('ride_code', $request->ride_code)->first();
 
         return response()->json(['ride' => $ride, 'booked' => $booked, 'aboard' => $aboard, 'exists' => $employeeRide] );
     }
