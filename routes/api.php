@@ -28,10 +28,10 @@ Route::namespace('API')->group(function(){
 
     Route::post('/register', 'PassengerController@register');
 
-    Route::post('/login', 'PassengerController@login')->middleware('verified');
+    Route::post('/login', 'PassengerController@login');
 
 
-    Route::middleware(['auth:sanctum', 'verified'])
+    Route::middleware(['auth:sanctum'])
         ->prefix('passenger')
         ->group(function(){
 
