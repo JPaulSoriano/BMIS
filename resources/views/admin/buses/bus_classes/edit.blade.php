@@ -33,7 +33,7 @@
                         </div>
                         @if(Auth::user()->company()->activate_point == 1)
                             <div class="form-group">
-                                <input type="number" class="form-control @error('point') is-invalid @enderror" placeholder="Point" name="point" value="{{ old('point') }}" min=0 step=0.01>
+                                <input type="number" class="form-control @error('point') is-invalid @enderror" placeholder="Point" name="point" value="{{ $busClass->point }}" min=0 step=0.01>
                             </div>
                         @endif
                     </div>

@@ -73,7 +73,9 @@
                                             @endif
                                         </td>
                                         <td class="d-flex justify-content-around">
-                                            <a class="btn btn-sm btn-info" href="{{ route('bookings.book.confirm', $booking->book_id) }}"><i class="fa fa-check"></i></a>
+                                            @if($booking->isRejected())
+                                                <a class="btn btn-sm btn-info" href="{{ route('bookings.book.confirm', $booking->book_id) }}"><i class="fa fa-check"></i></a>
+                                            @endif
                                             @if(!$booking->isRejected())
                                                 <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#rejectModal" data-id="{{ $booking->book_id }}" data-passenger="{{ $booking->passenger->name }}"><i class="fa fa-times"></i></button>
                                             @endif

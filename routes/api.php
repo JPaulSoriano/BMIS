@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -54,4 +55,6 @@ Route::namespace('API')->group(function(){
                     Route::get('/get-ride/{id}', 'ConductorController@getRide');
                 });
         });
+
+
 });

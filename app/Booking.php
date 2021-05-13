@@ -52,7 +52,7 @@ class Booking extends Model
 
     public function isRejected() : bool
     {
-        return $this->reason != null;
+        return $this->status == 'rejected';
     }
 
     public function canBeCancelled() : bool

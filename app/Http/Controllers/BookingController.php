@@ -196,7 +196,8 @@ class BookingController extends Controller
     {
         $booking->status = "confirmed";
         $booking->reason = null;
-        $booking->save();
+        $booking->passenger->passengerProfile->points -= $booking->sale->payment;
+        $booking->push();
 
         return redirect()->back();
     }
@@ -205,7 +206,8 @@ class BookingController extends Controller
     {
         $booking->status = "rejected";
         $booking->reason = $request->reason;
-        $booking->save();
+        $booking->passenger->passengerProfile->points += $booking->sale->payment;
+        $booking->push();
 
         return redirect()->back();
     }
