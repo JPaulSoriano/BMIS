@@ -199,11 +199,9 @@ class ConductorController extends Controller
         $aboard = (clone $booked)->where('aboard', 1)->sum('pax');
         $booked = $booked->sum('pax');
 
-        $employeeRide = EmployeeRide::where('ride_code', $request->ride_code);
-        if($employeeRide->exists()) $exists = 1;
-        else $exists = 0;
+        $employeeRide = EmployeeRide::where('ride_code', $request->ride_code)->with(['departure', 'arrival'])->get();
 
-        return response()->json(['ride' => $ride, 'booked' => $booked, 'aboard' => $aboard, 'exists' => $exists] );
+        return response()->json(['ride' => $ride, 'booked' => $booked, 'aboard' => $aboard, 'exists' => $employeeRide] );
     }
 
     public function getRide(Request $request, $id)
