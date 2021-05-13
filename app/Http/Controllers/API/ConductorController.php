@@ -208,7 +208,7 @@ class ConductorController extends Controller
     public function getRide(Request $request, $id)
     {
         $ride = Ride::join('buses', 'bus_id', 'buses.id')
-            ->where('buses.conductor_id', $request->user()->id)
+            ->where('rides.id',$id)
             ->with(['route', 'route.terminals', 'bus.driver.employeeProfile'])
             ->first();
 
@@ -219,7 +219,7 @@ class ConductorController extends Controller
         $aboard = (clone $booked)->where('aboard', 1)->sum('pax');
         $booked = $booked->sum('pax');
 
-        $employeeRide = EmployeeRide::where('ride_code', $request->ride_code)->with(['departure', 'arrival']);
+        $employeeRide = EmployeeRide::where('ride_code', $request->ride_code)->with(['departure', 'arrival'])->first();
 
         return response()->json(['ride' => $ride, 'booked' => $booked, 'aboard' => $aboard, 'exists' => $employeeRide] );
     }
