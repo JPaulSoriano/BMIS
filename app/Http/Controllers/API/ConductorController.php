@@ -76,7 +76,6 @@ class ConductorController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'ride_id' => 'required|exists:rides,id',
-            'terminal_id' => 'required|exists:terminals,id',
         ]);
 
         if($validator->fails())
@@ -85,6 +84,7 @@ class ConductorController extends Controller
         }
 
         $ride = Ride::findOrFail($request->ride_id);
+        $terminal_id = $ride->route->first_terminal;
 
         $number = $this->generateNumber();
         $orNumber = $this->generateNumber();
@@ -97,7 +97,7 @@ class ConductorController extends Controller
         ]);
 
         $employee_ride->departure()->create([
-            'terminal_id' => $request->terminal_id,
+            'terminal_id' => $terminal_id,
             'or_no' => $orNumber,
         ]);
 
@@ -113,7 +113,6 @@ class ConductorController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'ride_code' => 'required|exists:employee_ride,ride_code',
-            'terminal_id' => 'required|exists:terminals,id',
         ]);
 
         if($validator->fails())
@@ -123,14 +122,15 @@ class ConductorController extends Controller
 
         $orNumber = $this->generateNumber();
         $employeeRide = EmployeeRide::where('ride_code', $request->ride_code)->first();
+        $terminal_id = $employeeRide->ride->route->last_terminal;
 
         $employeeRide->arrival()->create([
-            'terminal_id' => $request->terminal_id,
+            'terminal_id' => $terminal_id,
             'or_no' => $orNumber,
         ]);
 
         return response()->json([
-            'message' => 'SuccessFul'
+            'message' => 'Successful'
         ]);
     }
 
