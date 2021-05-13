@@ -136,14 +136,6 @@ class ConductorController extends Controller
 
     public function checkSchedules(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'date' => 'required'
-        ]);
-
-        if($validator->fails())
-        {
-            return response()->json($validator->messages(), 422);
-        }
 
         $travelDate = Carbon::parse($request->date);
         $dayName = Str::lower($travelDate->copy()->dayName);
@@ -151,20 +143,27 @@ class ConductorController extends Controller
 
         $rides = Ride::join('buses', 'bus_id', 'buses.id')
             ->where('buses.conductor_id', $request->user()->id)
-            ->where(function(Builder $query) use ($travelDate, $dayName){
-                $query->where('ride_date', $travelDate)
-                    ->orWhereHas('schedule', function(Builder $query) use ($travelDate, $dayName){
-                        $query->where($dayName, true)
-                            ->where(function(Builder $query) use ($travelDate, $dayName){
-                                $query->where('start_date', '<=' ,$travelDate);
-                            })->where(function(Builder $query) use ($travelDate, $dayName){
-                                $query->where('end_date', '>=', $travelDate)
-                                    ->orWhereNull('end_date');
+            ->when($request->date, function($query) use ($travelDate, $dayName){
+                $query->where(function(Builder $query) use ($travelDate, $dayName){
+                    $query->where('ride_date', $travelDate)
+                        ->orWhereHas('schedule', function(Builder $query) use ($travelDate, $dayName){
+                            $query->where($dayName, true)
+                                ->where(function(Builder $query) use ($travelDate){
+                                    $query->where('start_date', '<=' ,$travelDate);
+                                })->where(function(Builder $query) use ($travelDate){
+                                    $query->where('end_date', '>=', $travelDate)
+                                        ->orWhereNull('end_date');
+                            });
                         });
-                    });
+                });
             })
+            ->selectRaw('*, rides.id as ride_id')
             ->with(['route', 'route.terminals', 'bus.driver.employeeProfile'])
             ->get();
+
+        $rides = $rides->map(function($ride){
+            return ['ride' => $ride];
+        });
 
         return response()->json($rides);
     }
