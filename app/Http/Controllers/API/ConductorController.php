@@ -189,13 +189,21 @@ class ConductorController extends Controller
                         });
                     });
             })
-            ->with(['route'])
+            ->with(['route', 'route.terminals', 'bus.driver.employeeProfile'])
             ->first();
 
         if(!$ride) return response()->json(['error' => 'No rides']);
 
-        // return $date;
-        return response()->json(['ride' => $ride] );
+        $booked = Booking::where('ride_id', $ride->id);
+
+        $aboard = (clone $booked)->where('aboard', 1)->sum('pax');
+        $booked = $booked->sum('pax');
+
+        $employeeRide = EmployeeRide::where('ride_code', $request->ride_code);
+        if($employeeRide->exists()) $exists = 1;
+        else $exists = 0;
+
+        return response()->json(['ride' => $ride, 'booked' => $booked, 'aboard' => $aboard, 'exists' => $exists] );
     }
 
     public function getRide(Request $request, $id)
