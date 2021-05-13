@@ -18,7 +18,7 @@ class PassengerController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:16',
             'email' => 'required|unique:users,email',
-            'password' => 'required|min:8|confirmed',
+            'password' => 'required|min:8',
             'first_name' => 'required',
             'last_name' => 'required',
             'contact' => 'required',
@@ -49,7 +49,7 @@ class PassengerController extends Controller
         //$user->sendEmailVerificationNotification();
 
         return response()->json([
-            'message' => 'OK',
+            'message' => 'Go to your email and verify your account',
             'username' => $user->name,
             'email' => $user->email,
         ]);
@@ -86,7 +86,10 @@ class PassengerController extends Controller
         };
 
         $user = User::where('email', $request->email)->first();
-        return $user->createToken($request->email)->plainTextToken;
+        return response()->json([
+            'token' => $user->createToken($request->email)->plainTextToken,
+            'profile' => $user->passengerProfile,
+        ]);
     }
 
     public function logout(Request $request)
