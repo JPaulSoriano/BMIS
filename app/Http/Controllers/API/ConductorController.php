@@ -175,7 +175,6 @@ class ConductorController extends Controller
         $dayName = Str::lower($travelDate->copy()->dayName);
         $travelDate = $travelDate->toDateString();
 
-
         $ride = Ride::join('buses', 'bus_id', 'buses.id')
             ->where('buses.conductor_id', $request->user()->id)
             ->where(function(Builder $query) use ($travelDate, $dayName){
@@ -190,6 +189,19 @@ class ConductorController extends Controller
                         });
                     });
             })
+            ->with(['route'])
+            ->first();
+
+        if(!$ride) return response()->json(['error' => 'No rides']);
+
+        // return $date;
+        return response()->json(['ride' => $ride] );
+    }
+
+    public function getRide(Request $request, $id)
+    {
+        $ride = Ride::join('buses', 'bus_id', 'buses.id')
+            ->where('buses.conductor_id', $request->user()->id)
             ->with(['route', 'route.terminals', 'bus.driver.employeeProfile'])
             ->first();
 
@@ -204,7 +216,6 @@ class ConductorController extends Controller
         if($employeeRide->exists()) $exists = 1;
         else $exists = 0;
 
-        // return $date;
         return response()->json(['ride' => $ride, 'booked' => $booked, 'aboard' => $aboard, 'exists' => $exists] );
     }
 

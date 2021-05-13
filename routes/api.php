@@ -51,6 +51,7 @@ Route::namespace('API')->group(function(){
                     Route::get('/today-sched', 'ConductorController@todaySchedule');
                     Route::get('/employee-profile', 'ConductorController@getEmployeeProfile');
                     Route::get('/issue-receipt/{book_code}', 'ConductorController@issueReceipt');
+                    Route::get('/get-ride', 'ConductorController@getRide');
                 });
         });
 });
