@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Bus;
+use App\User;
 use App\BusClass;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\Bus\StoreBusRequest;
 use App\Http\Requests\Bus\UpdateBusRequest;
-use Illuminate\Support\Facades\Auth;
 
 class BusController extends Controller
 {
@@ -20,6 +23,7 @@ class BusController extends Controller
     public function index()
     {
         //
+        
         if(Auth::user()->companyProfile->count() == 0)
             return redirect()->route('admin.profile')->withErrors(['error' => 'Provide company profile first']);
 
@@ -40,6 +44,7 @@ class BusController extends Controller
     {
         //
         $bus_classes = Auth::user()->company()->busClasses;
+
         return view('admin.buses.create', compact('bus_classes'));
     }
 
@@ -67,8 +72,18 @@ class BusController extends Controller
     public function show(Bus $bus)
     {
         //
+        $conductors = User::role('conductor')
+            ->whereHas('companyProfile', function($query){
+                $query->where('bus_company_profiles.id', Auth::user()->company()->id);
+            })
+            ->get();
+        $drivers = User::role('driver')
+            ->whereHas('companyProfile', function($query){
+                $query->where('bus_company_profiles.id', Auth::user()->company()->id);
+            })
+            ->get();
 
-        return view('admin.buses.show',compact('bus'));
+        return view('admin.buses.show',compact('bus', 'conductors', 'drivers'));
     }
 
     /**
@@ -113,5 +128,42 @@ class BusController extends Controller
 
         return redirect()->route('admin.buses.index')
                         ->with('success','Bus deleted successfully');
+    }
+
+    public function assignDriver(Request $request, Bus $bus)
+    {
+
+        $validator = Validator::make($request->all(), [
+            'driver_id' => [
+                    'required',
+                ],
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('admin.buses.show', $bus)
+                ->withErrors($validator);
+        }
+
+        $bus->driver_id = $request->driver_id;
+        $bus->save();
+
+        return redirect()->route('admin.buses.show', $bus)->withSuccess('Assigned driver successfully');
+    }
+
+    public function assignConductor(Request $request, Bus $bus)
+    {
+        $validator = Validator::make($request->all(), [
+            'conductor_id' => 'required',
+            ]);
+
+        if ($validator->fails()) {
+            return redirect()->route('admin.buses.show', $bus)
+                ->withErrors($validator);
+        }
+
+        $bus->conductor_id = $request->conductor_id;
+        $bus->save();
+
+        return redirect()->route('admin.buses.show', $bus)->withSuccess('Assigned conductor successfully');
     }
 }

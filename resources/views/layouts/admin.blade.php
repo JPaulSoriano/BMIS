@@ -58,6 +58,7 @@
                 {{ __('Settings') }}
             </div>
 
+
             <!-- Nav Item - Buses -->
             <li class="nav-item {{ Nav::isRoute('admin.buses.*') }} {{  Nav::isRoute('admin.bus-classes.*')  }}">
                 <a class="nav-link" href="{{ route('admin.buses.index') }}">
@@ -101,6 +102,7 @@
                 </a>
             </li>
 
+            @role('admin')
 
             <!-- Nav Item - Sales -->
             <li class="nav-item {{ Nav::isRoute('admin.sales.*') }}">
@@ -109,6 +111,8 @@
                     <span>{{ __('Sales') }}</span>
                 </a>
             </li>
+
+            @endrole
 
 
             @role('superadmin')
@@ -140,7 +144,7 @@
 
             @endrole
 
-
+            @role('admin')
 
             <!-- Nav Item - Employees -->
             <li class="nav-item {{ Nav::isRoute('admin.employees.*') }}">
@@ -159,13 +163,15 @@
                 </a>
             </li>
 
-            {{-- <!-- Nav Item - About -->
-            <li class="nav-item {{ Nav::isRoute('about') }}">
-                <a class="nav-link" href="{{ route('about') }}">
+            @endrole
+
+            <!-- Nav Item - About -->
+            <li class="nav-item {{ Nav::isRoute('admin.report*') }}">
+                <a class="nav-link" href="{{ route('admin.report.depart.arrive') }}">
                     <i class="fas fa-fw fa-hands-helping"></i>
-                    <span>{{ __('About') }}</span>
+                    <span>{{ __('Reports') }}</span>
                 </a>
-            </li> --}}
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

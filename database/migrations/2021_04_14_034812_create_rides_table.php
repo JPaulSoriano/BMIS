@@ -21,7 +21,7 @@ class CreateRidesTable extends Migration
             $table->time('departure_time');
             $table->date('ride_date')->nullable();
             $table->string('ride_type');
-            $table->boolean('auto_confirm')->default(0);
+            $table->boolean('auto_confirm')->default(1);
             $table->timestamps();
         });
     }

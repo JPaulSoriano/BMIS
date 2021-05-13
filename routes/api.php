@@ -14,16 +14,44 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return response()->json('ok');
+    return response()->json($request->user());
 });
 
 Route::namespace('API')->group(function(){
+
+    Route::get('/test', function(){
+        return response()->json(['ok' => 'hello']);
+    });
+
     Route::post('/register', 'PassengerController@register');
     Route::post('/login', 'PassengerController@login');
-    Route::post('/logout', 'PassengerController@logout');
 
-    Route::middleware(['auth:sanctum', 'verified'])->group(function(){
-        Route::resource('bookings', 'BookingController');
+
+    Route::middleware(['auth:sanctum', 'verified'])
+        ->prefix('passenger')
+        ->group(function(){
+            Route::post('/logout', 'PassengerController@logout');
+            Route::resource('bookings', 'BookingController');
     });
+
+    Route::prefix('conductor')
+        ->group(function(){
+            Route::post('/login', 'ConductorController@login');
+
+            Route::middleware('auth:sanctum')
+                ->group(function(){
+                    Route::post('/logout', 'ConductorController@logout');
+
+                    Route::post('/depart', 'ConductorController@depart');
+                    Route::post('/arrive', 'ConductorController@arrive');
+                    Route::get('/check-scheds', 'ConductorController@checkSchedules');
+
+                    Route::get('/today-sched', 'ConductorController@todaySchedule');
+                    Route::get('/employee-profile', 'ConductorController@getEmployeeProfile');
+                    Route::get('/issue-receipt/{book_code}', 'ConductorController@issueReceipt');
+                    Route::get('/get-ride/{id}', 'ConductorController@getRide');
+                });
+        });
 });

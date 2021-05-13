@@ -18,6 +18,9 @@ Route::get('/', function () {
 });
 
 Route::get('/test', 'Admin\DashboardController@graph');
+Route::get('/403', function(){
+    return view('403');
+});
 
 //all
 Auth::routes(['verify' => true]);
@@ -40,7 +43,7 @@ Route::middleware(['auth', 'verified'])->group(function(){
 });
 
 Route::namespace('Admin')
-    ->middleware('auth')
+    ->middleware(['auth', 'check.role'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function(){
@@ -53,6 +56,9 @@ Route::namespace('Admin')
         Route::put('/profile', 'ProfileController@update')->name('profile.update');
 
         Route::resource('buses','BusController');
+        Route::put('/assign-conductor/{bus}', 'BusController@assignConductor')->name('assign-conductor');
+        Route::put('/assign-driver/{bus}', 'BusController@assignDriver')->name('assign-driver');
+
         Route::resource('bus-classes','BusClassController')->except(['index', 'show']);
         Route::resource('terminals','TerminalController');
         Route::resource('routes','RouteController');
@@ -62,10 +68,12 @@ Route::namespace('Admin')
         Route::get('/createToken/{employee}', 'EmployeeController@createTokenForUser')->name('employee.createToken');
 
         Route::get('/passengers', 'PassengerController@index')->name('passengers');
+
+        Route::get('/report', 'ReportController@departureArrival')->name('report.depart.arrive');
     });
 
 Route::namespace('SuperAdmin')
-    ->middleware('auth')
+    ->middleware(['auth', 'check.role'])
     ->prefix('super')
     ->name('super.')
     ->group(function(){

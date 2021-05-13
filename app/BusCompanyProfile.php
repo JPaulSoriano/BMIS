@@ -10,7 +10,7 @@ class BusCompanyProfile extends Model
     use HasFactory;
 
     protected $fillable = [
-        'company_name', 'company_address', 'company_contact', 'company_mission', 'company_profile',
+        'company_name', 'company_address', 'company_contact', 'company_mission', 'company_profile', 'activate_point'
     ];
 
     public function employees()

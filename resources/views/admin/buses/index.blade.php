@@ -72,6 +72,7 @@
                                 <tr>
                                     <th>Class</th>
                                     <th>Rate per km</th>
+                                    <th>Points per 10km</th>
                                     <th style="width: 50px">Action</th>
                                 </tr>
                             </thead>
@@ -80,6 +81,7 @@
                                     <tr>
                                         <td>{{ $class->name }}</td>
                                         <td>₱ {{  number_format($class->rate, 2, '.', ',') }}</td>
+                                        <td> {{  number_format($class->point, 2, '.', ',') }}</td>
                                         <td class="d-flex justify-content-around">
                                             <a class="btn btn-primary btn-sm" href="{{ route('admin.bus-classes.edit', $class) }}"><i class="fas fa-edit"></i></a>
                                             <form action="#" method="POST">

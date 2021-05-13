@@ -31,6 +31,15 @@ class BookingController extends Controller
         $this->rideService = $rideService;
     }
 
+    function generateNumber()
+    {
+        $number = mt_rand(00000000000, 9999999999);
+
+        if(Booking::whereBookingCode($number)->exists()) $this->generateNumber();
+
+        return $number;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -107,7 +116,10 @@ class BookingController extends Controller
             $status = "confirmed";
         }
 
+        $number = $this->generateNumber();
+
         $booking = $request->user()->bookings()->create([
+            'booking_code' => $number,
             'ride_id' => $ride->id,
             'start_terminal_id' => $start,
             'end_terminal_id' => $end,

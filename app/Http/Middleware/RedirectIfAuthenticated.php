@@ -24,11 +24,6 @@ class RedirectIfAuthenticated
 
         }
 
-        // if (Auth::attempt(['active' => 0])) {
-        //     // The user is active, not suspended, and exists.
-        //     return back()->with('error', 'Account has been suspended!');
-        // }
-
         return $next($request);
     }
 }

@@ -10,7 +10,7 @@ class Bus extends Model
     use HasFactory;
 
     protected $fillable = [
-        'bus_no', 'bus_plate', 'bus_seat', 'company_id', 'bus_class_id', 'bus_name',
+        'bus_no', 'bus_plate', 'bus_seat', 'company_id', 'bus_class_id', 'bus_name', 'conductor_id', 'driver_id'
     ];
 
     public function busClass()
@@ -26,5 +26,15 @@ class Bus extends Model
     public function getRatePerKmAttribute()
     {
         return $this->busClass->rate;
+    }
+
+    public function conductor()
+    {
+        return $this->belongsTo(User::class, 'conductor_id');
+    }
+
+    public function driver()
+    {
+        return $this->belongsTo(User::class, 'driver_id');
     }
 }

@@ -31,6 +31,11 @@
                         <div class="form-group">
                             <input type="number" class="form-control @error('rate') is-invalid @enderror" placeholder="Rate" name="rate" value="{{ $busClass->rate }}" min=0 step=0.01>
                         </div>
+                        @if(Auth::user()->company()->activate_point == 1)
+                            <div class="form-group">
+                                <input type="number" class="form-control @error('point') is-invalid @enderror" placeholder="Point" name="point" value="{{ old('point') }}" min=0 step=0.01>
+                            </div>
+                        @endif
                     </div>
                     <div class="card-footer bg-primary d-flex justify-content-end">
                         <button type="submit" class="btn btn-light btn-sm"><i class="fas fa-save"></i></button>

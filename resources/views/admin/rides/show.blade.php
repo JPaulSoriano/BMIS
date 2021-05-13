@@ -56,7 +56,7 @@
                             @if($ride->ride_date)
                                 <tr>
                                     <th scope="row">Ride date</th>
-                                    <td>{{ $ride->ride_date->format('d.m.Y') }}</td>
+                                    <td>{{ $ride->ride_date_formatted->format('d.m.Y') }}</td>
                                 </tr>
                             @else
                                 <tr class="bg-light text-center text-uppercase">

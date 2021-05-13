@@ -25,7 +25,8 @@ class BusClassRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'rate' => 'required|numeric|min:0'
+            'rate' => 'required|numeric|min:0',
+            'point' => 'nullable|numeric|min:0'
         ];
     }
 }

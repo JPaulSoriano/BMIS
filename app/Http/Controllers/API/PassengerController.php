@@ -15,7 +15,7 @@ class PassengerController extends Controller
     //
     public function register(Request $request)
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required|max:16',
             'email' => 'required|unique:users,email',
             'password' => 'required|min:8|confirmed',
@@ -25,11 +25,15 @@ class PassengerController extends Controller
             'address' => 'required'
         ]);
 
-        $data = collect($validated);
+        if($validator->fails())
+        {
+            return response()->json($validator->messages(), 422);
+        }
+
         try{
             DB::beginTransaction();
-            $user = User::create($data->only('name', 'email', 'password')->toArray());
-            $user->passengerProfile()->create($data->except('name', 'email', 'password')->toArray());
+            $user = User::create($request->only('name', 'email', 'password'));
+            $user->passengerProfile()->create($request->except('name', 'email', 'password'));
             DB::commit();
         }catch(Exception $e)
         {
@@ -54,11 +58,15 @@ class PassengerController extends Controller
     public function login(Request $request)
     {
 
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required',
-            'device_name' => 'required',
         ]);
+
+        if($validator->fails())
+        {
+            return response()->json($validator->messages(), 422);
+        }
 
         $credentials = request(['email', 'password']);
         $newCredentials = array_merge($credentials, ['active' => 1]);
@@ -78,12 +86,7 @@ class PassengerController extends Controller
         };
 
         $user = User::where('email', $request->email)->first();
-        $authToken = $user->createToken($request->device_name)->plainTextToken;
-
-        return response()->json([
-            'access_token' => $authToken,
-            'email' => $user->email,
-        ]);
+        return $user->createToken($request->email)->plainTextToken;
     }
 
     public function logout(Request $request)
