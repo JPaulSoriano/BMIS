@@ -190,6 +190,7 @@ class ConductorController extends Controller
                     });
             })
             ->with(['route', 'route.terminals', 'bus.driver.employeeProfile'])
+            ->selectRaw('*, rides.id as ride_id')
             ->first();
 
         if(!$ride) return response()->json(['error' => 'No rides']);
@@ -209,6 +210,7 @@ class ConductorController extends Controller
     {
         $ride = Ride::join('buses', 'bus_id', 'buses.id')
             ->where('rides.id',$id)
+            ->selectRaw('*, rides.id as ride_id')
             ->with(['route', 'route.terminals', 'bus.driver.employeeProfile'])
             ->first();
 
