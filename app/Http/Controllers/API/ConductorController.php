@@ -77,7 +77,6 @@ class ConductorController extends Controller
         $validator = Validator::make($request->all(), [
             'ride_id' => 'required|exists:rides,id',
             'terminal_id' => 'required|exists:terminals,id',
-            'or_no' => 'required'
         ]);
 
         if($validator->fails())
@@ -88,6 +87,7 @@ class ConductorController extends Controller
         $ride = Ride::findOrFail($request->ride_id);
 
         $number = $this->generateNumber();
+        $orNumber = $this->generateNumber();
 
         $employee_ride = $ride->employeeRide()->create([
             'ride_code' => $number,
@@ -98,14 +98,14 @@ class ConductorController extends Controller
 
         $employee_ride->departure()->create([
             'terminal_id' => $request->terminal_id,
-            'or_no' => $request->or_no,
+            'or_no' => $orNumber,
         ]);
 
         //Broadcast to passenger that bus depart
 
         return response()->json([
             'ride_code' => $employee_ride->ride_code,
-            'message' => 'SuccessFul'
+            'message' => 'Successful'
         ]);
     }
 
@@ -114,7 +114,6 @@ class ConductorController extends Controller
         $validator = Validator::make($request->all(), [
             'ride_code' => 'required|exists:employee_ride,ride_code',
             'terminal_id' => 'required|exists:terminals,id',
-            'or_no' => 'required'
         ]);
 
         if($validator->fails())
@@ -122,11 +121,12 @@ class ConductorController extends Controller
             return response()->json($validator->messages(), 422);
         }
 
+        $orNumber = $this->generateNumber();
         $employeeRide = EmployeeRide::where('ride_code', $request->ride_code)->first();
 
         $employeeRide->arrival()->create([
             'terminal_id' => $request->terminal_id,
-            'or_no' => $request->or_no,
+            'or_no' => $orNumber,
         ]);
 
         return response()->json([
