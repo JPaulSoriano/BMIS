@@ -89,6 +89,7 @@ class PassengerController extends Controller
         return response()->json([
             'token' => $user->createToken($request->email)->plainTextToken,
             'profile' => $user->passengerProfile,
+            'user' => $user,
         ]);
     }
 

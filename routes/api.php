@@ -27,12 +27,13 @@ Route::namespace('API')->group(function(){
     });
 
     Route::post('/register', 'PassengerController@register');
-    Route::post('/login', 'PassengerController@login');
+
 
 
     Route::middleware(['auth:sanctum', 'verified'])
         ->prefix('passenger')
         ->group(function(){
+            Route::post('/login', 'PassengerController@login');
             Route::post('/logout', 'PassengerController@logout');
             Route::resource('bookings', 'BookingController');
     });
