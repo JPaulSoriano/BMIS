@@ -37,4 +37,9 @@ class Bus extends Model
     {
         return $this->belongsTo(User::class, 'driver_id');
     }
+
+    public function company()
+    {
+        return $this->belongsTo(BusCompanyProfile::class, 'company_id');
+    }
 }
