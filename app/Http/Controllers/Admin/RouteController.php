@@ -19,6 +19,8 @@ class RouteController extends Controller
     public function index()
     {
         //
+        if(Auth::user()->companyProfile->count() == 0)
+            return redirect()->route('admin.profile')->withErrors(['error' => 'Provide company profile first']);
         $routes = Auth::user()->company()->routes()->latest()->paginate(10);
 
         return view('admin.routes.index',compact('routes'))

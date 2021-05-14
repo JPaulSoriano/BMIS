@@ -38,6 +38,8 @@ class BookingController extends Controller
     public function index()
     {
         //
+        if(Auth::user()->companyProfile->count() == 0)
+            return redirect()->route('admin.profile')->withErrors(['error' => 'Provide company profile first']);
         $travel_date = null;
 
         if(request('travel_date')){

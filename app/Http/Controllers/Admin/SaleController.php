@@ -18,6 +18,8 @@ class SaleController extends Controller
     public function index()
     {
         //
+        if(Auth::user()->companyProfile->count() == 0)
+            return redirect()->route('admin.profile')->withErrors(['error' => 'Provide company profile first']);
 
         $sales = Sale::join('bookings', 'booking_id', 'bookings.id')
             ->join('rides', 'bookings.ride_id', 'rides.id')
