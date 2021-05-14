@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\Booking\StoreBookingRequest;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Query\Builder as QueryBuilder;
+use App\Http\Resources\Rides as RideResources;
+
 
 class BookingController extends Controller
 {
@@ -200,5 +201,20 @@ class BookingController extends Controller
             'available_seats' => $availableSeats]);
     }
 
+    public function getTerminals()
+    {
+        return response()->json(Terminal::all());
+    }
 
+    public function searchRides()
+    {
+        $rides = collect();
+
+        if(request('start') && request('end') && request('travel_date')){
+            $rides = $this->rideService->getRidesByTerminals(request('start'), request('end'), request('travel_date'));
+        }
+
+    
+        return response()->json(RideResources::collection($rides));
+    }
 }

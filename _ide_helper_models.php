@@ -350,6 +350,7 @@ namespace App{
  * @property string|null $name_extension
  * @property string $contact
  * @property string $address
+ * @property float $points
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $full_name
@@ -365,6 +366,7 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|PassengerProfile whereMiddleName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PassengerProfile whereNameExtension($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PassengerProfile wherePassengerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PassengerProfile wherePoints($value)
  * @method static \Illuminate\Database\Eloquent\Builder|PassengerProfile whereUpdatedAt($value)
  */
 	class PassengerProfile extends \Eloquent {}
@@ -649,6 +651,6 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
-	class User extends \Eloquent {}
+	class User extends \Eloquent implements \Illuminate\Contracts\Auth\MustVerifyEmail {}
 }
 

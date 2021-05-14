@@ -40,6 +40,7 @@
                 <div class="sidebar-brand-text mx-3">BMIS</div>
             </a>
 
+            @role('admin')
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
@@ -58,6 +59,9 @@
                 {{ __('Settings') }}
             </div>
 
+            @endrole
+
+            @hasanyrole('admin|operation')
 
             <!-- Nav Item - Buses -->
             <li class="nav-item {{ Nav::isRoute('admin.buses.*') }} {{  Nav::isRoute('admin.bus-classes.*')  }}">
@@ -83,8 +87,6 @@
                 </a>
             </li>
 
-
-
             <!-- Nav Item - Rides -->
             <li class="nav-item {{ Nav::isRoute('admin.rides.*') }}">
                 <a class="nav-link" href="{{ route('admin.rides.index') }}">
@@ -93,6 +95,9 @@
                 </a>
             </li>
 
+            @endhasanyrole
+
+            @role('admin')
 
             <!-- Nav Item - Bookings -->
             <li class="nav-item {{ Nav::isRoute('bookings.*') }}">
@@ -102,7 +107,6 @@
                 </a>
             </li>
 
-            @role('admin')
 
             <!-- Nav Item - Sales -->
             <li class="nav-item {{ Nav::isRoute('admin.sales.*') }}">
@@ -131,9 +135,8 @@
                     <span>{{ __('Passengers') }}</span>
                 </a>
             </li>
-
-            @else
-
+            @endrole
+            @role('admin')
             <!-- Nav Item - Passengers - super -->
             <li class="nav-item {{ Nav::isRoute('admin.passengers*') }}">
                 <a class="nav-link" href="{{ route('admin.passengers') }}">
@@ -142,9 +145,9 @@
                 </a>
             </li>
 
-            @endrole
 
-            @role('admin')
+
+
 
             <!-- Nav Item - Employees -->
             <li class="nav-item {{ Nav::isRoute('admin.employees.*') }}">
@@ -163,7 +166,7 @@
                 </a>
             </li>
 
-            @endrole
+
 
             <!-- Nav Item - About -->
             <li class="nav-item {{ Nav::isRoute('admin.report*') }}">
@@ -172,6 +175,8 @@
                     <span>{{ __('Reports') }}</span>
                 </a>
             </li>
+
+            @endrole
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

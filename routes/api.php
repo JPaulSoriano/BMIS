@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,14 +27,18 @@ Route::namespace('API')->group(function(){
     });
 
     Route::post('/register', 'PassengerController@register');
+
     Route::post('/login', 'PassengerController@login');
 
 
-    Route::middleware(['auth:sanctum', 'verified'])
+    Route::middleware(['auth:sanctum'])
         ->prefix('passenger')
         ->group(function(){
+
             Route::post('/logout', 'PassengerController@logout');
             Route::resource('bookings', 'BookingController');
+            Route::get('/get-terminals', 'BookingController@getTerminals');
+            Route::get('/search-rides', 'BookingController@searchRides');
     });
 
     Route::prefix('conductor')
@@ -54,4 +59,6 @@ Route::namespace('API')->group(function(){
                     Route::get('/get-ride/{id}', 'ConductorController@getRide');
                 });
         });
+
+
 });
