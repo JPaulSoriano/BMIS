@@ -37,6 +37,7 @@ Route::namespace('API')->group(function(){
 
             Route::post('/logout', 'PassengerController@logout');
             Route::resource('bookings', 'BookingController');
+            Route::get('/search-rides', 'BookingController@searchRides');
     });
 
     Route::prefix('conductor')

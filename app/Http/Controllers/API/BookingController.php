@@ -200,5 +200,37 @@ class BookingController extends Controller
             'available_seats' => $availableSeats]);
     }
 
+    public function getTerminals()
+    {
+        return response()->json(Terminal::all());
+    }
 
+    public function searchRides()
+    {
+        $rides = collect();
+
+        if(request('start') && request('end') && request('travel_date')){
+            $rides = $this->rideService->getRidesByTerminals(request('start'), request('end'), request('travel_date'));
+        }
+
+        $newRide = collect();
+
+        if($rides->count() > 0)
+        {
+            $newRide = $rides->mapWithKeys(function($ride){
+                $new = [];
+                $new['ride_id'] = $ride->ride_id;
+                $new['route_name'] = $ride->route->route_name;
+                $new['bus_name'] = $ride->bus->bus_name;
+                $new['start_terminal'] = $ride->route->getTerminalNameById(request('start'));
+                $new['end_terminal'] = $ride->route->getTerminalNameById(request('end'));
+                $new['departure_time'] = $ride->departure_time_formatted;
+                $new['bus_seat'] = $ride->bus->bus_seat;
+                $new['booked_seats'] = $ride->booked_seats;
+                return $new;
+            });
+        }
+
+        return response()->json($newRide);
+    }
 }
