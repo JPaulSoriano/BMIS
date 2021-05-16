@@ -11,6 +11,11 @@ class PassengerProfile extends Model
 
     protected $guarded = [];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'passenger_id');
+    }
+
     public function getFullNameAttribute()
     {
         return "{$this->last_name}, {$this->first_name}";

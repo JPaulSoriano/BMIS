@@ -25,7 +25,7 @@
                     <h3 class="text-center">DAILY RECORDS OF BUS DISPATCHES AND ARRIVAL</h3>
                     <div class="row mt-3">
                         <div class="col">
-                            <table class="table text-center">
+                            <table id="example" class="table text-center">
                                 <thead>
                                     <tr>
                                         <th colspan=7>DEPARTURE</th>
