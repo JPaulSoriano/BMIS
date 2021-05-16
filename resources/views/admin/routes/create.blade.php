@@ -16,12 +16,6 @@
                         <div class="form-group">
                             <input type="text" class="form-control @error('route_name') is-invalid @enderror" placeholder="Route Name" name="route_name">
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md">
-                                <input type="number" placeholder="Total Time" class="form-control" id="total" disabled>
-                            </div>
-                            <label for="total" class="col-md-auto col-form-label">in min</label>
-                        </div>
                     </div>
                     <div class="card rounded-0 bg-primary d-sm-flex align-items-center justify-content-between">
                         <h6 class="mx-0 my-3 font-weight-bold text-white">Via</h6>

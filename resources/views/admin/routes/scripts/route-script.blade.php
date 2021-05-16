@@ -1,14 +1,7 @@
 <script>
     $(document).ready(function(){
 
-        function getTotalTimeTravel()
-        {
-            var value = 0;
-            $('input[name="travel_time[]"]').each(function(){
-                value += +$(this).val();
-            })
-            $('#total').val(value);
-        }
+
 
         function changeRouteButtons()
         {
@@ -78,13 +71,9 @@
                 $(this).closest('div.form-inline').remove();
             }
 
-            getTotalTimeTravel();
             changeRouteButtons();
             checkRouteSelect();
         });
 
-        $(document).keyup('.travel', function(e){
-            getTotalTimeTravel();
-        });
     });
 </script>
