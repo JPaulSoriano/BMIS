@@ -19,6 +19,8 @@ class TerminalController extends Controller
     public function index()
     {
         //
+        if(Auth::user()->companyProfile->count() == 0)
+            return redirect()->route('admin.profile')->withErrors(['error' => 'Provide company profile first']);
         $terminals = Auth::user()->company()->terminals()->latest()->paginate(5);
 
         return view('admin.terminals.index',compact('terminals'))

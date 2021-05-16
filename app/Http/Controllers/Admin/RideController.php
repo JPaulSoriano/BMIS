@@ -25,6 +25,8 @@ class RideController extends Controller
      */
     public function index()
     {
+        if(Auth::user()->companyProfile->count() == 0)
+            return redirect()->route('admin.profile')->withErrors(['error' => 'Provide company profile first']);
         //
         if( request('ride_date')){
             $ride_date = request('ride_date');

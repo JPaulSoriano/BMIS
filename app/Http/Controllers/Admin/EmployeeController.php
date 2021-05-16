@@ -23,7 +23,9 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        if(Auth::user()->companyProfile->count() == 0)
+            return redirect()->route('admin.profile')->withErrors(['error' => 'Provide company profile first']);
+
         $employees = User::role(['conductor', 'operation', 'driver'])->with('roles')
             ->whereHas('companyProfile', function($query){
                 $query->where('bus_company_profiles.id', Auth::user()->company()->id);
