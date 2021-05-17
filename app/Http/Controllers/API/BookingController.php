@@ -56,15 +56,19 @@ class BookingController extends Controller
             $travel_date = request('travel_date');
         }
 
-        $bookings = Booking::select('*', 'bookings.id as book_id')
-            ->join('rides', 'ride_id', 'rides.id')
-            ->join('users', 'rides.user_id', 'users.id')
-            ->where('users.id', Auth::user()->id)
-            ->when($travel_date, function($query){
-                return $query->where('travel_date', request('travel_date'));
-            })->orderBy('bookings.updated_at', 'desc')
-            ->orderBy('travel_date', 'asc')->get();
-        return response()->json($bookings);
+        // $bookings = Booking::select('*', 'bookings.id as book_id')
+        //     ->join('rides', 'ride_id', 'rides.id')
+        //     ->join('users', 'rides.user_id', 'users.id')
+        //     ->where('users.id', Auth::user()->id)
+        //     ->when($travel_date, function($query){
+        //         return $query->where('travel_date', request('travel_date'));
+        //     })->orderBy('bookings.updated_at', 'desc')
+        //     ->orderBy('travel_date', 'asc')->get();
+        // return response()->json($bookings);
+
+        $bookings = request()->user()->bookings;
+
+        return response()->json(BookingResource::collection($bookings));
     }
 
     /**
