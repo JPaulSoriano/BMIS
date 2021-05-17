@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\Booking\StoreBookingRequest;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Rides as RideResources;
+use App\Http\Resources\Rides as RideResource;
+use App\Http\Resources\Bookings as BookingResource;
 
 
 class BookingController extends Controller
@@ -145,9 +146,7 @@ class BookingController extends Controller
 
 
         // return redirect()->route('bookings.my.bookings');
-        return response()->json([
-            'ticket' => $booking->booking_code,
-        ]);
+        return response()->json(new BookingResource($booking));
     }
 
     /**
@@ -205,7 +204,7 @@ class BookingController extends Controller
 
         $ride = $rides->where('ride_id', request('ride_id'));
 
-        return response()->json(RideResources::collection($ride));
+        return response()->json(RideResource::collection($ride));
     }
 
     public function getTerminals()
@@ -221,7 +220,7 @@ class BookingController extends Controller
             $rides = $this->rideService->getRidesByTerminals(request('start'), request('end'), request('travel_date'));
         }
 
-        return response()->json(RideResources::collection($rides));
+        return response()->json(RideResource::collection($rides));
     }
 
     public function computeFare()
