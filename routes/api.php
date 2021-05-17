@@ -34,7 +34,7 @@ Route::namespace('API')->group(function(){
     Route::middleware(['auth:sanctum'])
         ->prefix('passenger')
         ->group(function(){
-
+            Route::get('/retreive-points', 'PassengerController@retreivePoints');
             Route::post('/logout', 'PassengerController@logout');
             Route::resource('bookings', 'BookingController');
             Route::get('/get-terminals', 'BookingController@getTerminals');

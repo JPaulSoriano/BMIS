@@ -104,10 +104,8 @@ class PassengerController extends Controller
         ]);
     }
 
-    public function test()
+    public function retreivePoints()
     {
-        return response()->json([
-            'test' => 'Test is Successful. Authentication Ok. Verified Ok',
-        ]);
+        return request()->user()->passengerProfile->points;
     }
 }
