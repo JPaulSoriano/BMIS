@@ -58,7 +58,13 @@ class Ride extends Model
 
     public function getTotalPayment($start, $end)
     {
-        return $this->route->getTotalKm($start, $end) * $this->bus->busClass->rate;
+        $km_minus = $this->route->getTotalKm($start, $end) - 5;
+        $flat_rate = $this->bus->busClass->flat_rate;
+        $rate = $this->bus->busClass->rate;
+
+        $total_fare = (($km_minus * $rate) + $flat_rate);
+
+        return $total_fare;
     }
 
     public function getDepartureTimeFormattedAttribute(){

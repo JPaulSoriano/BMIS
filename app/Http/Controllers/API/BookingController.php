@@ -134,7 +134,7 @@ class BookingController extends Controller
             'end_terminal_id' => $end,
             'travel_date' => $travelDate,
             'pax' => $request->pax,
-            'points' => $request->totalPoints,
+            'points' => $totalPoints,
             'status' => $status ?? 'new',
         ]);
 
@@ -146,7 +146,7 @@ class BookingController extends Controller
 
         // return redirect()->route('bookings.my.bookings');
         return response()->json([
-            'ok' => 'Successful'
+            'ticket' => $booking->booking_code,
         ]);
     }
 

@@ -48,6 +48,7 @@ namespace App{
  * @property int $start_terminal_id
  * @property int $end_terminal_id
  * @property int $pax
+ * @property float $points
  * @property int $aboard
  * @property string $status
  * @property string|null $reason
@@ -72,6 +73,7 @@ namespace App{
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking wherePassengerId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking wherePax($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Booking wherePoints($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereReason($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereRideId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking whereStartTerminalId($value)
