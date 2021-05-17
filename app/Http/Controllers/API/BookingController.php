@@ -19,7 +19,7 @@ use App\Http\Requests\Booking\StoreBookingRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Rides as RideResource;
 use App\Http\Resources\Bookings as BookingResource;
-
+use Illuminate\Support\Facades\Validator;
 
 class BookingController extends Controller
 {
@@ -96,8 +96,23 @@ class BookingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreBookingRequest $request)
+    public function store(Request $request)
     {
+        $today = now()->toDateString();
+
+        $validator = Validator::make($request->all(),[
+            'ride_id' => 'required|exists:rides,id',
+            'start_terminal_id' => 'required|exists:terminals,id',
+            'end_terminal_id' => 'required|exists:terminals,id',
+            'travel_date' => 'required|after:'.$today,
+            'pax' => 'nullable|numeric|min:1'
+        ]);
+
+        if($validator->fails())
+        {
+            return response()->json($validator->messages(), 422);
+        }
+
         $ride = Ride::findOrFail($request->ride_id);
         $start = $request->start_terminal_id;
         $end = $request->end_terminal_id;
