@@ -117,6 +117,14 @@ class BookingController extends Controller
             $status = "confirmed";
         }
 
+        $totalPoints = 0;
+
+        if($ride->company->activate_point == 1)
+        {
+            $totalKm = $ride->route->getTotalKm($start, $end);
+            $totalPoints = $totalKm/10 * $ride->bus->point;
+        }
+
         $number = $this->generateNumber();
 
         $booking = $request->user()->bookings()->create([
@@ -126,6 +134,7 @@ class BookingController extends Controller
             'end_terminal_id' => $end,
             'travel_date' => $travelDate,
             'pax' => $request->pax,
+            'points' => $request->totalPoints,
             'status' => $status ?? 'new',
         ]);
 
@@ -134,18 +143,10 @@ class BookingController extends Controller
             'payment' => $ride->getTotalPayment($start, $end) * $request->pax,
         ]);
 
-        $receipt = collect($booking->replicate()->only('booking_code', 'ride_id', 'passenger_id', 'start_terminal_id', 'end_terminal_id', 'pax'));
-
-        if($ride->company->activate_point == 1)
-        {
-            $totalKm = $booking->ride->route->getTotalKm($booking->start_terminal_id, $booking->end_terminal_id);
-            $totalPoints = $totalKm/10 * $booking->ride->bus->point;
-            $receipt = $receipt->merge(['points' => $totalPoints]);
-        }
 
         // return redirect()->route('bookings.my.bookings');
         return response()->json([
-            'OK' => 'Successful'
+            'ok' => 'Successful'
         ]);
     }
 

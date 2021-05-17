@@ -31,7 +31,7 @@ class Ride extends Model
 
     public function ride()
     {
-        return $this->belongsTo(BusCompanyProfile::class, 'company_id');
+    return $this->belongsTo(BusCompanyProfile::class, 'company_id');
     }
 
     public function bus()

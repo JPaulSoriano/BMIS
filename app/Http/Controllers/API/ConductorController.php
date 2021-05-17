@@ -248,10 +248,10 @@ class ConductorController extends Controller
             $receipt = $receipt->merge(['points' => $totalPoints]);
         }
 
+        PassengerHistory::create($receipt);
+
         $booking->aboard =  1;
         $booking->save();
-
-        PassengerHistory::create($receipt);
 
         //Send receipt to passenger
 
