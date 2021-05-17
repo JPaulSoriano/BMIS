@@ -19,7 +19,7 @@ class Bookings extends JsonResource
             'booking_code' => $this->booking_code,
             'bus' => $this->ride->bus->bus_name,
             'trip' => $this->ride->route->route_name,
-            'time' => $this->ride->departure_time,
+            'time' => $this->ride->departure_time_formatted,
             'ride_date' => $this->travel_date,
             'pax' => $this->pax,
             'fare' => $this->sale->payment,

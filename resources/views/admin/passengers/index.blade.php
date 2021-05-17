@@ -21,6 +21,7 @@
                                     <th>No</th>
                                     <th>Username</th>
                                     <th>Email</th>
+                                    <th>Points</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -29,6 +30,7 @@
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $user->passengerProfile->full_name }}</td>
                                         <td>{{ $user->email }}</td>
+                                        <td>{{ $user->passengerProfile->points }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

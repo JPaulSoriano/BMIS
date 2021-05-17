@@ -49,24 +49,8 @@ class BookingController extends Controller
      */
     public function index()
     {
-        //
-        $travel_date = null;
 
-        if(request('travel_date')){
-            $travel_date = request('travel_date');
-        }
-
-        // $bookings = Booking::select('*', 'bookings.id as book_id')
-        //     ->join('rides', 'ride_id', 'rides.id')
-        //     ->join('users', 'rides.user_id', 'users.id')
-        //     ->where('users.id', Auth::user()->id)
-        //     ->when($travel_date, function($query){
-        //         return $query->where('travel_date', request('travel_date'));
-        //     })->orderBy('bookings.updated_at', 'desc')
-        //     ->orderBy('travel_date', 'asc')->get();
-        // return response()->json($bookings);
-
-        $bookings = request()->user()->bookings;
+        $bookings = request()->user()->bookings->sortBy('travel_date');
 
         return response()->json(BookingResource::collection($bookings));
     }
@@ -255,5 +239,11 @@ class BookingController extends Controller
         $total_fare = (($km_minus * $rate) + $flat_rate) * $pax;
 
         return $total_fare;
+    }
+
+    public function getBooking()
+    {
+        $booking = request()->user()->bookings->sortBy('travel_date')->first();
+        return response()->json(new BookingResource($booking));
     }
 }
