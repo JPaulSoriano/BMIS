@@ -127,6 +127,8 @@ class BookingController extends Controller
         {
             $totalKm = $ride->route->getTotalKm($start, $end);
             $totalPoints = $totalKm/10 * $ride->bus->busClass->point;
+            $request->user()->passengerProfile->points = $totalPoints;
+            $request->user()->push();
         }
 
         $number = $this->generateNumber();
