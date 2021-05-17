@@ -135,7 +135,7 @@ class BookingController extends Controller
 
         $totalPoints = 0;
 
-        if($ride->company()->activate_point == 1)
+        if($ride->company->activate_point == 1)
         {
             $totalKm = $ride->route->getTotalKm($start, $end);
             $totalPoints = $totalKm/10 * $ride->bus->point;
