@@ -104,7 +104,7 @@ class PassengerController extends Controller
         ]);
     }
 
-    public function retreivePoints()
+    public function retrievePoints()
     {
         return request()->user()->passengerProfile->points;
     }
