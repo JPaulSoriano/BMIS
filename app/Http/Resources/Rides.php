@@ -15,7 +15,7 @@ class Rides extends JsonResource
     public function toArray($request)
     {
         return [
-            'company_name' => $this->bus->company->company_name,
+            'company_name' => $this->company->company_name,
             'ride_id' => $this->ride_id,
             'route_name' => $this->route->route_name,
             'bus_no' => $this->bus->bus_no,
