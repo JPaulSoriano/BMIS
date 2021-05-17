@@ -422,11 +422,11 @@ namespace App{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Booking[] $bookings
  * @property-read int|null $bookings_count
  * @property-read \App\Bus $bus
+ * @property-read \App\BusCompanyProfile $company
  * @property-read \App\EmployeeRide|null $employeeRide
  * @property-read mixed $departure_time_formatted
  * @property-read mixed $ride_date_formatted
  * @property-read array $running_days
- * @property-read \App\BusCompanyProfile $ride
  * @property-read \App\Route $route
  * @property-read \App\RideSchedule|null $schedule
  * @method static \Illuminate\Database\Eloquent\Builder|Ride active()
