@@ -138,7 +138,7 @@ class BookingController extends Controller
         if($ride->company->activate_point == 1)
         {
             $totalKm = $ride->route->getTotalKm($start, $end);
-            $totalPoints = $totalKm/10 * $ride->bus->point;
+            $totalPoints = $totalKm/10 * $ride->bus->busClass->point;
         }
 
         $number = $this->generateNumber();
@@ -153,6 +153,8 @@ class BookingController extends Controller
             'points' => $totalPoints,
             'status' => $status ?? 'new',
         ]);
+
+
 
         $booking->sale()->create([
             'rate' => $ride->bus->busClass->rate,
