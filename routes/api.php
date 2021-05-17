@@ -39,6 +39,8 @@ Route::namespace('API')->group(function(){
             Route::resource('bookings', 'BookingController');
             Route::get('/get-terminals', 'BookingController@getTerminals');
             Route::get('/search-rides', 'BookingController@searchRides');
+            Route::get('/compute-fare', 'BookingController@computeFare');
+            Route::get('/book', 'BookingController@book');
     });
 
     Route::prefix('conductor')

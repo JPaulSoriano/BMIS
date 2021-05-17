@@ -22,6 +22,7 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\EmployeeRide $employeeRide
+ * @method static \Database\Factories\ArrivalFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Arrival newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Arrival newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Arrival query()
@@ -60,6 +61,7 @@ namespace App{
  * @property-read \App\Ride $ride
  * @property-read \App\Sale|null $sale
  * @property-read \App\Terminal $startTerminal
+ * @method static \Database\Factories\BookingFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Booking newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Booking newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Booking query()
@@ -96,6 +98,7 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\BusClass $busClass
+ * @property-read \App\BusCompanyProfile $company
  * @property-read \App\User|null $conductor
  * @property-read \App\User|null $driver
  * @property-read mixed $rate_per_km
@@ -127,14 +130,17 @@ namespace App{
  * @property int $company_id
  * @property string $name
  * @property float $rate
+ * @property float $flat_rate
  * @property float|null $point
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\BusCompanyProfile $company
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass query()
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereCompanyId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereFlatRate($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|BusClass wherePoint($value)
@@ -239,6 +245,7 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\EmployeeRide $employeeRide
+ * @method static \Database\Factories\DepartureFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Departure newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Departure newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Departure query()
@@ -301,6 +308,7 @@ namespace App{
  * @property-read \App\Departure|null $departure
  * @property-read \App\User $driver
  * @property-read \App\Ride $ride
+ * @method static \Database\Factories\EmployeeRideFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|EmployeeRide newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|EmployeeRide newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|EmployeeRide query()
@@ -354,6 +362,8 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read mixed $full_name
+ * @property-read \App\User $user
+ * @method static \Database\Factories\PassengerProfileFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|PassengerProfile newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PassengerProfile newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PassengerProfile query()
@@ -414,6 +424,7 @@ namespace App{
  * @property-read mixed $departure_time_formatted
  * @property-read mixed $ride_date_formatted
  * @property-read array $running_days
+ * @property-read \App\BusCompanyProfile $ride
  * @property-read \App\Route $route
  * @property-read \App\RideSchedule|null $schedule
  * @method static \Illuminate\Database\Eloquent\Builder|Ride active()
@@ -531,6 +542,7 @@ namespace App{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Booking $booking
+ * @method static \Database\Factories\SaleFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Sale newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Sale newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Sale query()

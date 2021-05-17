@@ -9,7 +9,10 @@ class BusClass extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name', 'rate', 'point'
-    ];
+    protected $guarded = [];
+
+    public function company()
+    {
+        return $this->belongsTo(BusCompanyProfile::class, 'company_id');
+    }
 }

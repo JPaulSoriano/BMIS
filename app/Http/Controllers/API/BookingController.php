@@ -108,7 +108,7 @@ class BookingController extends Controller
         $availableSeats = $ride->bus->bus_seat - $occupiedSeats;
 
         if($request->pax > $availableSeats){
-            return redirect()->back()->withErrors('You cannot book more than available');
+            return response()->json(['error' => 'You cannot book more than available']);
         }
 
         //Check auto_confirm
@@ -133,6 +133,15 @@ class BookingController extends Controller
             'rate' => $ride->bus->busClass->rate,
             'payment' => $ride->getTotalPayment($start, $end) * $request->pax,
         ]);
+
+        $receipt = collect($booking->replicate()->only('booking_code', 'ride_id', 'passenger_id', 'start_terminal_id', 'end_terminal_id', 'pax'));
+
+        if($ride->company->activate_point == 1)
+        {
+            $totalKm = $booking->ride->route->getTotalKm($booking->start_terminal_id, $booking->end_terminal_id);
+            $totalPoints = $totalKm/10 * $booking->ride->bus->point;
+            $receipt = $receipt->merge(['points' => $totalPoints]);
+        }
 
         // return redirect()->route('bookings.my.bookings');
         return response()->json([
@@ -185,20 +194,17 @@ class BookingController extends Controller
         //
     }
 
-    public function book(Ride $ride, $start, $end, $travelDate)
+    public function book()
     {
-        $startTerminal = $ride->route->terminals->where('id', $start)->first();
-        $endTerminal = $ride->route->terminals->where('id', $end)->first();
+        $rides = collect();
 
-        $occupiedSeats = $this->bookingService->getOccupiedSeats($ride, $start, $end, $travelDate);
+        if(request('start') && request('end') && request('travel_date')){
+            $rides = $this->rideService->getRidesByTerminals(request('start'), request('end'), request('travel_date'));
+        }
 
-        $availableSeats = $ride->bus->bus_seat - $occupiedSeats;
+        $ride = $rides->where('ride_id', request('ride_id'));
 
-        return response()->json(['ride' => $ride,
-            'start_terminal' => $startTerminal,
-            'end_terminal' => $endTerminal,
-            'travel_date' => $travelDate,
-            'available_seats' => $availableSeats]);
+        return response()->json(RideResources::collection($ride));
     }
 
     public function getTerminals()
@@ -214,7 +220,19 @@ class BookingController extends Controller
             $rides = $this->rideService->getRidesByTerminals(request('start'), request('end'), request('travel_date'));
         }
 
-    
         return response()->json(RideResources::collection($rides));
+    }
+
+    public function computeFare()
+    {
+        $ride = Ride::findOrFail(request('ride_id'));
+        $pax = request('pax');
+        $km_minus = (int)request('total_km') - 5;
+        $flat_rate = $ride->bus->busClass->flat_rate;
+        $rate = $ride->bus->busClass->rate;
+
+        $total_fare = (($km_minus * $rate) + $flat_rate) * $pax;
+
+        return $total_fare;
     }
 }

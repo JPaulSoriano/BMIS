@@ -59,7 +59,7 @@ Route::namespace('Admin')
         Route::put('/assign-conductor/{bus}', 'BusController@assignConductor')->name('assign-conductor');
         Route::put('/assign-driver/{bus}', 'BusController@assignDriver')->name('assign-driver');
 
-        Route::resource('bus-classes','BusClassController')->except(['index', 'show']);
+        Route::resource('bus-classes','BusClassController')->except(['index']);
         Route::resource('terminals','TerminalController');
         Route::resource('routes','RouteController');
         Route::resource('rides','RideController');

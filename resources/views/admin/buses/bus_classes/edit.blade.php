@@ -31,6 +31,9 @@
                         <div class="form-group">
                             <input type="number" class="form-control @error('rate') is-invalid @enderror" placeholder="Rate" name="rate" value="{{ $busClass->rate }}" min=0 step=0.01>
                         </div>
+                        <div class="form-group">
+                            <input type="number" class="form-control @error('flat_rate') is-invalid @enderror" placeholder="Flat Rate" name="flat_rate" value="{{  $busClass->flat_rate }}" min=0 step=0.01>
+                        </div>
                         @if(Auth::user()->company()->activate_point == 1)
                             <div class="form-group">
                                 <input type="number" class="form-control @error('point') is-invalid @enderror" placeholder="Point" name="point" value="{{ $busClass->point }}" min=0 step=0.01>

@@ -36,6 +36,11 @@ class BusClassController extends Controller
         return redirect()->route('admin.buses.index');
     }
 
+    public function show(BusClass $busClass)
+    {
+        return view('admin.buses.bus_classes.show', compact('busClass'));
+    }
+
 
     /**
      * Show the form for editing the specified resource.
