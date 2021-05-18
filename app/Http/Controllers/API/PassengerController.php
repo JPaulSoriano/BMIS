@@ -104,6 +104,31 @@ class PassengerController extends Controller
         ]);
     }
 
+    public function updateAcount(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:16',
+            'email' => 'required|unique:users,email',
+            'password' => 'required|min:8|confirmed',
+            'first_name' => 'nullable',
+            'last_name' => 'nullable',
+            'contact' => 'nullable',
+            'address' => 'nullable'
+        ]);
+
+        if($validator->fails())
+        {
+            return response()->json($validator->messages(), 422);
+        }
+
+        $request->user()->update($request->input());
+
+        return response()->json([
+            'profile' => $request->user()->passengerProfile,
+            'user' => $request->user(),
+        ]);
+    }
+
     public function retrievePoints()
     {
         return request()->user()->passengerProfile->points;
