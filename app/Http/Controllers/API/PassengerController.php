@@ -33,7 +33,7 @@ class PassengerController extends Controller
         try{
             DB::beginTransaction();
             $user = User::create($request->only('name', 'email', 'password'));
-            $user->passengerProfile()->create($request->except('name', 'email', 'password'));
+            $user->passengerProfile()->create($request->except('name', 'email', 'password', 'password_confirmation'));
             DB::commit();
         }catch(Exception $e)
         {
