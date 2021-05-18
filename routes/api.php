@@ -35,6 +35,7 @@ Route::namespace('API')->group(function(){
         ->prefix('passenger')
         ->group(function(){
             Route::get('/retrieve-points', 'PassengerController@retreivePoints');
+            Route::post('/update', 'PassengerController@updateAccount');
             Route::post('/logout', 'PassengerController@logout');
             Route::resource('bookings', 'BookingController');
             Route::get('/get-terminals', 'BookingController@getTerminals');
