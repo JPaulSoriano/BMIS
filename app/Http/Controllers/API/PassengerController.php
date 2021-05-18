@@ -33,7 +33,7 @@ class PassengerController extends Controller
         try{
             DB::beginTransaction();
             $user = User::create($request->only('name', 'email', 'password'));
-            $user->passengerProfile()->create($request->except('name', 'email', 'password'));
+            $user->passengerProfile()->create($request->except('name', 'email', 'password', 'password_confirmation'));
             DB::commit();
         }catch(Exception $e)
         {
@@ -108,7 +108,7 @@ class PassengerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'nullable|max:16',
-            'email' => 'nullable|unique:users,email',
+            'email' => 'nullable|unique:users,email,'.$request->user()->id,
             'password' => 'required|min:8|confirmed',
             'first_name' => 'nullable',
             'last_name' => 'nullable',
@@ -125,6 +125,7 @@ class PassengerController extends Controller
         $request->user()->passengerProfile()->update($request->except('name', 'email', 'password', 'password_confirmation'));
 
         return response()->json([
+            'message' => 'Account successfully updated',
             'profile' => $request->user()->passengerProfile,
             'user' => $request->user(),
         ]);
