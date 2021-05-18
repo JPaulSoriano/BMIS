@@ -122,7 +122,7 @@ class PassengerController extends Controller
         }
 
         $request->user()->update($request->only('name', 'email', 'password'));
-        $request->user()->passengerProfile()->update($request->except('name', 'email', 'password'));
+        $request->user()->passengerProfile()->update($request->except('name', 'email', 'password', 'password_confirmation'));
 
         return response()->json([
             'profile' => $request->user()->passengerProfile,
