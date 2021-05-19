@@ -245,7 +245,7 @@ class BookingController extends Controller
 
     public function getBooking()
     {
-        $booking = request()->user()->bookings->sortBy('travel_date')->first();
+        $booking = request()->user()->bookings->where('status', 'confirmed')->sortBy('travel_date')->first();
         return response()->json(new BookingResource($booking));
     }
 }
