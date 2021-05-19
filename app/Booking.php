@@ -32,6 +32,7 @@ class Booking extends Model
     public function checkDepartedRide($d)
     {
         $date = Carbon::createFromFormat('Y-m-d', $d);
+
     }
 
     public function sale()
