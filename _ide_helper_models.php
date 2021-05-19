@@ -423,7 +423,8 @@ namespace App{
  * @property-read int|null $bookings_count
  * @property-read \App\Bus $bus
  * @property-read \App\BusCompanyProfile $company
- * @property-read \App\EmployeeRide|null $employeeRide
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\EmployeeRide[] $employeeRide
+ * @property-read int|null $employee_ride_count
  * @property-read mixed $departure_time_formatted
  * @property-read mixed $ride_date_formatted
  * @property-read array $running_days

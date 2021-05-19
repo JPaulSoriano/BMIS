@@ -7,6 +7,8 @@ use App\Http\Resources\Rides as RideResource;
 
 class Bookings extends JsonResource
 {
+
+
     /**
      * Transform the resource into an array.
      *

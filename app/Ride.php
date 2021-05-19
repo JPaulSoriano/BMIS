@@ -53,7 +53,7 @@ class Ride extends Model
 
     public function employeeRide()
     {
-        return $this->hasOne(EmployeeRide::class);
+        return $this->hasMany(EmployeeRide::class);
     }
 
     public function getTotalPayment($start, $end)

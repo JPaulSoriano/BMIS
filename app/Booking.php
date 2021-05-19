@@ -29,6 +29,11 @@ class Booking extends Model
         return $this->belongsTo(Ride::class);
     }
 
+    public function checkDepartedRide($d)
+    {
+        $date = Carbon::createFromFormat('Y-m-d', $d);
+    }
+
     public function sale()
     {
         return $this->hasOne(Sale::class);
