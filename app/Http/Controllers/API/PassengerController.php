@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
 use Exception;
+use App\Http\Resources\PassengerProfile as PassengerResource;
 use Illuminate\Support\Facades\Validator;
 
 class PassengerController extends Controller
@@ -88,8 +89,7 @@ class PassengerController extends Controller
         $user = User::where('email', $request->email)->first();
         return response()->json([
             'token' => $user->createToken($request->email)->plainTextToken,
-            'profile' => $user->passengerProfile,
-            'user' => $user,
+            'profile' => new PassengerResource($user->passengerProfile),
         ]);
     }
 
@@ -126,8 +126,7 @@ class PassengerController extends Controller
 
         return response()->json([
             'message' => 'Account successfully updated',
-            'profile' => $request->user()->passengerProfile,
-            'user' => $request->user(),
+            'profile' => new PassengerResource($request->user()->passengerProfile),
         ]);
     }
 

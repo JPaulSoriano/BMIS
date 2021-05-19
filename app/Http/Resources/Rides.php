@@ -25,7 +25,7 @@ class Rides extends JsonResource
             'start_terminal' => $this->route->getTerminalNameById(request('start')),
             'end_terminal' => $this->route->getTerminalNameById(request('end')),
             'total_km' => $this->route->getTotalKm(request('start'), request('end')),
-            'departure_time' => $this->departure_time_formatted,
+            'departure_time' => $this->departure_time,
             'bus_seat' => $this->bus->bus_seat,
             'booked_seats' => $this->booked_seats,
         ];
