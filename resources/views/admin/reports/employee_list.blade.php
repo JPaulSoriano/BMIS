@@ -36,7 +36,7 @@
                                     <td>{{ $employee->employeeProfile->employee_no }}</td>
                                     <td>{{ $employee->employeeProfile->full_name }}</td>
                                     <td>{{ $employee->roles->first()->name }}</td>
-                
+
                                 </tr>
                             @endforeach
                         </tbody>
@@ -49,4 +49,17 @@
 
 </div>
 
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        } );
+    } );
+    </script>
 @endsection

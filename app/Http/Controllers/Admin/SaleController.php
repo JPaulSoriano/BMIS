@@ -35,7 +35,7 @@ class SaleController extends Controller
             $sales->whereBetween('sales.created_at', $date);
         }
 
-        $sales = $sales->paginate(10);
+        $sales = $sales->get();
 
 
         return view('admin.sales.index', compact('sales'));
