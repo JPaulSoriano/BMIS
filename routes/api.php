@@ -46,7 +46,7 @@ Route::namespace('API')->group(function(){
             Route::get('/compute-fare', 'BookingController@computeFare');
             Route::get('/book', 'BookingController@book');
             Route::get('/get-book', 'BookingController@getBooking');
-            Route::get('/cancel-booking', 'BookingController@cancelBooking');
+            Route::get('/cancel-booking/{book_code}', 'BookingController@cancelBooking');
 
     });
 

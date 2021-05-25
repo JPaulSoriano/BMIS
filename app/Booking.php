@@ -65,7 +65,7 @@ class Booking extends Model
     {
         $today = Carbon::now();
 
-        if($today > $this->travel_date){
+        if($today < $this->travel_date){
             return true;
         }
         return false;

@@ -55,12 +55,6 @@ class BookingController extends Controller
         return response()->json(BookingResource::collection($bookings));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function bookByCash(Request $request)
     {
         $today = now()->toDateString();
@@ -123,7 +117,7 @@ class BookingController extends Controller
 
         $booking->sale()->create([
             'rate' => $ride->bus->busClass->rate,
-            'payment' => $ride->getTotalPayment($start, $end) * $request->pax,
+            'payment' => $this->bookingService->computeFare($ride, $request->pax, $start, $end),
         ]);
 
         // return redirect()->route('bookings.my.bookings');
@@ -177,6 +171,7 @@ class BookingController extends Controller
                 return response()->json(['error' => 'You do not have enough points']);
             }else{
                 $points -= $fare;
+                $request->user()->passengerProfile->points = $points;
                 $request->user()->push();
             }
         }
@@ -196,7 +191,7 @@ class BookingController extends Controller
 
         $booking->sale()->create([
             'rate' => $ride->bus->busClass->rate,
-            'payment' => $ride->getTotalPayment($start, $end) * $request->pax,
+            'payment' => $this->bookingService->computeFare($ride, $request->pax, $start, $end),
         ]);
 
         // return redirect()->route('bookings.my.bookings');
@@ -251,17 +246,20 @@ class BookingController extends Controller
         return response()->json(new BookingResource($booking));
     }
 
-    public function cancelBooking($bookCode)
+    public function cancelBooking($book_code)
     {
-        $booking = Booking::whereBookingCode($bookCode)->first();
+        $booking = Booking::whereBookingCode($book_code)->first();
         if($booking->canBeCancelled()){
+            $totalPoints = $booking->sale->payment;
+            $booking->passenger->passengerProfile->points += $totalPoints;
             $booking->status = 'cancelled by user';
+            $booking->push();
             return response()->json([
                 'message' => 'You cancelled your booking',
             ]);
         }else{
             return response()->json([
-                'message' => 'Your booking cannot be cancelled anymore',
+                'error' => 'Your booking cannot be cancelled anymore',
             ]);
         }
     }
