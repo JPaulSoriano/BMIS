@@ -37,12 +37,17 @@ Route::namespace('API')->group(function(){
             Route::get('/retrieve-points', 'PassengerController@retreivePoints');
             Route::post('/update', 'PassengerController@updateAccount');
             Route::post('/logout', 'PassengerController@logout');
-            Route::resource('bookings', 'BookingController');
+
+            Route::get('/bookings','BookingController@index');
+            Route::post('/book-by-cash', 'BookingController@bookByCash');
+            Route::post('/book-by-points', 'BookingController@bookByPoints');
             Route::get('/get-terminals', 'BookingController@getTerminals');
             Route::get('/search-rides', 'BookingController@searchRides');
             Route::get('/compute-fare', 'BookingController@computeFare');
             Route::get('/book', 'BookingController@book');
             Route::get('/get-book', 'BookingController@getBooking');
+            Route::get('/cancel-booking/{book_code}', 'BookingController@cancelBooking');
+
     });
 
     Route::prefix('conductor')

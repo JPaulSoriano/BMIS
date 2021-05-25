@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use App\Ride;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -65,7 +66,7 @@ class Booking extends Model
     {
         $today = Carbon::now();
 
-        if($today > $this->travel_date){
+        if($today < $this->travel_date){
             return true;
         }
         return false;

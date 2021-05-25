@@ -55,36 +55,76 @@ class BookingController extends Controller
         return response()->json(BookingResource::collection($bookings));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function bookByCash(Request $request)
     {
+        $today = now()->toDateString();
 
-        $rides = collect();
+        $validator = Validator::make($request->all(),[
+            'ride_id' => 'required|exists:rides,id',
+            'start_terminal_id' => 'required|exists:terminals,id',
+            'end_terminal_id' => 'required|exists:terminals,id',
+            'travel_date' => 'required|after:'.$today,
+            'pax' => 'nullable|numeric|min:1'
+        ]);
 
-        if(request('start') && request('end') && request('travel_date')){
-            $rides = $this->rideService->getRidesByTerminals(request('start'), request('end'), request('travel_date'));
+        if($validator->fails())
+        {
+            return response()->json($validator->messages(), 422);
         }
 
-        $terminals = Terminal::all();
+        $ride = Ride::findOrFail($request->ride_id);
+        $start = $request->start_terminal_id;
+        $end = $request->end_terminal_id;
+        $travelDate = $request->travel_date;
 
-        //return view('bookings.create', compact('rides', 'terminals'));
-        return response()->json([
-            'rides' => $rides,
-            'terminals' => $terminals,
+        //Check if seats is still available
+        $occupiedSeats = $this->bookingService->getOccupiedSeats($ride, $start, $end, $travelDate);
+
+        $availableSeats = $ride->bus->bus_seat - $occupiedSeats;
+
+        if($request->pax > $availableSeats){
+            return response()->json(['error' => 'You cannot book more than available']);
+        }
+
+        //Check auto_confirm
+        if($ride->auto_confirm)
+        {
+            $status = "confirmed";
+        }
+
+        $totalPoints = 0;
+
+        // if($ride->company->activate_point == 1)
+        // {
+        //     $totalKm = $ride->route->getTotalKm($start, $end);
+        //     $totalPoints = $totalKm/10 * $ride->bus->busClass->point;
+        //     $request->user()->passengerProfile->points += $totalPoints;
+        //     $request->user()->push();
+        // }
+
+        $number = $this->generateNumber();
+
+        $booking = $request->user()->bookings()->create([
+            'booking_code' => $number,
+            'ride_id' => $ride->id,
+            'start_terminal_id' => $start,
+            'end_terminal_id' => $end,
+            'travel_date' => $travelDate,
+            'pax' => $request->pax,
+            'points' => $totalPoints,
+            'status' => $status ?? 'new',
         ]);
+
+        $booking->sale()->create([
+            'rate' => $ride->bus->busClass->rate,
+            'payment' => $this->bookingService->computeFare($ride, $request->pax, $start, $end),
+        ]);
+
+        // return redirect()->route('bookings.my.bookings');
+        return response()->json(new BookingResource($booking));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function bookByPoints(Request $request)
     {
         $today = now()->toDateString();
 
@@ -125,10 +165,15 @@ class BookingController extends Controller
 
         if($ride->company->activate_point == 1)
         {
-            $totalKm = $ride->route->getTotalKm($start, $end);
-            $totalPoints = $totalKm/10 * $ride->bus->busClass->point;
-            $request->user()->passengerProfile->points += $totalPoints;
-            $request->user()->push();
+            $fare = $this->bookingService->computeFare($ride, $request->pax, $start, $end);
+            $points = $request->user()->passengerProfile->points;
+            if($fare > $points){
+                return response()->json(['error' => 'You do not have enough points']);
+            }else{
+                $points -= $fare;
+                $request->user()->passengerProfile->points = $points;
+                $request->user()->push();
+            }
         }
 
         $number = $this->generateNumber();
@@ -144,61 +189,13 @@ class BookingController extends Controller
             'status' => $status ?? 'new',
         ]);
 
-
-
         $booking->sale()->create([
             'rate' => $ride->bus->busClass->rate,
-            'payment' => $ride->getTotalPayment($start, $end) * $request->pax,
+            'payment' => $this->bookingService->computeFare($ride, $request->pax, $start, $end),
         ]);
-
 
         // return redirect()->route('bookings.my.bookings');
         return response()->json(new BookingResource($booking));
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Booking  $booking
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Booking $booking)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Booking  $booking
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Booking $booking)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Booking  $booking
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Booking $booking)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Booking  $booking
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Booking $booking)
-    {
-        //
     }
 
     public function book()
@@ -247,5 +244,23 @@ class BookingController extends Controller
     {
         $booking = request()->user()->bookings->sortBy('travel_date')->first();
         return response()->json(new BookingResource($booking));
+    }
+
+    public function cancelBooking($book_code)
+    {
+        $booking = Booking::whereBookingCode($book_code)->first();
+        if($booking->canBeCancelled()){
+            $totalPoints = $booking->sale->payment;
+            $booking->passenger->passengerProfile->points += $totalPoints;
+            $booking->status = 'cancelled by user';
+            $booking->push();
+            return response()->json([
+                'message' => 'You cancelled your booking',
+            ]);
+        }else{
+            return response()->json([
+                'error' => 'Your booking cannot be cancelled anymore',
+            ]);
+        }
     }
 }
