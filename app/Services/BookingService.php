@@ -32,6 +32,16 @@ class BookingService
             ->sum('pax');
     }
 
+    public function computeFare(Ride $ride, $pax, $start_terminal, $end_terminal)
+    {
+        $totalKm = $ride->route->getTotalKm($start_terminal, $end_terminal);
+        $km_minus = $totalKm - 5;
+        $flat_rate = $ride->bus->busClass->flat_rate;
+        $rate = $ride->bus->busClass->rate;
 
+        $total_fare = (($km_minus * $rate) + $flat_rate) * $pax;
+
+        return $total_fare;
+    }
 
 }

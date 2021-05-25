@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use App\Ride;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 

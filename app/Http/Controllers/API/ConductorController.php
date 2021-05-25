@@ -246,6 +246,8 @@ class ConductorController extends Controller
             $totalKm = $booking->ride->route->getTotalKm($booking->start_terminal_id, $booking->end_terminal_id);
             $totalPoints = $totalKm/10 * $booking->ride->bus->point;
             $receipt = $receipt->merge(['points' => $totalPoints]);
+            $booking->passenger->passengerProfile->points += $totalPoints;
+            $booking->passenger->push();
         }
 
         PassengerHistory::create($receipt);
