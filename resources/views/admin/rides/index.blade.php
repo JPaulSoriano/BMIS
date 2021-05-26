@@ -27,7 +27,7 @@
                 </form>
 
                 <div class="table-responsive mt-3">
-                    <table class="table table-bordered" width="100%" cellspacing="0">
+                    <table class="table table-bordered" width="100%" cellspacing="0" id="example">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -75,4 +75,12 @@
 
 </div>
 
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        $('#example').DataTable();
+    } );
+    </script>
 @endsection
