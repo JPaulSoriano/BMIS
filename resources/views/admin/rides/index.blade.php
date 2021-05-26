@@ -21,6 +21,17 @@
                 <form action="#" method="get">
                     <div class="row ml-auto">
                         <input type="date" class="form-control col-sm-2" name="ride_date">
+                        <div class="form-check form-check-inline ml-2">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="radio" name="ride_type" value="all" checked> All
+                            </label>
+                            <label class="form-check-label ml-2">
+                                <input class="form-check-input" type="radio" name="ride_type" value="single" @if(request('ride_type') == 'single') checked @endif> Single
+                            </label>
+                            <label class="form-check-label ml-2">
+                                <input class="form-check-input" type="radio" name="ride_type" value="cyclic" @if(request('ride_type') == 'cyclic') checked @endif> Cyclic
+                            </label>
+                        </div>
                         <input type="submit" value="Search" class="btn btn-primary col-sm-auto ml-3">
 
                     </div>
@@ -78,9 +89,5 @@
 @endsection
 
 @section('scripts')
-<script>
-    $(document).ready(function() {
-        $('#example').DataTable();
-    } );
-    </script>
+
 @endsection
