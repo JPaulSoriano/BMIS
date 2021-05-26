@@ -19,6 +19,7 @@ class Bookings extends JsonResource
     {
         return [
             'points' => $this->points,
+            'ride_id' => $this->ride_id,
             'company_name' => $this->ride->company->company_name,
             'booking_code' => $this->booking_code,
             'bus' => $this->ride->bus->bus_name,

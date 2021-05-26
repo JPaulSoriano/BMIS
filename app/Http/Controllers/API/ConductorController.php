@@ -193,8 +193,8 @@ class ConductorController extends Controller
             ->first();
 
         if(!$ride) return response()->json(['error' => 'No rides']);
-
-        $booked = Booking::where('ride_id', $ride->id);
+        
+        $booked = Booking::where('ride_id', $ride->ride_id);
 
         $aboard = (clone $booked)->where('aboard', 1)->sum('pax');
         $booked = $booked->sum('pax');
@@ -202,7 +202,9 @@ class ConductorController extends Controller
         $employeeRide = EmployeeRide::with(['departure', 'arrival'])
             ->where('ride_code', $request->ride_code)->first();
 
+        
         return response()->json(['ride' => $ride, 'booked' => $booked, 'aboard' => $aboard, 'exists' => $employeeRide] );
+        // return response()->json(['ride' => $booked, 'error' => 'error'] );
     }
 
     public function getRide(Request $request, $id)
@@ -214,7 +216,7 @@ class ConductorController extends Controller
             ->first();
 
         if(!$ride) return response()->json(['error' => 'No rides']);
-
+        
         $booked = Booking::where('ride_id', $ride->id);
 
         $aboard = (clone $booked)->where('aboard', 1)->sum('pax');
@@ -230,33 +232,35 @@ class ConductorController extends Controller
         return response()->json($request->user()->employeeProfile);
     }
 
-    public function issueReceipt(Request $request)
+    public function issueReceipt(Request $request, $book_code)
     {
-        $booking = Booking::whereBookingCode(request('booking_code'));
+
+        $booking = Booking::whereBookingCode($book_code);
 
         if(!$booking->exists())
         {
             return response()->json(['error' => 'No bookings found!']);
         }
+        $booking = $booking->first();
 
         $receipt = collect($booking->replicate()->only('booking_code', 'ride_id', 'passenger_id', 'start_terminal_id', 'end_terminal_id', 'pax'));
 
         if($request->user()->company()->activate_point == 1)
         {
             $totalKm = $booking->ride->route->getTotalKm($booking->start_terminal_id, $booking->end_terminal_id);
-            $totalPoints = $totalKm/10 * $booking->ride->bus->point;
+            $totalPoints = $totalKm/10 * $booking->ride->bus->busClass->point;
             $receipt = $receipt->merge(['points' => $totalPoints]);
+            $booking->points = $totalPoints;
             $booking->passenger->passengerProfile->points += $totalPoints;
-            $booking->passenger->push();
         }
 
-        PassengerHistory::create($receipt);
+        PassengerHistory::create($receipt->toArray());
 
         $booking->aboard =  1;
-        $booking->save();
+        $booking->push();
 
         //Send receipt to passenger
 
-        return response()->json(['message' => 'Successful']);
+        return response()->json(['message' => 'Successful', 'points' => $totalPoints]);
     }
 }

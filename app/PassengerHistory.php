@@ -9,6 +9,8 @@ class PassengerHistory extends Model
 {
     use HasFactory;
 
+    protected $table = 'passenger_history';
+
     protected $fillable = [
         'ride_id', 'passenger_id', 'start_terminal_id', 'end_terminal_id', 'pax', 'booking_code', 'point'
     ];
