@@ -265,6 +265,7 @@ class ConductorController extends Controller
         PassengerHistory::create($receipt->toArray());
 
         $booking->aboard =  1;
+        $booking->status = 'done';
         $booking->push();
 
         //Send receipt to passenger
