@@ -49,7 +49,22 @@ class BookingController extends Controller
      */
     public function index($status)
     {
-        $bookings = request()->user()->bookings->sortBy('travel_date');
+        $bookings = request()->user()->bookings;
+
+        if($status == 'active'){
+            $bookings = $bookings->where('status', 'confirmed')->where('travel_date', '>=', Carbon::now());
+        }
+            
+        if($status == 'inactive'){
+            $bookings = $bookings->where('travel_date', '<', Carbon::now());
+        }
+
+        if($status == 'cancelled'){
+            $bookings = $bookings->where('status', '!=', 'confirmed')->where('status', '!=', 'done');
+        }
+            
+
+        $bookings = $bookings->sortBy('travel_date');
         return response()->json(BookingResource::collection($bookings));
     }
 
@@ -243,10 +258,8 @@ class BookingController extends Controller
         if($booking->canBeCancelled()){
             if($booking->ride->company->activate_point == 1){
                 $totalPoints = $booking->sale->payment;
-
                 if(isset(request()->user()->busPoints) && empty(request()->user()->busPoints)){
                     $prev_points = request()->user()->busPoints->find($booking->ride->company->id)->pivot->points;
-                    //$booking->passenger->passengerProfile->points += $totalPoints;
                     $booking->passenger->busPoints()->updateExistingPivot($booking->ride->company->id, ['points' => $prev_points + $totalPoints]);
                 }else{
                     $booking->passenger->busPoints()->attach([$booking->ride->company->id => ['points' => $totalPoints]]);
