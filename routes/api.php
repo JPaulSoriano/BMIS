@@ -40,7 +40,7 @@ Route::namespace('API')->group(function(){
             Route::post('/update', 'PassengerController@updateAccount');
             Route::post('/logout', 'PassengerController@logout');
 
-            Route::get('/bookings','BookingController@index');
+            Route::get('/bookings/{status}','BookingController@index');
             Route::post('/book-by-cash', 'BookingController@bookByCash');
             Route::post('/book-by-points', 'BookingController@bookByPoints');
             Route::get('/get-terminals', 'BookingController@getTerminals');

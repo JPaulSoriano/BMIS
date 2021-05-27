@@ -47,10 +47,11 @@ class BookingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($status)
     {
-        $bookings = request()->user()->bookings->sortBy('travel_date');
+        $bookings = request()->user()->bookings;
 
+        $bookings = $bookings->sortBy('travel_date');
         return response()->json(BookingResource::collection($bookings));
     }
 
