@@ -341,9 +341,37 @@ namespace App{
 /**
  * App\PassengerHistory
  *
+ * @property int $id
+ * @property string $booking_code
+ * @property int $ride_id
+ * @property int $passenger_id
+ * @property int $start_terminal_id
+ * @property int $end_terminal_id
+ * @property int $pax
+ * @property float $points
+ * @property int $aboard
+ * @property string $status
+ * @property string|null $reason
+ * @property string $travel_date
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @method static \Illuminate\Database\Eloquent\Builder|PassengerHistory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PassengerHistory newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PassengerHistory query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PassengerHistory whereAboard($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PassengerHistory whereBookingCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PassengerHistory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PassengerHistory whereEndTerminalId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PassengerHistory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PassengerHistory wherePassengerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PassengerHistory wherePax($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PassengerHistory wherePoints($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PassengerHistory whereReason($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PassengerHistory whereRideId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PassengerHistory whereStartTerminalId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PassengerHistory whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PassengerHistory whereTravelDate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PassengerHistory whereUpdatedAt($value)
  */
 	class PassengerHistory extends \Eloquent {}
 }
@@ -634,6 +662,8 @@ namespace App{
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Booking[] $bookings
  * @property-read int|null $bookings_count
  * @property-read \App\BusLocation|null $busLocation
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\BusCompanyProfile[] $busPoints
+ * @property-read int|null $bus_points_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\BusCompanyProfile[] $companyProfile
  * @property-read int|null $company_profile_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\ConductorHistory[] $conductorHistory

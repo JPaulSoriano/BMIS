@@ -49,7 +49,6 @@ class BookingController extends Controller
      */
     public function index()
     {
-
         $bookings = request()->user()->bookings->sortBy('travel_date');
 
         return response()->json(BookingResource::collection($bookings));
@@ -93,14 +92,6 @@ class BookingController extends Controller
         }
 
         $totalPoints = 0;
-
-        // if($ride->company->activate_point == 1)
-        // {
-        //     $totalKm = $ride->route->getTotalKm($start, $end);
-        //     $totalPoints = $totalKm/10 * $ride->bus->busClass->point;
-        //     $request->user()->passengerProfile->points += $totalPoints;
-        //     $request->user()->push();
-        // }
 
         $number = $this->generateNumber();
 

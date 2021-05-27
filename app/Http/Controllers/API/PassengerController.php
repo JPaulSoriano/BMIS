@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use Auth;
 use App\User;
+use App\Ride;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
@@ -133,5 +134,16 @@ class PassengerController extends Controller
     public function retrievePoints()
     {
         return request()->user()->passengerProfile->points;
+    }
+
+    public function retrievePointsByCompany($ride_id)
+    {
+        $company = Ride::find($ride_id)->company->id;
+        $user = User::find(3);
+
+        //return request()->user()->busPoints->find($company)->pivot->points;
+
+        return isset($user->busPoints) ? $user->busPoints->find($company)->pivot->points : 0;
+
     }
 }

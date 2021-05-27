@@ -29,7 +29,7 @@ Route::namespace('API')->group(function(){
     Route::post('/register', 'PassengerController@register');
 
     Route::post('/login', 'PassengerController@login');
-
+    Route::get('/retrieve-points-company/{ride_id}', 'PassengerController@retrievePointsByCompany');
 
     Route::middleware(['auth:sanctum'])
         ->prefix('passenger')

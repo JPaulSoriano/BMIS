@@ -72,6 +72,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsToMany(BusCompanyProfile::class, 'company_user_pivot', 'user_id', 'company_id')->withTimestamps();
     }
 
+    public function busPoints()
+    {
+        return $this->belongsToMany(BusCompanyProfile::class, 'company_passenger_points', 'passenger_id', 'company_id')->withPivot(['points'])->withTimestamps();
+    }
+
     public function company()
     {
         return $this->companyProfile->first();
