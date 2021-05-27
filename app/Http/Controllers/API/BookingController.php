@@ -243,9 +243,9 @@ class BookingController extends Controller
         if($booking->canBeCancelled()){
             if($booking->ride->company->activate_point == 1){
                 $totalPoints = $booking->sale->payment;
-                if(isset(request()->user()->busPoints)){
-                    $prev_points = request()->user()->busPoints->find($booking->ride->company->id)->pivot->points;
 
+                if(isset(request()->user()->busPoints) && empty(request()->user()->busPoints)){
+                    $prev_points = request()->user()->busPoints->find($booking->ride->company->id)->pivot->points;
                     //$booking->passenger->passengerProfile->points += $totalPoints;
                     $booking->passenger->busPoints()->updateExistingPivot($booking->ride->company->id, ['points' => $prev_points + $totalPoints]);
                 }else{
