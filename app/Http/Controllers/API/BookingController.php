@@ -241,10 +241,19 @@ class BookingController extends Controller
     {
         $booking = Booking::whereBookingCode($book_code)->first();
         if($booking->canBeCancelled()){
-            $prev_points = request()->user()->busPoints->find($booking->ride->company->id)->pivot->points;
-            $totalPoints = $booking->sale->payment;
-            //$booking->passenger->passengerProfile->points += $totalPoints;
-            $booking->passenger->busPoints()->updateExistingPivot($booking->ride->company->id, ['points' => $prev_points + $totalPoints]);
+            if($booking->ride->company->activated_points == 1){
+                $totalPoints = $booking->sale->payment;
+                if(isset(request()->user()->busPoints)){
+                    $prev_points = request()->user()->busPoints->find($booking->ride->company->id)->pivot->points;
+
+                    //$booking->passenger->passengerProfile->points += $totalPoints;
+                    $booking->passenger->busPoints()->updateExistingPivot($booking->ride->company->id, ['points' => $prev_points + $totalPoints]);
+                }else{
+                    $booking->passenger->busPoints()->attach([$booking->ride->company->id => ['points' => $totalPoints]]);
+                }
+            }
+
+
             $booking->status = 'cancelled by user';
             $booking->push();
             return response()->json([
