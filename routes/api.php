@@ -29,12 +29,14 @@ Route::namespace('API')->group(function(){
     Route::post('/register', 'PassengerController@register');
 
     Route::post('/login', 'PassengerController@login');
-    Route::get('/retrieve-points-company/{ride_id}', 'PassengerController@retrievePointsByCompany');
+
 
     Route::middleware(['auth:sanctum'])
         ->prefix('passenger')
         ->group(function(){
             Route::get('/retrieve-points', 'PassengerController@retreivePoints');
+            Route::get('/retrieve-points-company/{ride_id}', 'PassengerController@retrievePointsByCompany');
+
             Route::post('/update', 'PassengerController@updateAccount');
             Route::post('/logout', 'PassengerController@logout');
 

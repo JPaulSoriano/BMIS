@@ -91,8 +91,6 @@ class BookingController extends Controller
             $status = "confirmed";
         }
 
-        $totalPoints = 0;
-
         $number = $this->generateNumber();
 
         $booking = $request->user()->bookings()->create([
@@ -102,7 +100,6 @@ class BookingController extends Controller
             'end_terminal_id' => $end,
             'travel_date' => $travelDate,
             'pax' => $request->pax,
-            'points' => $totalPoints,
             'status' => $status ?? 'new',
         ]);
 
@@ -152,18 +149,22 @@ class BookingController extends Controller
             $status = "confirmed";
         }
 
-        $totalPoints = 0;
+        $fare = $this->bookingService->computeFare($ride, $request->pax, $start, $end);
 
         if($ride->company->activate_point == 1)
         {
-            $fare = $this->bookingService->computeFare($ride, $request->pax, $start, $end);
-            $points = $request->user()->passengerProfile->points;
-            if($fare > $points){
+
+            //$points = $request->user()->passengerProfile->points;
+            $prev_points = $request->user()->busPoints->find($ride->company->id)->pivot->points;
+            if($fare > $prev_points){
                 return response()->json(['error' => 'You do not have enough points']);
             }else{
-                $points -= $fare;
-                $request->user()->passengerProfile->points = $points;
-                $request->user()->push();
+
+                $request->user()->busPoints()->updateExistingPivot($ride->company->id, ['points' => $prev_points - $fare]);
+
+                // $points -= $fare;
+                // $request->user()->passengerProfile->points = $points;
+                // $request->user()->push();
             }
         }
 
@@ -176,13 +177,12 @@ class BookingController extends Controller
             'end_terminal_id' => $end,
             'travel_date' => $travelDate,
             'pax' => $request->pax,
-            'points' => $totalPoints,
             'status' => $status ?? 'new',
         ]);
 
         $booking->sale()->create([
             'rate' => $ride->bus->busClass->rate,
-            'payment' => $this->bookingService->computeFare($ride, $request->pax, $start, $end),
+            'payment' => $fare,
         ]);
 
         // return redirect()->route('bookings.my.bookings');

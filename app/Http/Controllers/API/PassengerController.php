@@ -139,9 +139,8 @@ class PassengerController extends Controller
     public function retrievePointsByCompany($ride_id)
     {
         $company = Ride::find($ride_id)->company->id;
-        $user = User::find(3);
-
-        //return request()->user()->busPoints->find($company)->pivot->points;
+        //$user = User::find(3);
+        $user = request()->user();
 
         return isset($user->busPoints) ? $user->busPoints->find($company)->pivot->points : 0;
 
