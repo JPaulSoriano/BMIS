@@ -241,7 +241,7 @@ class BookingController extends Controller
     {
         $booking = Booking::whereBookingCode($book_code)->first();
         if($booking->canBeCancelled()){
-            if($booking->ride->company->activated_points == 1){
+            if($booking->ride->company->activate_point == 1){
                 $totalPoints = $booking->sale->payment;
                 if(isset(request()->user()->busPoints)){
                     $prev_points = request()->user()->busPoints->find($booking->ride->company->id)->pivot->points;
