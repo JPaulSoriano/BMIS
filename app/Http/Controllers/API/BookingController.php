@@ -233,7 +233,8 @@ class BookingController extends Controller
 
     public function getBooking()
     {
-        $booking = request()->user()->bookings->sortBy('travel_date')->first();
+        $date = Carbon::now()->format('Y-m-d');
+        $booking = request()->user()->bookings->where('travel_date', '>', $date)->sortBy('travel_date')->first();
         return response()->json(new BookingResource($booking));
     }
 
