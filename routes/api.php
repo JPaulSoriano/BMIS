@@ -22,14 +22,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::namespace('API')->group(function () {
 
-    Route::get('/test', function () {
-        return response()->json(['ok' => 'hello']);
-    });
+    Route::get('/test', 'ConductorController@getAllSchedules');
 
     Route::post('/register', 'PassengerController@register');
 
     Route::post('/login', 'PassengerController@login');
-
 
     Route::middleware(['auth:sanctum'])
         ->prefix('passenger')

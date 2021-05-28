@@ -272,4 +272,30 @@ class ConductorController extends Controller
 
         return response()->json(['message' => 'Successful', 'points' => $totalPoints]);
     }
+
+    public function getAllSchedules()
+    {
+        $start = Carbon::now();
+        $end = Carbon::now()->addMonth();
+        $rides = [];
+
+        for($i = $start; $i < $end; $i->addDay()){
+            $dayName = Str::lower($i->dayName);
+
+            $rides[] = Ride::where(function(Builder $query) use ($i, $dayName){
+                $query->where('ride_date', $i)
+                    ->orWhereHas('schedule', function(Builder $query) use ($i, $dayName){
+                        $query->where($dayName, true)
+                            ->where(function(Builder $query) use ($i){
+                                $query->where('start_date', '<=' ,$i);
+                            })->where(function(Builder $query) use ($i){
+                                $query->where('end_date', '>=', $i)
+                                    ->orWhereNull('end_date');
+                        });
+                    });
+            });
+        }
+
+        return $rides;
+    }
 }
