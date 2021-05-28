@@ -280,16 +280,18 @@ class ConductorController extends Controller
         $rides = [];
 
         for($i = $start; $i < $end; $i->addDay()){
-            $dayName = Str::lower($i->dayName);
+            $date_string = $i->toDateString();
+            $date = Carbon::parse($date_string);
+            $dayName = Str::lower($date->dayName);
 
-            $rides[] = Ride::where(function(Builder $query) use ($i, $dayName){
-                $query->where('ride_date', $i)
-                    ->orWhereHas('schedule', function(Builder $query) use ($i, $dayName){
+            $rides[] = Ride::where(function(Builder $query) use ($date_string, $dayName){
+                $query->where('ride_date', $date_string)
+                    ->orWhereHas('schedule', function(Builder $query) use ($date_string, $dayName){
                         $query->where($dayName, true)
-                            ->where(function(Builder $query) use ($i){
-                                $query->where('start_date', '<=' ,$i);
-                            })->where(function(Builder $query) use ($i){
-                                $query->where('end_date', '>=', $i)
+                            ->where(function(Builder $query) use ($date_string){
+                                $query->where('start_date', '<=' ,$date_string);
+                            })->where(function(Builder $query) use ($date_string){
+                                $query->where('end_date', '>=', $date_string)
                                     ->orWhereNull('end_date');
                         });
                     });
