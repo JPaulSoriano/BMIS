@@ -27,18 +27,16 @@ class PassengerController extends Controller
             'address' => 'required'
         ]);
 
-        if($validator->fails())
-        {
+        if ($validator->fails()) {
             return response()->json($validator->messages(), 422);
         }
 
-        try{
+        try {
             DB::beginTransaction();
             $user = User::create($request->only('name', 'email', 'password'));
             $user->passengerProfile()->create($request->except('name', 'email', 'password', 'password_confirmation'));
             DB::commit();
-        }catch(Exception $e)
-        {
+        } catch (Exception $e) {
             DB::rollBack();
 
             return response()->json([
@@ -65,15 +63,14 @@ class PassengerController extends Controller
             'password' => 'required',
         ]);
 
-        if($validator->fails())
-        {
+        if ($validator->fails()) {
             return response()->json($validator->messages(), 422);
         }
 
         $credentials = request(['email', 'password']);
         $newCredentials = array_merge($credentials, ['active' => 1]);
 
-        if(!Auth::attempt($newCredentials)){
+        if (!Auth::attempt($newCredentials)) {
             return response()->json([
                 'message' => 'Given data is invalid',
                 'errors' => [
@@ -109,7 +106,7 @@ class PassengerController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'nullable|max:16',
-            'email' => 'nullable|unique:users,email,'.$request->user()->id,
+            'email' => 'nullable|unique:users,email,' . $request->user()->id,
             'password' => 'required|min:8|confirmed',
             'first_name' => 'nullable',
             'last_name' => 'nullable',
@@ -117,8 +114,7 @@ class PassengerController extends Controller
             'address' => 'nullable'
         ]);
 
-        if($validator->fails())
-        {
+        if ($validator->fails()) {
             return response()->json($validator->messages(), 422);
         }
 
@@ -133,7 +129,7 @@ class PassengerController extends Controller
 
     public function retrievePoints()
     {
-        return request()->user()->passengerProfile->points;
+        return request()->user()->busPoints;
     }
 
     public function retrievePointsByCompany($ride_id)
@@ -143,6 +139,5 @@ class PassengerController extends Controller
         $user = request()->user();
 
         return isset($user->busPoints) ? $user->busPoints->find($company)->pivot->points : 0;
-
     }
 }

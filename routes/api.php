@@ -20,9 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return response()->json($request->user());
 });
 
-Route::namespace('API')->group(function(){
+Route::namespace('API')->group(function () {
 
-    Route::get('/test', function(){
+    Route::get('/test', function () {
         return response()->json(['ok' => 'hello']);
     });
 
@@ -33,14 +33,14 @@ Route::namespace('API')->group(function(){
 
     Route::middleware(['auth:sanctum'])
         ->prefix('passenger')
-        ->group(function(){
-            Route::get('/retrieve-points', 'PassengerController@retreivePoints');
+        ->group(function () {
+            Route::get('/retrieve-points', 'PassengerController@retrievePoints');
             Route::get('/retrieve-points-company/{ride_id}', 'PassengerController@retrievePointsByCompany');
 
             Route::post('/update', 'PassengerController@updateAccount');
             Route::post('/logout', 'PassengerController@logout');
 
-            Route::get('/bookings/{status}','BookingController@index');
+            Route::get('/bookings/{status}', 'BookingController@index');
             Route::post('/book-by-cash', 'BookingController@bookByCash');
             Route::post('/book-by-points', 'BookingController@bookByPoints');
             Route::get('/get-terminals', 'BookingController@getTerminals');
@@ -49,15 +49,14 @@ Route::namespace('API')->group(function(){
             Route::get('/book', 'BookingController@book');
             Route::get('/get-book', 'BookingController@getBooking');
             Route::get('/cancel-booking/{book_code}', 'BookingController@cancelBooking');
-
-    });
+        });
 
     Route::prefix('conductor')
-        ->group(function(){
+        ->group(function () {
             Route::post('/login', 'ConductorController@login');
 
             Route::middleware('auth:sanctum')
-                ->group(function(){
+                ->group(function () {
                     Route::post('/logout', 'ConductorController@logout');
 
                     Route::post('/depart', 'ConductorController@depart');
@@ -70,6 +69,4 @@ Route::namespace('API')->group(function(){
                     Route::get('/get-ride/{id}', 'ConductorController@getRide');
                 });
         });
-
-
 });
