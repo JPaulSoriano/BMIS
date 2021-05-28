@@ -31,7 +31,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    //protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -46,7 +46,22 @@ class LoginController extends Controller
     protected function redirectTo()
     {
         session()->flash('success', 'You are logged in!');
-        return $this->redirectTo;
+        $role = Auth::user()->getRoleNames()->first();
+        switch ($role) {
+            case 'admin':
+                return '/admin/dashboard';
+                break;
+            case 'operation':
+                return '/admin/rides';
+                break;
+            case 'superadmin':
+                return '/super/users';
+                break;
+            default:
+                return '/403';
+                break;
+        }
+
     }
 
     public function authenticated(HttpRequest $request, $user)
