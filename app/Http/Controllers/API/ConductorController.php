@@ -278,20 +278,30 @@ class ConductorController extends Controller
             $date = Carbon::parse($date_string);
             $dayName = Str::lower($date->dayName);
 
-            $rides[] = Ride::where(function (Builder $query) use ($date_string, $dayName) {
-                $query->where('ride_date', $date_string)
-                    ->orWhereHas('schedule', function (Builder $query) use ($date_string, $dayName) {
-                        $query->where($dayName, true)
-                            ->where(function (Builder $query) use ($date_string) {
-                                $query->where('start_date', '<=', $date_string);
-                            })->where(function (Builder $query) use ($date_string) {
-                                $query->where('end_date', '>=', $date_string)
-                                    ->orWhereNull('end_date');
-                            });
-                    });
-            })->pluck('id');
+            $ride = Ride::join('buses', 'bus_id', 'buses.id')
+                ->where('buses.conductor_id', request()->user()->id)
+                ->where(function (Builder $query) use ($date_string, $dayName) {
+                    $query->where('ride_date', $date_string)
+                        ->orWhereHas('schedule', function (Builder $query) use ($date_string, $dayName) {
+                            $query->where($dayName, true)
+                                ->where(function (Builder $query) use ($date_string) {
+                                    $query->where('start_date', '<=', $date_string);
+                                })->where(function (Builder $query) use ($date_string) {
+                                    $query->where('end_date', '>=', $date_string)
+                                        ->orWhereNull('end_date');
+                                });
+                        });
+                })
+                ->selectRaw('*, rides.id as ride_id')
+                ->with(['route', 'route.terminals', 'bus.driver.employeeProfile'])
+                ->get();
+
+            $rides[] = [
+                'ride' => $ride,
+                'date' => $date_string,
+            ];
         }
 
-        return ['ride' => $rides];
+        return response()->json($rides);
     }
 }
