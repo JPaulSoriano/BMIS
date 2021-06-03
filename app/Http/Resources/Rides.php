@@ -27,7 +27,7 @@ class Rides extends JsonResource
             'total_km' => $this->route->getTotalKm(request('start'), request('end')),
             'departure_time' => $this->departure_time,
             'bus_seat' => $this->bus->bus_seat,
-            'booked_seats' => $this->booked_seats,
+            'booked_seats' => (int)$this->booked_seats,
         ];
     }
 }

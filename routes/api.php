@@ -22,7 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::namespace('API')->group(function () {
 
-    Route::get('/test', 'ConductorController@getAllSchedules');
+    Route::get('/test', 'BookingController@test');
 
     Route::post('/register', 'PassengerController@register');
 

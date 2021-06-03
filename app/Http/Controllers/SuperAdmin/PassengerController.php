@@ -21,4 +21,19 @@ class PassengerController extends Controller
         return view('superadmin.passengers.index', compact('users'));
     }
 
+    public function deactivate(User $passenger)
+    {
+        $passenger->active = 0;
+        $passenger->save();
+
+        return redirect()->route('super.passengers');
+    }
+
+    public function activate(User $passenger)
+    {
+        $passenger->active = 1;
+        $passenger->save();
+
+        return redirect()->route('super.passengers');
+    }
 }

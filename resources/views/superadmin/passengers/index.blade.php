@@ -34,12 +34,10 @@
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->active }}</td>
                                         <td class="d-flex justify-content-around">
-                                            <a class="btn btn-info btn-sm" href="{{ route('super.users.show', $user) }}"><i class="fas fa-eye"></i></a>
-                                            <a class="btn btn-primary btn-sm" href="{{ route('super.users.edit', $user) }}"><i class="fas fa-edit"></i></a>
                                             @if($user->active == 1)
-                                                <a class="btn btn-danger btn-sm" href="{{ route('super.users.deactivate', $user) }}"><i class="fas fa-trash-alt"></i></a>
+                                                <a class="btn btn-danger btn-sm" href="{{ route('super.passengers.deactivate', $user) }}"><i class="fas fa-trash-alt"></i></a>
                                             @else
-                                                <a class="btn btn-success btn-sm" href="{{ route('super.users.activate', $user) }}"><i class="fas fa-undo"></i></a>
+                                                <a class="btn btn-success btn-sm" href="{{ route('super.passengers.activate', $user) }}"><i class="fas fa-undo"></i></a>
                                             @endif
                                         </td>
                                     </tr>

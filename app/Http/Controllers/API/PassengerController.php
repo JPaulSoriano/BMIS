@@ -138,6 +138,6 @@ class PassengerController extends Controller
         //$user = User::find(3);
         $user = request()->user();
 
-        return isset($user->busPoints) ? $user->busPoints->find($company)->pivot->points : 0;
+        return count($user->busPoints) ? $user->busPoints->find($company)->pivot->points : 0;
     }
 }

@@ -37,7 +37,7 @@ class BookingController extends Controller
     {
         $number = mt_rand(00000000000, 9999999999);
 
-        if(Booking::whereBookingCode($number)->exists()) $this->generateNumber();
+        if (Booking::whereBookingCode($number)->exists()) $this->generateNumber();
 
         return $number;
     }
@@ -51,18 +51,18 @@ class BookingController extends Controller
     {
         $bookings = request()->user()->bookings;
 
-        if($status == 'active'){
+        if ($status == 'active') {
             $bookings = $bookings->where('status', 'confirmed')->where('travel_date', '>=', Carbon::now());
         }
-            
-        if($status == 'inactive'){
+
+        if ($status == 'inactive') {
             $bookings = $bookings->where('travel_date', '<', Carbon::now());
         }
 
-        if($status == 'cancelled'){
+        if ($status == 'cancelled') {
             $bookings = $bookings->where('status', '!=', 'confirmed')->where('status', '!=', 'done');
         }
-            
+
 
         $bookings = $bookings->sortBy('travel_date');
         return response()->json(BookingResource::collection($bookings));
@@ -72,16 +72,15 @@ class BookingController extends Controller
     {
         $today = now()->toDateString();
 
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'ride_id' => 'required|exists:rides,id',
             'start_terminal_id' => 'required|exists:terminals,id',
             'end_terminal_id' => 'required|exists:terminals,id',
-            'travel_date' => 'required|after:'.$today,
+            'travel_date' => 'required|after:' . $today,
             'pax' => 'nullable|numeric|min:1'
         ]);
 
-        if($validator->fails())
-        {
+        if ($validator->fails()) {
             return response()->json($validator->messages(), 422);
         }
 
@@ -95,13 +94,12 @@ class BookingController extends Controller
 
         $availableSeats = $ride->bus->bus_seat - $occupiedSeats;
 
-        if($request->pax > $availableSeats){
+        if ($request->pax > $availableSeats) {
             return response()->json(['error' => 'You cannot book more than available']);
         }
 
         //Check auto_confirm
-        if($ride->auto_confirm)
-        {
+        if ($ride->auto_confirm) {
             $status = "confirmed";
         }
 
@@ -130,16 +128,15 @@ class BookingController extends Controller
     {
         $today = now()->toDateString();
 
-        $validator = Validator::make($request->all(),[
+        $validator = Validator::make($request->all(), [
             'ride_id' => 'required|exists:rides,id',
             'start_terminal_id' => 'required|exists:terminals,id',
             'end_terminal_id' => 'required|exists:terminals,id',
-            'travel_date' => 'required|after:'.$today,
+            'travel_date' => 'required|after:' . $today,
             'pax' => 'nullable|numeric|min:1'
         ]);
 
-        if($validator->fails())
-        {
+        if ($validator->fails()) {
             return response()->json($validator->messages(), 422);
         }
 
@@ -153,26 +150,24 @@ class BookingController extends Controller
 
         $availableSeats = $ride->bus->bus_seat - $occupiedSeats;
 
-        if($request->pax > $availableSeats){
+        if ($request->pax > $availableSeats) {
             return response()->json(['error' => 'You cannot book more than available']);
         }
 
         //Check auto_confirm
-        if($ride->auto_confirm)
-        {
+        if ($ride->auto_confirm) {
             $status = "confirmed";
         }
 
         $fare = $this->bookingService->computeFare($ride, $request->pax, $start, $end);
 
-        if($ride->company->activate_point == 1)
-        {
+        if ($ride->company->activate_point == 1) {
 
             //$points = $request->user()->passengerProfile->points;
             $prev_points = $request->user()->busPoints->find($ride->company->id)->pivot->points;
-            if($fare > $prev_points){
+            if ($fare > $prev_points) {
                 return response()->json(['error' => 'You do not have enough points']);
-            }else{
+            } else {
 
                 $request->user()->busPoints()->updateExistingPivot($ride->company->id, ['points' => $prev_points - $fare]);
 
@@ -207,7 +202,7 @@ class BookingController extends Controller
     {
         $rides = collect();
 
-        if(request('start') && request('end') && request('travel_date')){
+        if (request('start') && request('end') && request('travel_date')) {
             $rides = $this->rideService->getRidesByTerminals(request('start'), request('end'), request('travel_date'));
         }
 
@@ -225,7 +220,7 @@ class BookingController extends Controller
     {
         $rides = collect();
 
-        if(request('start') && request('end') && request('travel_date')){
+        if (request('start') && request('end') && request('travel_date')) {
             $rides = $this->rideService->getRidesByTerminals(request('start'), request('end'), request('travel_date'));
         }
 
@@ -249,19 +244,20 @@ class BookingController extends Controller
     {
         $date = Carbon::now()->format('Y-m-d');
         $booking = request()->user()->bookings->where('travel_date', '>', $date)->where('status', 'confirmed')->sortBy('travel_date')->first();
+        if (!$booking) return null;
         return response()->json(new BookingResource($booking));
     }
 
     public function cancelBooking($book_code)
     {
         $booking = Booking::whereBookingCode($book_code)->first();
-        if($booking->canBeCancelled()){
-            if($booking->ride->company->activate_point == 1){
+        if ($booking->canBeCancelled()) {
+            if ($booking->ride->company->activate_point == 1) {
                 $totalPoints = $booking->sale->payment;
-                if(isset(request()->user()->busPoints) && empty(request()->user()->busPoints)){
+                if (isset(request()->user()->busPoints) && !empty(request()->user()->busPoints)) {
                     $prev_points = request()->user()->busPoints->find($booking->ride->company->id)->pivot->points;
                     $booking->passenger->busPoints()->updateExistingPivot($booking->ride->company->id, ['points' => $prev_points + $totalPoints]);
-                }else{
+                } else {
                     $booking->passenger->busPoints()->attach([$booking->ride->company->id => ['points' => $totalPoints]]);
                 }
             }
@@ -272,10 +268,25 @@ class BookingController extends Controller
             return response()->json([
                 'message' => 'You cancelled your booking',
             ]);
-        }else{
+        } else {
             return response()->json([
                 'error' => 'Your booking cannot be cancelled anymore',
             ]);
         }
+    }
+
+    public function test()
+    {
+        $rides = collect();
+        $ride = Ride::find(1);
+        $start = request('start');
+        $end = request('end');
+        $travelDate = request('travel_date');
+
+        if (request('start') && request('end') && request('travel_date')) {
+            $rides = $this->rideService->getRidesByTerminals(request('start'), request('end'), request('travel_date'));
+        }
+        // return $this->bookingService->getOccupiedSeats($ride, $start, $end, $travelDate);
+        return response()->json(RideResource::collection($rides));
     }
 }

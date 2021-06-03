@@ -18,7 +18,7 @@ class Bookings extends JsonResource
     public function toArray($request)
     {
         return [
-            'points' => $this->passenger->busPoints->find($this->ride->company->id)->pivot->points,
+            'points' => $this->passenger->busPoints->find($this->ride->company->id)->pivot->points ?? 0,
             'ride_id' => $this->ride_id,
             'company_name' => $this->ride->company->company_name,
             'booking_code' => $this->booking_code,
