@@ -64,6 +64,7 @@ Route::namespace('API')->group(function () {
                     Route::get('/employee-profile', 'ConductorController@getEmployeeProfile');
                     Route::get('/issue-receipt/{book_code}', 'ConductorController@issueReceipt');
                     Route::get('/get-ride/{id}', 'ConductorController@getRide');
+                    Route::get('/get-all-schedules', 'ConductorController@getAllSchedules');
                 });
         });
 });
