@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -25,103 +26,104 @@
     <!-- Favicon -->
     <link href="{{ asset('img/favicon.png') }}" rel="icon" type="image/png">
 </head>
+
 <body id="page-top">
 
-<div id="app">
+    <div id="app">
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+            <!-- Sidebar -->
+            <ul class="navbar-nav bg-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
-                <div class="sidebar-brand-icon">
-                    <i class="fas fa-bus"></i>
+                <!-- Sidebar - Brand -->
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="">
+                    <div class="sidebar-brand-icon">
+                        <i class="fas fa-bus"></i>
+                    </div>
+                    <div class="sidebar-brand-text mx-3">BMIS</div>
+                </a>
+
+                @role('admin')
+                <!-- Divider -->
+                <hr class="sidebar-divider my-0">
+
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item {{ Nav::isRoute('admin.dashboard') }}">
+                    <a class="nav-link" href="{{ route('admin.dashboard') }}">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>{{ __('Dashboard') }}</span></a>
+                </li>
+
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    {{ __('Settings') }}
                 </div>
-                <div class="sidebar-brand-text mx-3">BMIS</div>
-            </a>
 
-            @role('admin')
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
+                @endrole
 
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item {{ Nav::isRoute('admin.dashboard') }}">
-                <a class="nav-link" href="{{ route('admin.dashboard') }}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>{{ __('Dashboard') }}</span></a>
-            </li>
+                @hasanyrole('admin|operation')
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+                <!-- Nav Item - Buses -->
+                <li class="nav-item {{ Nav::isRoute('admin.buses.*') }} {{  Nav::isRoute('admin.bus-classes.*')  }}">
+                    <a class="nav-link" href="{{ route('admin.buses.index') }}">
+                        <i class="fas fa-fw fa-bus"></i>
+                        <span>{{ __('Buses') }}</span>
+                    </a>
+                </li>
 
-            <!-- Heading -->
-            <div class="sidebar-heading">
-                {{ __('Settings') }}
-            </div>
+                <!-- Nav Item - Terminals -->
+                <li class="nav-item {{ Nav::isRoute('admin.terminals.*') }}">
+                    <a class="nav-link" href="{{ route('admin.terminals.index') }}">
+                        <i class="fas fa-fw fa-warehouse"></i>
+                        <span>{{ __('Terminals') }}</span>
+                    </a>
+                </li>
 
-            @endrole
+                <!-- Nav Item - Routes -->
+                <li class="nav-item {{ Nav::isRoute('admin.routes.*') }}">
+                    <a class="nav-link" href="{{ route('admin.routes.index') }}">
+                        <i class="fas fa-fw fa-route"></i>
+                        <span>{{ __('Routes') }}</span>
+                    </a>
+                </li>
 
-            @hasanyrole('admin|operation')
+                <!-- Nav Item - Rides -->
+                <li class="nav-item {{ Nav::isRoute('admin.rides.*') }}">
+                    <a class="nav-link" href="{{ route('admin.rides.index') }}">
+                        <i class="fas fa-fw fa-clock"></i>
+                        <span>{{ __('Rides') }}</span>
+                    </a>
+                </li>
 
-            <!-- Nav Item - Buses -->
-            <li class="nav-item {{ Nav::isRoute('admin.buses.*') }} {{  Nav::isRoute('admin.bus-classes.*')  }}">
-                <a class="nav-link" href="{{ route('admin.buses.index') }}">
-                    <i class="fas fa-fw fa-bus"></i>
-                    <span>{{ __('Buses') }}</span>
-                </a>
-            </li>
+                @endhasanyrole
 
-            <!-- Nav Item - Terminals -->
-            <li class="nav-item {{ Nav::isRoute('admin.terminals.*') }}">
-                <a class="nav-link" href="{{ route('admin.terminals.index') }}">
-                    <i class="fas fa-fw fa-warehouse"></i>
-                    <span>{{ __('Terminals') }}</span>
-                </a>
-            </li>
+                @role('admin')
 
-            <!-- Nav Item - Routes -->
-            <li class="nav-item {{ Nav::isRoute('admin.routes.*') }}">
-                <a class="nav-link" href="{{ route('admin.routes.index') }}">
-                    <i class="fas fa-fw fa-route"></i>
-                    <span>{{ __('Routes') }}</span>
-                </a>
-            </li>
-
-            <!-- Nav Item - Rides -->
-            <li class="nav-item {{ Nav::isRoute('admin.rides.*') }}">
-                <a class="nav-link" href="{{ route('admin.rides.index') }}">
-                    <i class="fas fa-fw fa-clock"></i>
-                    <span>{{ __('Rides') }}</span>
-                </a>
-            </li>
-
-            @endhasanyrole
-
-            @role('admin')
-
-            <!-- Nav Item - Bookings -->
-            <li class="nav-item {{ Nav::isRoute('bookings.*') }}">
-                <a class="nav-link" href="{{ route('bookings.my.bookings') }}">
-                    <i class="fas fa-fw fa-calendar-check"></i>
-                    <span>{{ __('Bookings') }}</span>
-                </a>
-            </li>
+                <!-- Nav Item - Bookings -->
+                <li class="nav-item {{ Nav::isRoute('bookings.*') }}">
+                    <a class="nav-link" href="{{ route('bookings.my.bookings') }}">
+                        <i class="fas fa-fw fa-calendar-check"></i>
+                        <span>{{ __('Bookings') }}</span>
+                    </a>
+                </li>
 
 
-            <!-- Nav Item - Sales -->
+                {{-- <!-- Nav Item - Sales -->
             <li class="nav-item {{ Nav::isRoute('admin.sales.*') }}">
                 <a class="nav-link" href="{{ route('admin.sales.index') }}">
                     <i class="fas fa-fw fa-money-bill"></i>
                     <span>{{ __('Sales') }}</span>
                 </a>
-            </li>
+                </li> --}}
 
-            @endrole
+                @endrole
 
 
-            @role('superadmin')
+                @role('superadmin')
                 <!-- Nav Item - Users -->
                 <li class="nav-item {{ Nav::isRoute('super.users.*') }}">
                     <a class="nav-link" href="{{ route('super.users.index') }}">
@@ -130,192 +132,200 @@
                     </a>
                 </li>
 
-            <!-- Nav Item - Passengers - super -->
-            <li class="nav-item {{ Nav::isRoute('super.passengers*') }}">
-                <a class="nav-link" href="{{ route('super.passengers') }}">
-                    <i class="fas fa-fw fa-walking"></i>
-                    <span>{{ __('Passengers') }}</span>
-                </a>
-            </li>
-            @endrole
-            @role('admin')
-            <!-- Nav Item - Passengers - super -->
-            <li class="nav-item {{ Nav::isRoute('admin.passengers*') }}">
-                <a class="nav-link" href="{{ route('admin.passengers') }}">
-                    <i class="fas fa-fw fa-walking"></i>
-                    <span>{{ __('Passengers') }}</span>
-                </a>
-            </li>
+                <!-- Nav Item - Passengers - super -->
+                <li class="nav-item {{ Nav::isRoute('super.passengers*') }}">
+                    <a class="nav-link" href="{{ route('super.passengers') }}">
+                        <i class="fas fa-fw fa-walking"></i>
+                        <span>{{ __('Passengers') }}</span>
+                    </a>
+                </li>
+                @endrole
+                @role('admin')
+                <!-- Nav Item - Passengers - super -->
+                <li class="nav-item {{ Nav::isRoute('admin.passengers*') }}">
+                    <a class="nav-link" href="{{ route('admin.passengers') }}">
+                        <i class="fas fa-fw fa-walking"></i>
+                        <span>{{ __('Passengers') }}</span>
+                    </a>
+                </li>
 
 
 
 
 
-            <!-- Nav Item - Employees -->
-            <li class="nav-item {{ Nav::isRoute('admin.employees.*') }}">
-                <a class="nav-link" href="{{ route('admin.employees.index') }}">
-                    <i class="fas fa-fw fa-user-tie"></i>
-                    <span>{{ __('Employees') }}</span>
-                </a>
-            </li>
+                <!-- Nav Item - Employees -->
+                <li class="nav-item {{ Nav::isRoute('admin.employees.*') }}">
+                    <a class="nav-link" href="{{ route('admin.employees.index') }}">
+                        <i class="fas fa-fw fa-user-tie"></i>
+                        <span>{{ __('Employees') }}</span>
+                    </a>
+                </li>
 
 
-            <!-- Nav Item - Profile -->
-            <li class="nav-item {{ Nav::isRoute('admin.profile*') }}">
-                <a class="nav-link" href="{{ route('admin.profile') }}">
-                    <i class="fas fa-fw fa-user"></i>
-                    <span>{{ __('Profile') }}</span>
-                </a>
-            </li>
-
-
-
+                <!-- Nav Item - Profile -->
+                <li class="nav-item {{ Nav::isRoute('admin.profile*') }}">
+                    <a class="nav-link" href="{{ route('admin.profile') }}">
+                        <i class="fas fa-fw fa-user"></i>
+                        <span>{{ __('Profile') }}</span>
+                    </a>
+                </li>
 
 
 
-            <li class="nav-item {{ Nav::isRoute('admin.report*') }}">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
-                    <span>Reports</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Reports:</h6>
-                        <a class="collapse-item" href="{{ route('admin.report.depart.arrive') }}">Dispatch</a>
-                        <a class="collapse-item" href="{{ route('admin.report.employee') }}">Employee</a>
-                        <a class="collapse-item" href="{{ route('admin.report.bus') }}">Bus</a>
+
+
+
+                <li class="nav-item {{ Nav::isRoute('admin.report*') }}">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                        aria-expanded="true" aria-controls="collapseUtilities">
+                        <i class="fas fa-fw fa-wrench"></i>
+                        <span>Reports</span>
+                    </a>
+                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                        data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Reports:</h6>
+                            <a class="collapse-item" href="{{ route('admin.report.depart.arrive') }}">Dispatch</a>
+                            <a class="collapse-item" href="{{ route('admin.report.employee') }}">Employee</a>
+                            <a class="collapse-item" href="{{ route('admin.report.bus') }}">Bus</a>
+                            <a class="collapse-item" href="{{ route('admin.report.sales') }}">Sales</a>
+                        </div>
                     </div>
+                </li>
+
+                @endrole
+
+                <!-- Divider -->
+                <hr class="sidebar-divider d-none d-md-block">
+
+                <!-- Sidebar Toggler (Sidebar) -->
+                <div class="text-center d-none d-md-inline">
+                    <button class="rounded-circle border-0" id="sidebarToggle"></button>
                 </div>
-            </li>
 
-            @endrole
+            </ul>
+            <!-- End of Sidebar -->
 
-        <!-- Divider -->
-        <hr class="sidebar-divider d-none d-md-block">
+            <!-- Content Wrapper -->
+            <div id="content-wrapper" class="d-flex flex-column">
 
-        <!-- Sidebar Toggler (Sidebar) -->
-        <div class="text-center d-none d-md-inline">
-            <button class="rounded-circle border-0" id="sidebarToggle"></button>
-        </div>
+                <!-- Main Content -->
+                <div id="content">
 
-        </ul>
-        <!-- End of Sidebar -->
+                    <!-- Topbar -->
+                    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
-            <div id="content">
-
-                <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
+                        <!-- Sidebar Toggle (Topbar) -->
+                        <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                            <i class="fa fa-bars"></i>
+                        </button>
 
 
-                    <!-- Topbar Navbar -->
-                    <ul class="navbar-nav ml-auto">
+                        <!-- Topbar Navbar -->
+                        <ul class="navbar-nav ml-auto">
 
 
-                        <div class="topbar-divider d-none d-sm-block"></div>
+                            <div class="topbar-divider d-none d-sm-block"></div>
 
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
-                                <figure class="img-profile rounded-circle avatar font-weight-bold" data-initial="{{ Auth::user()->name[0] }}"></figure>
-                            </a>
-                            <!-- Dropdown - User Information -->
-                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <a class="dropdown-item" href="{{ route('admin.profile') }}">
-                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    {{ __('Profile') }}
+                            <!-- Nav Item - User Information -->
+                            <li class="nav-item dropdown no-arrow">
+                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span
+                                        class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
+                                    <figure class="img-profile rounded-circle avatar font-weight-bold"
+                                        data-initial="{{ Auth::user()->name[0] }}"></figure>
                                 </a>
+                                <!-- Dropdown - User Information -->
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                    aria-labelledby="userDropdown">
+                                    <a class="dropdown-item" href="{{ route('admin.profile') }}">
+                                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        {{ __('Profile') }}
+                                    </a>
 
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    {{ __('Logout') }}
-                                </a>
-                            </div>
-                        </li>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                        {{ __('Logout') }}
+                                    </a>
+                                </div>
+                            </li>
 
-                    </ul>
+                        </ul>
 
-                </nav>
-                <!-- End of Topbar -->
+                    </nav>
+                    <!-- End of Topbar -->
 
-                <!-- Begin Page Content -->
+                    <!-- Begin Page Content -->
 
 
                     @yield('main-content')
 
 
-                <!-- /.container-fluid -->
+                    <!-- /.container-fluid -->
 
-            </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; BMIS 2021</span>
-                    </div>
                 </div>
-            </footer>
-            <!-- End of Footer -->
+                <!-- End of Main Content -->
 
-        </div>
-        <!-- End of Content Wrapper -->
-    </div>
-</div>
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; BMIS 2021</span>
+                        </div>
+                    </div>
+                </footer>
+                <!-- End of Footer -->
 
-<!-- Scroll to Top Button-->
-<a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-</a>
-
-<!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">{{ __('Ready to Leave?') }}</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
             </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">{{ __('Cancel') }}</button>
-                <a class="btn btn-danger" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-            </div>
+            <!-- End of Content Wrapper -->
         </div>
     </div>
-</div>
 
-<!-- Scripts -->
-<script src="{{ asset('js/app.js') }}"></script>
-<script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
-<script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
-<script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
 
-@yield('scripts')
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Ready to Leave?') }}</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">{{ __('Cancel') }}</button>
+                    <a class="btn btn-danger" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('vendor/jquery-easing/jquery.easing.min.js') }}"></script>
+    <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
+
+    @yield('scripts')
 
 </body>
+
 </html>

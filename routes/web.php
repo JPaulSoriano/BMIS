@@ -70,6 +70,7 @@ Route::namespace('Admin')
         Route::get('/passengers', 'PassengerController@index')->name('passengers');
 
         Route::get('/report', 'ReportController@departureArrival')->name('report.depart.arrive');
+        Route::get('/report-sales', 'ReportController@salesReport')->name('report.sales');
 
         Route::get('/report-employees', 'ReportController@employeeList')->name('report.employee');
         Route::get('/reprot-buses', 'ReportController@busList')->name('report.bus');

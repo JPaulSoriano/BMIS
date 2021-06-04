@@ -5,59 +5,59 @@
 
 <div class="container">
 
-<div class="row justify-content-center">
-    <div class="col-lg-12">
-    @if ($message = Session::get('success'))
-    <div class="alert alert-success">
-        {{ $message }}
-    </div>
-    @endif
-        <div class="card shadow mb-4">
-            <div class="card-header bg-primary d-sm-flex align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-white">Sales</h6>
-
+    <div class="row justify-content-center">
+        <div class="col-lg-12">
+            @if ($message = Session::get('success'))
+            <div class="alert alert-success">
+                {{ $message }}
             </div>
-            <div class="card-body">
-                {{-- <form action="{{ route('admin.sales.index') }}" method="get"> --}}
+            @endif
+            <div class="card shadow mb-4">
+                <div class="card-header bg-primary d-sm-flex align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-white">Sales Report</h6>
+
+                </div>
+                <div class="card-body">
+                    {{-- <form action="{{ route('admin.sales.index') }}" method="get"> --}}
                     <div class="row ml-auto">
                         <input type="date" class="form-control col-sm-2" name="first_date" id="first_date">
                         <input type="date" class="form-control col-sm-2 ml-3" name="last_date" id="last_date">
                         <button type="button" class="btn btn-primary col-sm-auto ml-3" id="search">Search</button>
                         <button type="button" class="btn btn-danger col-sm-auto ml-3" id="clear">Clear</button>
                     </div>
-                {{-- </form> --}}
-                <div class="table-responsive mt-3">
-                    <table id="example" class="table table-bordered" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Passenger Name</th>
-                                <th>Payment</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($sales as $sale)
+                    {{-- </form> --}}
+                    <div class="table-responsive mt-3">
+                        <table id="example" class="table table-bordered" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Passenger Name</th>
+                                    <th>Payment</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($sales as $sale)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $sale->booking->passenger->passengerProfile->full_name }}</td>
                                     <td>{{ "₱ ". number_format($sale->payment, 2, '.', ',') }}</td>
                                     <td>{{ $sale->created_at->format('F d, Y') }}</td>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th colspan="3" style="text-align:right">Total:</th>
-                                <th></th>
-                            </tr>
-                        </tfoot>
-                    </table>
+                                @endforeach
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="3" style="text-align:right">Total:</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 </div>
 
@@ -136,5 +136,5 @@
             $('#last_date').val('')
         });
     } );
-    </script>
+</script>
 @endsection
