@@ -19,11 +19,11 @@ class RouteController extends Controller
     public function index()
     {
         //
-        if(Auth::user()->companyProfile->count() == 0)
+        if (Auth::user()->companyProfile->count() == 0)
             return redirect()->route('admin.profile')->withErrors(['error' => 'Provide company profile first']);
         $routes = Auth::user()->company()->routes()->latest()->paginate(10);
 
-        return view('admin.routes.index',compact('routes'))
+        return view('admin.routes.index', compact('routes'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -35,7 +35,7 @@ class RouteController extends Controller
     public function create()
     {
         //
-        $terminals = Auth::user()->company()->terminals()->get();
+        $terminals = Auth::user()->company()->terminals()->orderBy('terminal_name')->get();
         return view('admin.routes.create', compact('terminals'));
     }
 
@@ -49,8 +49,7 @@ class RouteController extends Controller
     {
         //
 
-        foreach($request->routes as $key => $route)
-        {
+        foreach ($request->routes as $key => $route) {
             $routes[$route] = [
                 'order' => $key,
                 'minutes_from_departure' => $request->travel_time[$key - 1] ?? null,
@@ -63,7 +62,7 @@ class RouteController extends Controller
         $route->terminals()->attach($routes);
 
         return redirect()->route('admin.routes.index')
-                        ->with('success','Route created successfully.');
+            ->with('success', 'Route created successfully.');
     }
 
     /**
@@ -75,7 +74,7 @@ class RouteController extends Controller
     public function show(Route $route)
     {
         //
-        return view('admin.routes.show',compact('route'));
+        return view('admin.routes.show', compact('route'));
     }
 
     /**
@@ -88,7 +87,7 @@ class RouteController extends Controller
     {
         //
         $terminals = Auth::user()->company()->terminals()->get();
-        return view('admin.routes.edit',compact('route', 'terminals'));
+        return view('admin.routes.edit', compact('route', 'terminals'));
     }
 
     /**
@@ -101,8 +100,7 @@ class RouteController extends Controller
     public function update(UpdateRouteRequest $request, Route $route)
     {
 
-        foreach($request->routes as $key => $r)
-        {
+        foreach ($request->routes as $key => $r) {
             $routes[$r] = [
                 'order' => $key,
                 'minutes_from_departure' => $request->travel_time[$key - 1] ?? null,
@@ -115,7 +113,7 @@ class RouteController extends Controller
         $route->terminals()->attach($routes);
 
         return redirect()->route('admin.routes.index')
-                        ->with('success','Route updated successfully');
+            ->with('success', 'Route updated successfully');
     }
 
     /**
@@ -130,6 +128,6 @@ class RouteController extends Controller
         $route->delete();
 
         return redirect()->route('admin.routes.index')
-                        ->with('success','Route deleted successfully');
+            ->with('success', 'Route deleted successfully');
     }
 }
