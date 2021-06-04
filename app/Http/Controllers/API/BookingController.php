@@ -213,7 +213,7 @@ class BookingController extends Controller
 
     public function getTerminals()
     {
-        return response()->json(Terminal::all());
+        return response()->json(Terminal::sortBy('terminal_name')->get());
     }
 
     public function searchRides()
