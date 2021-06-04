@@ -20,8 +20,13 @@
                             <dd class="col-sm-9">{{ $user->email_verified_at }}</dd>
                             <dt class="col-sm-3">Active</dt>
                             <dd class="col-sm-9">{{ $user->active }}</dd>
+                            @if($user->company())
+                                <dt class="col-sm-3">Company</dt>
+                                <dd class="col-sm-9">{{ $user->company()->company_name }}</dd>
+                                <dt class="col-sm-3">Address</dt>
+                                <dd class="col-sm-9">{{ $user->company()->company_address }}</dd>
+                            @endif
                         </dl>
-
                     </div>
                 </form>
             </div>

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('/auth/login');
-});
+})->middleware('guest');
 
 Route::get('/test', 'Admin\DashboardController@graph');
 Route::get('/403', function () {

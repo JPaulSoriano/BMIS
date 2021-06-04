@@ -11,6 +11,10 @@ use App\Http\Requests\User\UpdateUserRequest;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('super');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -43,9 +47,9 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         //
-        $user = User::create( $request->validated());
+        $user = User::create($request->validated());
 
-        $user->assignRole(Role::where('name','admin')->first());
+        $user->assignRole(Role::where('name', 'admin')->first());
         return redirect()->route('super.users.index');
     }
 
@@ -83,7 +87,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         //
-        $user->update( $request->validated());
+        $user->update($request->validated());
 
         return redirect()->route('super.users.index');
     }
