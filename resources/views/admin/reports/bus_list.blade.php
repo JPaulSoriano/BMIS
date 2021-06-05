@@ -5,10 +5,10 @@
 
 <div class="container">
     @if ($message = Session::get('success'))
-            <div class="alert alert-success">
-                {{ $message }}
-            </div>
-        @endif
+    <div class="alert alert-success">
+        {{ $message }}
+    </div>
+    @endif
     <div class="row justify-content-center">
 
         <div class="col-lg-12">
@@ -31,9 +31,9 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach ($buses as $bus)
+                                @foreach ($buses as $bus)
                                 <tr>
-                                    <td>{{ ++$i }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $bus->bus_no }}</td>
                                     <td>{{ $bus->bus_name }}</td>
                                     <td>{{ $bus->bus_plate }}</td>
@@ -41,11 +41,10 @@
                                     <td>{{ $bus->bus_seat }}</td>
 
                                 </tr>
-                            @endforeach
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
-                    {!! $buses->links() !!}
                 </div>
             </div>
         </div>
@@ -66,5 +65,5 @@
             ]
         } );
     } );
-    </script>
+</script>
 @endsection

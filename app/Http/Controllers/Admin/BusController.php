@@ -23,16 +23,15 @@ class BusController extends Controller
     public function index()
     {
         //
-        
-        if(Auth::user()->companyProfile->count() == 0)
+
+        if (Auth::user()->companyProfile->count() == 0)
             return redirect()->route('admin.profile')->withErrors(['error' => 'Provide company profile first']);
 
-        $buses = Auth::user()->company()->buses()->latest()->paginate(5);
-        $busClasses = Auth::user()->company()->busClasses()->get();
+        $buses = Auth::user()->company()->buses()->latest()->paginate(10);
+        $busClasses = Auth::user()->company()->busClasses()->paginate(10);
 
-        return view('admin.buses.index',compact('buses', 'busClasses'))
+        return view('admin.buses.index', compact('buses', 'busClasses'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
-
     }
 
     /**
@@ -60,7 +59,7 @@ class BusController extends Controller
         Auth::user()->company()->buses()->create($request->validated());
 
         return redirect()->route('admin.buses.index')
-                        ->with('success','Bus created successfully.');
+            ->with('success', 'Bus created successfully.');
     }
 
     /**
@@ -73,17 +72,17 @@ class BusController extends Controller
     {
         //
         $conductors = User::role('conductor')
-            ->whereHas('companyProfile', function($query){
+            ->whereHas('companyProfile', function ($query) {
                 $query->where('bus_company_profiles.id', Auth::user()->company()->id);
             })
             ->get();
         $drivers = User::role('driver')
-            ->whereHas('companyProfile', function($query){
+            ->whereHas('companyProfile', function ($query) {
                 $query->where('bus_company_profiles.id', Auth::user()->company()->id);
             })
             ->get();
 
-        return view('admin.buses.show',compact('bus', 'conductors', 'drivers'));
+        return view('admin.buses.show', compact('bus', 'conductors', 'drivers'));
     }
 
     /**
@@ -96,7 +95,7 @@ class BusController extends Controller
     {
         //
         $bus_classes = Auth::user()->company()->busClasses;
-        return view('admin.buses.edit',compact('bus', 'bus_classes'));
+        return view('admin.buses.edit', compact('bus', 'bus_classes'));
     }
 
     /**
@@ -112,7 +111,7 @@ class BusController extends Controller
         $bus->update($request->validated());
 
         return redirect()->route('admin.buses.index')
-                        ->with('success','Bus updated successfully');
+            ->with('success', 'Bus updated successfully');
     }
 
     /**
@@ -127,7 +126,7 @@ class BusController extends Controller
         $bus->delete();
 
         return redirect()->route('admin.buses.index')
-                        ->with('success','Bus deleted successfully');
+            ->with('success', 'Bus deleted successfully');
     }
 
     public function assignDriver(Request $request, Bus $bus)
@@ -135,8 +134,8 @@ class BusController extends Controller
 
         $validator = Validator::make($request->all(), [
             'driver_id' => [
-                    'required',
-                ],
+                'required',
+            ],
         ]);
 
         if ($validator->fails()) {
@@ -154,7 +153,7 @@ class BusController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'conductor_id' => 'required',
-            ]);
+        ]);
 
         if ($validator->fails()) {
             return redirect()->route('admin.buses.show', $bus)

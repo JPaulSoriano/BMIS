@@ -53,7 +53,6 @@ class ReportController extends Controller
     public function employeeList()
     {
 
-
         if (Auth::user()->companyProfile->count() == 0)
             return redirect()->route('admin.profile')->withErrors(['error' => 'Provide company profile first']);
 
@@ -71,11 +70,9 @@ class ReportController extends Controller
         if (Auth::user()->companyProfile->count() == 0)
             return redirect()->route('admin.profile')->withErrors(['error' => 'Provide company profile first']);
 
-        $buses = Auth::user()->company()->buses()->latest()->paginate(5);
-        $busClasses = Auth::user()->company()->busClasses()->get();
+        $buses = Auth::user()->company()->buses()->latest()->get();
 
-        return view('admin.reports.bus_list', compact('buses', 'busClasses'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('admin.reports.bus_list', compact('buses'));
     }
 
     public function salesReport()
@@ -101,6 +98,6 @@ class ReportController extends Controller
         $sales = $sales->get();
 
 
-        return view('admin.sales.index', compact('sales'));
+        return view('admin.reports.sales', compact('sales'));
     }
 }

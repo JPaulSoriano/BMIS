@@ -23,7 +23,7 @@ class DepartureFactory extends Factory
     public function definition()
     {
         $terminals = Terminal::all()->pluck('id');
-        $rand_time = $this->faker->dateTimeBetween('now', '+6 months');
+        $rand_time = $this->faker->dateTimeBetween('-3 monts', '+3 months');
 
         return [
             //

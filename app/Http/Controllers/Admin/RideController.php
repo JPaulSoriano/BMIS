@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Builder;
 use App\Http\Requests\Ride\StoreRideRequest;
 use App\Http\Requests\Ride\UpdateRideRequest;
 
@@ -25,37 +26,41 @@ class RideController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->companyProfile->count() == 0)
+        if (Auth::user()->companyProfile->count() == 0)
             return redirect()->route('admin.profile')->withErrors(['error' => 'Provide company profile first']);
         //
-        if( request('ride_date')){
+        if (request('ride_date')) {
             $ride_date = request('ride_date');
             $dayName = Str::lower(Carbon::parse($ride_date)->dayName);
-        }else{
+        } else {
             $ride_date = null;
             $dayName = null;
         }
 
-        
+        $rides = Auth::user()->company()->rides();
 
-        $rides = Auth::user()->company()->rides()->when($ride_date, function($query) use ($ride_date, $dayName){
-            $query->where('ride_date', $ride_date)
-                ->orWhereHas('schedule', function($query) use ($dayName){
-                    $query->where($dayName, true);
-                });
-        // })->dd();
-        });
-
-
-        if(request('ride_type') && request('ride_type') != 'all')
-        {
+        if (request('ride_type') && request('ride_type') != 'all') {
             $rides->where('ride_type', request('ride_type'));
         }
+
+        $rides = $rides->when($ride_date, function ($query) use ($ride_date, $dayName) {
+            $query->where('ride_date', $ride_date)
+                ->orWhereHas('schedule', function ($query) use ($dayName, $ride_date) {
+                    $query->where($dayName, true)
+                        ->where(function (Builder $query) use ($ride_date, $dayName) {
+                            $query->where('start_date', '<=', $ride_date);
+                        })->where(function (Builder $query) use ($ride_date, $dayName) {
+                            $query->where('end_date', '>=', $ride_date)
+                                ->orWhereNull('end_date');
+                        });
+                });
+        });
+
         $rides = $rides->orderBy('departure_time', 'asc')
             ->paginate(10);
 
-        return view('admin.rides.index',compact('rides'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('admin.rides.index', compact('rides'))
+            ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
     /**
@@ -138,7 +143,7 @@ class RideController extends Controller
             $rideData = array_merge($request->validated(), ['ride_date' => null]);
             $requestData = collect($request->validated());
             $days = collect($this->dayNames)
-                ->mapWithKeys(fn($item) => [$item => 0])
+                ->mapWithKeys(fn ($item) => [$item => 0])
                 ->replace($requestData->get('days'));
 
             $rideScheduleData = $requestData

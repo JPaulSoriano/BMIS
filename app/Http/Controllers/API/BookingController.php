@@ -277,16 +277,9 @@ class BookingController extends Controller
 
     public function test()
     {
-        $rides = collect();
-        $ride = Ride::find(1);
-        $start = request('start');
-        $end = request('end');
-        $travelDate = request('travel_date');
-
-        if (request('start') && request('end') && request('travel_date')) {
-            $rides = $this->rideService->getRidesByTerminals(request('start'), request('end'), request('travel_date'));
-        }
-        // return $this->bookingService->getOccupiedSeats($ride, $start, $end, $travelDate);
-        return response()->json(RideResource::collection($rides));
+        $date = Carbon::now()->format('Y-m-d');
+        $booking = Booking::with('ride')->where('travel_date', '>=', $date)->where('status', 'confirmed')->orderBy('travel_date')->first();
+        if (!$booking) return null;
+        return response()->json(new BookingResource($booking));
     }
 }

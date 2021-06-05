@@ -23,7 +23,8 @@ class ArrivalFactory extends Factory
     public function definition()
     {
         $terminals = Terminal::all()->pluck('id');
-        $rand_time = $this->faker->dateTimeBetween('now', '+6 months');
+        $rand_time = $this->faker->dateTimeBetween('-3 monts', '+3 months');
+
 
         return [
             //
@@ -31,6 +32,5 @@ class ArrivalFactory extends Factory
             'or_no' => mt_rand(00000000, 999999999),
             'time' => $rand_time,
         ];
-    
     }
 }

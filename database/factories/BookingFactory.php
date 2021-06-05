@@ -27,15 +27,17 @@ class BookingFactory extends Factory
         $rides = Ride::all()->pluck('id');
         $terminals = Terminal::all()->pluck('id');
 
+
+
         return [
-            'booking_code' => mt_rand(0000000000,9999999999),
+            'booking_code' => mt_rand(0000000000, 9999999999),
             'ride_id' => $rides->random(),
             'start_terminal_id' => $terminals->random(),
             'end_terminal_id' => $terminals->random(),
             'pax' => mt_rand(1, 5),
-            'aboard' => mt_rand(0,1),
+            'aboard' => mt_rand(0, 1),
             'status' => 'new',
-            'travel_date' => $this->faker->dateTimeBetween('now', '+6 months'),
+            'travel_date' => $this->faker->dateTimeBetween('now', '+3 months'),
         ];
     }
 }
