@@ -35,7 +35,7 @@
                             <tbody>
                                 @foreach ($buses as $bus)
                                 <tr>
-                                    <td>{{ ++$i }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $bus->bus_no }}</td>
                                     <td>{{ $bus->bus_name }}</td>
                                     <td>{{ $bus->bus_plate }}</td>

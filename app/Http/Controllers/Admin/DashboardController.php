@@ -35,13 +35,12 @@ class DashboardController extends Controller
             ->where('rides.company_id', $company_id);
 
 
-        foreach($datePeriod as $date)
-        {
+        foreach ($datePeriod as $date) {
             $booked[] = (clone $query)->where('travel_date', $date->format('Y-m-d'))->sum('pax');
             $aboard[] = (clone $query)->where('travel_date', $date->format('Y-m-d'))->where('aboard', 1)->sum('pax');
         }
 
-        $date = $datePeriod->map(function($date){
+        $date = $datePeriod->map(function ($date) {
             return $date->format('D, F d');
         });
 
@@ -64,14 +63,14 @@ class DashboardController extends Controller
         $today = $today->format('Y-m-d');
 
         $rides = Auth::user()->company()->rides()
-            ->where(function($query) use ($today){
+            ->where(function ($query) use ($today) {
                 $query->where('ride_date', $today);
             })
-            ->orWhereHas('schedule', function($query) use ($today, $dayName){
+            ->orWhereHas('schedule', function ($query) use ($today, $dayName) {
                 $query->where($dayName, true)
-                    ->where(function($query) use ($today){
-                        $query->where('start_date', '<=' , $today);
-                    })->where(function($query) use ($today){
+                    ->where(function ($query) use ($today) {
+                        $query->where('start_date', '<=', $today);
+                    })->where(function ($query) use ($today) {
                         $query->where('end_date', '>=', $today)
                             ->orWhereNull('end_date');
                     });
@@ -95,5 +94,4 @@ class DashboardController extends Controller
             'aboard' => $aboard,
         ]);
     }
-
 }

@@ -26,14 +26,14 @@ class EmployeeRideFactory extends Factory
         $rides = Ride::all()->pluck('id');
         $conductors = User::role('conductor')->pluck('id');
         $drivers = User::role('driver')->pluck('id');
-        
+
 
         return [
-            'ride_code' => mt_rand(0000000000,9999999999),
+            'ride_code' => mt_rand(0000000000, 9999999999),
             'ride_id' => $rides->random(),
             'conductor_id' => $conductors->random(),
             'driver_id' => $drivers->random(),
-            'travel_date' => $this->faker->dateTimeBetween('now', '+6 months'),
+            'travel_date' => $this->faker->dateTimeBetween('-3 months', 'now'),
         ];
     }
 }

@@ -279,6 +279,7 @@ class ConductorController extends Controller
             $dayName = Str::lower($date->dayName);
 
             $ride = Ride::join('buses', 'bus_id', 'buses.id')
+                ->where('buses.conductor_id', request()->user()->id)
                 ->where(function (Builder $query) use ($date_string, $dayName) {
                     $query->where('ride_date', $date_string)
                         ->orWhereHas('schedule', function (Builder $query) use ($date_string, $dayName) {
