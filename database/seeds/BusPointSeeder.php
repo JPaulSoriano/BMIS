@@ -19,7 +19,11 @@ class BusPointSeeder extends Seeder
 
         $passengers = User::role('passenger')->get();
         $passengers->each(function ($passenger) use ($company_id) {
-            $passenger->busPoints()->attach([$company_id => ['points' => mt_rand(10, 999)]]);
+            if (!empty($passenger->busPoints) && $passenger->busPoints->find($company_id)) {
+                $passenger->busPoints()->updateExistingPivot($company_id, ['points' => mt_rand(10, 999)]);
+            } else {
+                $passenger->busPoints()->attach([$company_id => ['points' => mt_rand(10, 999)]]);
+            }
         });
     }
 }
