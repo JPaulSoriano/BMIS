@@ -41,13 +41,13 @@ class RideService
                 ['ride_id', '=', 'rides.id'],
                 ['booking_start_terminal.order', '<', 'end_terminal.order'],
                 ['booking_end_terminal.order', '>', 'start_terminal.order'],
-            ])->whereRaw('status = ?')
+            ])->whereRaw("status = 'confirmed'")
             ->toSql();
 
         $select = "rides.*, rides.id as ride_id, ($bookingSeatsSubquery) as booked_seats";
 
         //check if there's available ride
-        $ridesQuery = Ride::selectRaw($select, [$travelDate, 'confirmed'])
+        $ridesQuery = Ride::selectRaw($select, [$travelDate])
             ->joinSub($startRouteTerminalQuery, 'start_terminal', function ($join) {
                 $join->on('rides.route_id', 'start_terminal.route_id');
             })->joinSub($endRouteTerminalQuery, 'end_terminal', function ($join) {
