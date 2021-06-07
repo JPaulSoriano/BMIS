@@ -223,7 +223,6 @@ class BookingController extends Controller
         if (request('start') && request('end') && request('travel_date')) {
             $rides = $this->rideService->getRidesByTerminals(request('start'), request('end'), request('travel_date'));
         }
-
         return response()->json(RideResource::collection($rides));
     }
 

@@ -44,7 +44,7 @@ class RideService
             ])
             ->toSql();
 
-        $select = "rides.*, rides.id as ride_id, ($bookingSeatsSubquery) as booked_seats";
+        $select = "*, rides.id as ride_id, ($bookingSeatsSubquery) as booked_seats";
 
         //check if there's available ride
         $ridesQuery = Ride::selectRaw($select, [$travelDate])
