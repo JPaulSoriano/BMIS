@@ -38,7 +38,7 @@ class RideService
             })->where(function (Builder $query) {
                 $query->whereRaw('travel_date = ?');
             })->whereColumn([
-                ['bookings.ride_id', '=', 'rides.id'],
+                ['ride_id', '=', 'rides.id'],
                 ['booking_start_terminal.order', '<', 'end_terminal.order'],
                 ['booking_end_terminal.order', '>', 'start_terminal.order'],
             ])->whereRaw("status = ?")
