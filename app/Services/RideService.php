@@ -67,7 +67,7 @@ class RideService
                     });
             });
 
-        $rides = $ridesQuery->with(['bus', 'route'])->orderBy('rides.departure_time')->get();
+        $rides = $ridesQuery->with(['bus', 'route'])->get();
 
         return $rides;
     }
