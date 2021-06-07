@@ -174,12 +174,7 @@ class BookingController extends Controller
             if ($fare > $prev_points) {
                 return response()->json(['error' => 'You do not have enough points']);
             } else {
-
                 $request->user()->busPoints()->updateExistingPivot($ride->company->id, ['points' => $prev_points - $fare]);
-
-                // $points -= $fare;
-                // $request->user()->passengerProfile->points = $points;
-                // $request->user()->push();
             }
         }
 

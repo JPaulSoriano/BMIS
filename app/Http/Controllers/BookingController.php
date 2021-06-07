@@ -207,6 +207,14 @@ class BookingController extends Controller
     {
         $booking->status = "rejected";
         $booking->reason = $request->reason;
+        $payment = $booking->sale->payment;
+        if (!empty($booking->passenger->busPoints) && $booking->passenger->busPoints->find(Auth::user()->company()->id)) {
+            $prev_points = $booking->passenger->busPoints->find($booking->ride->company->id)->pivot->points;
+            $booking->passenger->busPoints()->updateExistingPivot(Auth::user()->company()->id, ['points' => $prev_points + $payment]);
+        } else {
+            $booking->passenger->busPoints()->attach([Auth::user()->company()->id => ['points' => $payment]]);
+        }
+
         $booking->push();
 
         return redirect()->back();
