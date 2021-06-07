@@ -39,10 +39,6 @@ class RideController extends Controller
 
         $rides = Auth::user()->company()->rides();
 
-        if (request('ride_type') && request('ride_type') != 'all') {
-            $rides->where('ride_type', request('ride_type'));
-        }
-
         $rides = $rides->when($ride_date, function ($query) use ($ride_date, $dayName) {
             $query->where('ride_date', $ride_date)
                 ->orWhereHas('schedule', function ($query) use ($dayName, $ride_date) {
@@ -55,6 +51,10 @@ class RideController extends Controller
                         });
                 });
         });
+
+        if (request('ride_type') && request('ride_type') != 'all') {
+            $rides->where('ride_type', request('ride_type'));
+        }
 
         $rides = $rides->orderBy('departure_time', 'asc')
             ->paginate(10);

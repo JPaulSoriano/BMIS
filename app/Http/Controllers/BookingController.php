@@ -62,9 +62,8 @@ class BookingController extends Controller
             $bookings->where('status', request('status'));
         }
 
-        $bookings = $bookings->paginate(10);
-        return view('bookings.index', compact('bookings'))
-            ->with('i', (request()->input('page', 1) - 1) * 10);
+        $bookings = $bookings->get();
+        return view('bookings.index', compact('bookings'));
     }
 
     /**

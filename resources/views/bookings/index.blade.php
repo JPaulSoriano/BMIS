@@ -64,7 +64,7 @@
                             <tbody>
                                 @foreach ($bookings as $booking)
                                 <tr>
-                                    <td>{{ ++$i }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $booking->booking_code }}</td>
                                     <td><a
                                             href="{{ route('admin.rides.show', $booking->ride) }}">{{ $booking->ride->route->route_name }}</a>
@@ -101,7 +101,7 @@
                             </tbody>
                         </table>
                     </div>
-                    {{ $bookings->links() }}
+
                 </div>
             </div>
         </div>
@@ -133,6 +133,8 @@
 
             $(this).find('#reason_desc').text(button.data("reason"));
         });
+
+        $('table').DataTable();
     });
 </script>
 @endsection
