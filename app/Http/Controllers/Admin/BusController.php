@@ -27,8 +27,8 @@ class BusController extends Controller
         if (Auth::user()->companyProfile->count() == 0)
             return redirect()->route('admin.profile')->withErrors(['error' => 'Provide company profile first']);
 
-        $buses = Auth::user()->company()->buses()->latest()->paginate(10);
-        $busClasses = Auth::user()->company()->busClasses()->paginate(10);
+        $buses = Auth::user()->company()->buses()->latest()->get();
+        $busClasses = Auth::user()->company()->busClasses()->get();
 
         return view('admin.buses.index', compact('buses', 'busClasses'));
     }

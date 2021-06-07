@@ -20,7 +20,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered" width="100%" cellspacing="0">
+                        <table class="table table-bordered" id="bus-table" width="100%" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -61,7 +61,6 @@
                             </tbody>
                         </table>
                     </div>
-                    {!! $buses->links() !!}
                 </div>
             </div>
         </div>
@@ -105,7 +104,6 @@
                             </tbody>
                         </table>
                     </div>
-                    {!! $busClasses->links() !!}
                 </div>
             </div>
         </div>
@@ -113,4 +111,10 @@
 
 </div>
 
+@endsection
+
+@section('scripts')
+<script>
+    $('#bus-table').DataTable();
+</script>
 @endsection
