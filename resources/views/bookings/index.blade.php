@@ -64,7 +64,7 @@
                             <tbody>
                                 @foreach ($bookings as $booking)
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ ++$i }}</td>
                                     <td>{{ $booking->booking_code }}</td>
                                     <td><a
                                             href="{{ route('admin.rides.show', $booking->ride) }}">{{ $booking->ride->route->route_name }}</a>

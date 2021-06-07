@@ -25,7 +25,20 @@ class BookingFactory extends Factory
      */
     public function definition()
     {
+        // $rides = Ride::all();
+        // $ride_ids = $rides->pluck('id');
 
+        // $ride = $ride_ids->random();
+        // $route = Ride::find($ride)->route;
+        // $number_of_terminals = $route->terminals->count();
+        // $first_order = mt_rand(0, $number_of_terminals - 2);
+        // $last_order = 0;
+        // while ($first_order > $last_order) {
+        //     $last_order = mt_rand(1, $number_of_terminals - 1);
+        // }
+
+        // $start = $route->terminals->where('pivot.order', 0)->pluck('id')->first();
+        // $end = $route->terminals->where('pivot.order', mt_rand(1, $number_of_terminals - 1))->pluck('id')->first();
         $rides = collect();
         $rideService = new RideService();
         $terminals = Terminal::all()->pluck('id');

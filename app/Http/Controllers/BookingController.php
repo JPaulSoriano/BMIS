@@ -63,7 +63,8 @@ class BookingController extends Controller
         }
 
         $bookings = $bookings->paginate(10);
-        return view('bookings.index', compact('bookings'));
+        return view('bookings.index', compact('bookings'))
+            ->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
     /**
