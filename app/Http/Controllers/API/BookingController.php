@@ -54,11 +54,9 @@ class BookingController extends Controller
 
         if ($status == 'active') {
             $bookings = $bookings
-                ->where('status', function ($query) {
-                    $query->where('status', 'confirmed')
-                        ->orWhere('status', 'done');
-                })
-                ->where('travel_date', '>=', $today);
+                ->filter(function ($book) use ($today) {
+                    return ($book->status == 'confirmed' || $book->status == 'done') && $book->travel_date >= $today;
+                });
         }
 
         if ($status == 'inactive') {
@@ -66,7 +64,9 @@ class BookingController extends Controller
         }
 
         if ($status == 'cancelled') {
-            $bookings = $bookings->where('status', '!=', 'confirmed')->orWhere('status', '!=', 'done');
+            $bookings = $bookings->filter(function ($book) use ($today) {
+                return ($book->status != 'confirmed' || $book->status != 'done');
+            });
         }
 
         $bookings = $bookings->sortBy('travel_date');
@@ -257,11 +257,9 @@ class BookingController extends Controller
         // $book = Booking::hydrate(request()->user()->bookings->where('travel_date', '=', $date)->where('ride.departure_time', '>', $time)->where('status', 'confirmed')->sortBy('travel_date')->toArray())->first();
 
 
-        $booking = request()->user()->bookings->where('travel_date', '>=', $date)
-            ->where('status', function ($query) {
-                $query->where('status', 'confirmed')
-                    ->orWhere('status', 'done');
-            })->sortBy('travel_date')->first();
+        $booking = request()->user()->bookings->filter(function ($book) use ($date) {
+            return ($book->status == 'confirmed' || $book->status == 'done') && $book->travel_date >= $date;
+        })->sortBy('travel_date')->first();
         if (!$booking) return null;
         return response()->json(new BookingResource($booking));
     }
