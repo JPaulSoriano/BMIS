@@ -64,8 +64,8 @@ class BookingController extends Controller
         }
 
         if ($status == 'cancelled') {
-            $bookings = $bookings->filter(function ($book) use ($today) {
-                return ($book->status != 'confirmed' || $book->status != 'done');
+            $bookings = $bookings->filter(function ($book) {
+                return !($book->status == 'confirmed' || $book->status == 'done');
             });
         }
 
