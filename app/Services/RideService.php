@@ -41,7 +41,7 @@ class RideService
                 ['bookings.ride_id', '=', 'rides.id'],
                 ['booking_start_terminal.order', '<', 'end_terminal.order'],
                 ['booking_end_terminal.order', '>', 'start_terminal.order'],
-            ])->whereRaw("bookings.status = ?")
+            ])->whereRaw('bookings.status = ?')
             ->toSql();
 
         $select = "rides.*, rides.id as ride_id, ($bookingSeatsSubquery) as booked_seats";
