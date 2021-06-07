@@ -243,6 +243,15 @@ class BookingController extends Controller
     public function getBooking()
     {
         $date = Carbon::now()->format('Y-m-d');
+        // $time = Carbon::now();
+        // $ride = request()->user()->bookings->first()->ride;
+        // $minutesToDestination = $ride->route->terminals->where('pivot.order', ($ride->route->terminals->count() - 1))->first()->pivot->minutes_from_departure;
+        // $departure_time = Carbon::parse($date . ' ' . $ride->departure_time, 'UTC');
+        // $time->subMinutes($minutesToDestination + 30)->format('H:i:s');
+
+        // $book = Booking::hydrate(request()->user()->bookings->where('travel_date', '=', $date)->where('ride.departure_time', '>', $time)->where('status', 'confirmed')->sortBy('travel_date')->toArray())->first();
+
+
         $booking = request()->user()->bookings->where('travel_date', '>', $date)->where('status', 'confirmed')->sortBy('travel_date')->first();
         if (!$booking) return null;
         return response()->json(new BookingResource($booking));

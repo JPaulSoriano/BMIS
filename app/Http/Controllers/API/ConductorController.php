@@ -246,17 +246,15 @@ class ConductorController extends Controller
             $totalPoints = $totalKm / 10 * $booking->ride->bus->busClass->point;
             $receipt = $receipt->merge(['points' => $totalPoints]);
             $booking->points = $totalPoints;
-            //$booking->passenger->passengerProfile->points += $totalPoints;
+
             $passenger = $booking->passenger;
-            if (isset($booking->passenger->busPoints)) {
+            if (isset($booking->passenger->busPoints) && !empty($booking->passenger->busPoints->find($company_id))) {
                 $prev_points = $passenger->busPoints->find($company_id)->pivot->points;
                 $passenger->busPoints()->updateExistingPivot($company_id, ['points' => $prev_points + $totalPoints]);
             } else {
                 $passenger->busPoints()->attach([$company_id => ['points' => $totalPoints]]);
             }
         }
-
-        PassengerHistory::create($receipt->toArray());
 
         $booking->aboard =  1;
         $booking->status = 'done';

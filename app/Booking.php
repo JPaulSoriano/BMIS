@@ -33,7 +33,6 @@ class Booking extends Model
     public function checkDepartedRide($d)
     {
         $date = Carbon::createFromFormat('Y-m-d', $d);
-
     }
 
     public function sale()
@@ -54,19 +53,19 @@ class Booking extends Model
     public function getPaymentAttribute()
     {
         $payment = $this->ride->getTotalPayment($this->start_terminal_id, $this->end_terminal_id) * $this->pax;
-        return "₱ ".number_format(abs($payment), 2, '.', '.');
+        return "₱ " . number_format(abs($payment), 2, '.', '.');
     }
 
-    public function isRejected() : bool
+    public function isRejected(): bool
     {
         return $this->status == 'rejected';
     }
 
-    public function canBeCancelled() : bool
+    public function canBeCancelled(): bool
     {
         $today = Carbon::now();
 
-        if($today < $this->travel_date){
+        if ($today < $this->travel_date || $this->aboard == 1) {
             return true;
         }
         return false;

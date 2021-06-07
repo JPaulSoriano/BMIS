@@ -30,7 +30,8 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $user->passengerProfile->full_name }}</td>
                                     <td>{{ $user->email }}</td>
-                                    <td>{{ $user->passengerProfile->points }}</td>
+                                    <td>{{ $user->busPoints ? $user->busPoints->find(Auth::user()->company()->id)->pivot->points : 0 }}
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

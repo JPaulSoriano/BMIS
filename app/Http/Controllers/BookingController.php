@@ -38,11 +38,11 @@ class BookingController extends Controller
     public function index()
     {
         //
-        if(Auth::user()->companyProfile->count() == 0)
+        if (Auth::user()->companyProfile->count() == 0)
             return redirect()->route('admin.profile')->withErrors(['error' => 'Provide company profile first']);
         $travel_date = null;
 
-        if(request('travel_date')){
+        if (request('travel_date')) {
             $travel_date = request('travel_date');
         }
 
@@ -52,14 +52,13 @@ class BookingController extends Controller
             ->join('rides', 'ride_id', 'rides.id')
             ->join('bus_company_profiles as company', 'rides.company_id', 'company.id')
             ->where('company.id', Auth::user()->company()->id)
-            ->when($travel_date, function($query){
+            ->when($travel_date, function ($query) {
                 return $query->where('travel_date', request('travel_date'));
             })
             ->orderBy('bookings.updated_at', 'desc')
             ->orderBy('travel_date', 'asc');
 
-        if(request('status') && request('status') != 'all')
-        {
+        if (request('status') && request('status') != 'all') {
             $bookings->where('status', request('status'));
         }
 
@@ -77,7 +76,7 @@ class BookingController extends Controller
         //
         $rides = collect();
 
-        if(request('start') && request('end') && request('travel_date')){
+        if (request('start') && request('end') && request('travel_date')) {
             $rides = $this->rideService->getRidesByTerminals(request('start'), request('end'), request('travel_date'));
         }
 
@@ -104,13 +103,12 @@ class BookingController extends Controller
 
         $availableSeats = $ride->bus->bus_seat - $occupiedSeats;
 
-        if($request->pax > $availableSeats){
+        if ($request->pax > $availableSeats) {
             return redirect()->back()->withErrors('You cannot book more than available');
         }
 
         //Check auto_confirm
-        if($ride->auto_confirm)
-        {
+        if ($ride->auto_confirm) {
             $status = "confirmed";
         }
 
@@ -187,18 +185,19 @@ class BookingController extends Controller
 
         $availableSeats = $ride->bus->bus_seat - $occupiedSeats;
 
-        return view('bookings.book', ['ride' => $ride,
+        return view('bookings.book', [
+            'ride' => $ride,
             'start_terminal' => $startTerminal,
             'end_terminal' => $endTerminal,
             'travel_date' => $travelDate,
-            'available_seats' => $availableSeats]);
+            'available_seats' => $availableSeats
+        ]);
     }
 
     public function confirm(Booking $booking)
     {
         $booking->status = "confirmed";
         $booking->reason = null;
-        $booking->passenger->passengerProfile->points -= $booking->sale->payment;
         $booking->push();
 
         return redirect()->back();
@@ -208,7 +207,6 @@ class BookingController extends Controller
     {
         $booking->status = "rejected";
         $booking->reason = $request->reason;
-        $booking->passenger->passengerProfile->points += $booking->sale->payment;
         $booking->push();
 
         return redirect()->back();
