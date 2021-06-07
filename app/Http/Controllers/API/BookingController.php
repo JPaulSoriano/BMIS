@@ -50,13 +50,14 @@ class BookingController extends Controller
     public function index($status)
     {
         $bookings = request()->user()->bookings;
+        $today = Carbon::now()->format('Y-m-d');
 
         if ($status == 'active') {
-            $bookings = $bookings->where('status', 'confirmed')->where('travel_date', '>=', Carbon::now());
+            $bookings = $bookings->where('status', 'confirmed')->where('travel_date', '>=', $today);
         }
 
         if ($status == 'inactive') {
-            $bookings = $bookings->where('travel_date', '<', Carbon::now());
+            $bookings = $bookings->where('travel_date', '<', $today);
         }
 
         if ($status == 'cancelled') {
