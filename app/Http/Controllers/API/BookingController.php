@@ -251,7 +251,7 @@ class BookingController extends Controller
         // $book = Booking::hydrate(request()->user()->bookings->where('travel_date', '=', $date)->where('ride.departure_time', '>', $time)->where('status', 'confirmed')->sortBy('travel_date')->toArray())->first();
 
 
-        $booking = request()->user()->bookings->where('travel_date', '>', $date)->where('status', 'confirmed')->sortBy('travel_date')->first();
+        $booking = request()->user()->bookings->where('travel_date', '>=', $date)->where('status', 'confirmed')->sortBy('travel_date')->first();
         if (!$booking) return null;
         return response()->json(new BookingResource($booking));
     }
