@@ -42,7 +42,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $sale->booking->passenger->passengerProfile->full_name }}</td>
                                     <td>{{ "₱ ". number_format($sale->payment, 2, '.', ',') }}</td>
-                                    <td>{{ $sale->created_at->format('F d, Y') }}</td>
+                                    <td>{{ $sale->booking->travel_date }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>
