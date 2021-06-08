@@ -92,7 +92,7 @@ class ReportController extends Controller
                 '1' => Carbon::createFromFormat('Y-m-d', request('date'))->endOfDay(),
             ];
 
-            $sales->whereBetween('sales.created_at', $date);
+            $sales->whereBetween('bookings.travel_date', $date);
         }
 
         $sales = $sales->get();
